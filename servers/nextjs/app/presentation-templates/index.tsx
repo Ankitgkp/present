@@ -55,6 +55,9 @@ import MultiChartGridSlideLayout, { Schema as MultiChartGridSlideSchema, layoutI
 import TitleDescriptionMultiChartGridWithMetricsLayout, { Schema as TitleDescriptionMultiChartGridWithMetricsSchema, layoutId as TitleDescriptionMultiChartGridWithMetricsId, layoutName as TitleDescriptionMultiChartGridWithMetricsName, layoutDescription as TitleDescriptionMultiChartGridWithMetricsDesc } from "./neo-general/TitleDescriptionMultiChartGridWithMetrics";
 import TitleDescriptionMultiChartGridWithBulletsLayout, { Schema as TitleDescriptionMultiChartGridWithBulletsSchema, layoutId as TitleDescriptionMultiChartGridWithBulletsId, layoutName as TitleDescriptionMultiChartGridWithBulletsName, layoutDescription as TitleDescriptionMultiChartGridWithBulletsDesc } from "./neo-general/TitleDescriptionMultiChartGridWithBullets";
 import NeoBrutalistIntroLayout, { Schema as NeoBrutalistIntroSchema, layoutId as NeoBrutalistIntroId, layoutName as NeoBrutalistIntroName, layoutDescription as NeoBrutalistIntroDesc } from "./neo-brutalist/NeoBrutalistIntroLayout";
+import NeoBrutalistMetricsLayout, { Schema as NeoBrutalistMetricsSchema, layoutId as NeoBrutalistMetricsId, layoutName as NeoBrutalistMetricsName, layoutDescription as NeoBrutalistMetricsDesc } from "./neo-brutalist/NeoBrutalistMetricsLayout";
+import NeoBrutalistGridFeaturesLayout, { Schema as NeoBrutalistGridFeaturesSchema, layoutId as NeoBrutalistGridFeaturesId, layoutName as NeoBrutalistGridFeaturesName, layoutDescription as NeoBrutalistGridFeaturesDesc } from "./neo-brutalist/NeoBrutalistGridFeaturesLayout";
+import NeoBrutalistTestimonialsLayout, { Schema as NeoBrutalistTestimonialsSchema, layoutId as NeoBrutalistTestimonialsId, layoutName as NeoBrutalistTestimonialsName, layoutDescription as NeoBrutalistTestimonialsDesc } from "./neo-brutalist/NeoBrutalistTestimonialsLayout";
 
 
 
@@ -173,8 +176,9 @@ import modernSettings from "./modern/settings.json";
 import standardSettings from "./standard/settings.json";
 import swiftSettings from "./swift/settings.json";
 import neoGeneralSettings from "./neo-general/settings.json";
-import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoStandardSettings from "./neo-standard/settings.json";
+import neoBrutalistSettings from "./neo-brutalist/settings.json";
+import neoBrutalistFancySettings from "./neo-brutalist-fancy/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
 
@@ -229,6 +233,13 @@ export const neoGeneralTemplates: TemplateWithData[] = [
 
 export const neoBrutalistTemplates: TemplateWithData[] = [
     createTemplateEntry(NeoBrutalistIntroLayout, NeoBrutalistIntroSchema, NeoBrutalistIntroId, NeoBrutalistIntroName, NeoBrutalistIntroDesc, "neo-brutalist", "NeoBrutalistIntroLayout"),
+]
+
+export const neoBrutalistFancyTemplates: TemplateWithData[] = [
+    createTemplateEntry(NeoBrutalistIntroLayout, NeoBrutalistIntroSchema, NeoBrutalistIntroId, NeoBrutalistIntroName, NeoBrutalistIntroDesc, "neo-brutalist-fancy", "NeoBrutalistIntroLayout"),
+    createTemplateEntry(NeoBrutalistMetricsLayout, NeoBrutalistMetricsSchema, NeoBrutalistMetricsId, NeoBrutalistMetricsName, NeoBrutalistMetricsDesc, "neo-brutalist-fancy", "NeoBrutalistMetricsLayout"),
+    createTemplateEntry(NeoBrutalistGridFeaturesLayout, NeoBrutalistGridFeaturesSchema, NeoBrutalistGridFeaturesId, NeoBrutalistGridFeaturesName, NeoBrutalistGridFeaturesDesc, "neo-brutalist-fancy", "NeoBrutalistGridFeaturesLayout"),
+    createTemplateEntry(NeoBrutalistTestimonialsLayout, NeoBrutalistTestimonialsSchema, NeoBrutalistTestimonialsId, NeoBrutalistTestimonialsName, NeoBrutalistTestimonialsDesc, "neo-brutalist-fancy", "NeoBrutalistTestimonialsLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [
@@ -351,6 +362,7 @@ export const swiftTemplates: TemplateWithData[] = [
 // All templates combined
 export const allLayouts: TemplateWithData[] = [
     ...neoBrutalistTemplates,
+    ...neoBrutalistFancyTemplates,
     ...neoGeneralTemplates,
     ...neoModernTemplates,
     ...neoStandardTemplates,
@@ -373,6 +385,13 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: neoBrutalistSettings.description,
         settings: neoBrutalistSettings as TemplateGroupSettings,
         layouts: neoBrutalistTemplates,
+    },
+    {
+        id: "neo-brutalist-fancy",
+        name: "Neo Brutalist Fancy",
+        description: neoBrutalistFancySettings.description,
+        settings: neoBrutalistFancySettings as TemplateGroupSettings,
+        layouts: neoBrutalistFancyTemplates,
     },
     {
         id: "neo-general",
