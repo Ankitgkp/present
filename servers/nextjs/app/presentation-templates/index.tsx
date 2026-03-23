@@ -54,6 +54,7 @@ import TitleMetricValueMetricLabelFunnelStagesLayout, { Schema as TitleMetricVal
 import MultiChartGridSlideLayout, { Schema as MultiChartGridSlideSchema, layoutId as MultiChartGridSlideId, layoutName as MultiChartGridSlideName, layoutDescription as MultiChartGridSlideDesc } from "./neo-general/MultiChartGridSlideLayout";
 import TitleDescriptionMultiChartGridWithMetricsLayout, { Schema as TitleDescriptionMultiChartGridWithMetricsSchema, layoutId as TitleDescriptionMultiChartGridWithMetricsId, layoutName as TitleDescriptionMultiChartGridWithMetricsName, layoutDescription as TitleDescriptionMultiChartGridWithMetricsDesc } from "./neo-general/TitleDescriptionMultiChartGridWithMetrics";
 import TitleDescriptionMultiChartGridWithBulletsLayout, { Schema as TitleDescriptionMultiChartGridWithBulletsSchema, layoutId as TitleDescriptionMultiChartGridWithBulletsId, layoutName as TitleDescriptionMultiChartGridWithBulletsName, layoutDescription as TitleDescriptionMultiChartGridWithBulletsDesc } from "./neo-general/TitleDescriptionMultiChartGridWithBullets";
+import NeoBrutalistIntroLayout, { Schema as NeoBrutalistIntroSchema, layoutId as NeoBrutalistIntroId, layoutName as NeoBrutalistIntroName, layoutDescription as NeoBrutalistIntroDesc } from "./neo-brutalist/NeoBrutalistIntroLayout";
 
 
 
@@ -172,6 +173,7 @@ import modernSettings from "./modern/settings.json";
 import standardSettings from "./standard/settings.json";
 import swiftSettings from "./swift/settings.json";
 import neoGeneralSettings from "./neo-general/settings.json";
+import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoStandardSettings from "./neo-standard/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
@@ -223,6 +225,10 @@ export const neoGeneralTemplates: TemplateWithData[] = [
     createTemplateEntry(MultiChartGridSlideLayout, MultiChartGridSlideSchema, MultiChartGridSlideId, MultiChartGridSlideName, MultiChartGridSlideDesc, "neo-general", "MultiChartGridSlideLayout"),
     createTemplateEntry(TitleDescriptionMultiChartGridWithMetricsLayout, TitleDescriptionMultiChartGridWithMetricsSchema, TitleDescriptionMultiChartGridWithMetricsId, TitleDescriptionMultiChartGridWithMetricsName, TitleDescriptionMultiChartGridWithMetricsDesc, "neo-general", "TitleDescriptionMultiChartGridWithMetrics"),
     createTemplateEntry(TitleDescriptionMultiChartGridWithBulletsLayout, TitleDescriptionMultiChartGridWithBulletsSchema, TitleDescriptionMultiChartGridWithBulletsId, TitleDescriptionMultiChartGridWithBulletsName, TitleDescriptionMultiChartGridWithBulletsDesc, "neo-general", "TitleDescriptionMultiChartGridWithBullets"),
+]
+
+export const neoBrutalistTemplates: TemplateWithData[] = [
+    createTemplateEntry(NeoBrutalistIntroLayout, NeoBrutalistIntroSchema, NeoBrutalistIntroId, NeoBrutalistIntroName, NeoBrutalistIntroDesc, "neo-brutalist", "NeoBrutalistIntroLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [
@@ -344,6 +350,7 @@ export const swiftTemplates: TemplateWithData[] = [
 // TODO: Step 4: Combine all templates into a single array For UseCases (like the ones below)
 // All templates combined
 export const allLayouts: TemplateWithData[] = [
+    ...neoBrutalistTemplates,
     ...neoGeneralTemplates,
     ...neoModernTemplates,
     ...neoStandardTemplates,
@@ -360,6 +367,13 @@ export const allLayouts: TemplateWithData[] = [
 // TODO: Step 5: Combine all templates into a single array For UseCases (like the ones below)
 // For UseCases we need to combine all templates into a single array with settings
 export const templates: TemplateLayoutsWithSettings[] = [
+    {
+        id: "neo-brutalist",
+        name: "Neo Brutalist",
+        description: neoBrutalistSettings.description,
+        settings: neoBrutalistSettings as TemplateGroupSettings,
+        layouts: neoBrutalistTemplates,
+    },
     {
         id: "neo-general",
         name: "Neo General",
