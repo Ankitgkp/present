@@ -65,6 +65,12 @@ import SoftBloomFeaturesLayout, { Schema as SoftBloomFeaturesSchema, layoutId as
 import SoftBloomStatsLayout, { Schema as SoftBloomStatsSchema, layoutId as SoftBloomStatsId, layoutName as SoftBloomStatsName, layoutDescription as SoftBloomStatsDesc } from "./soft-bloom/SoftBloomStatsLayout";
 import SoftBloomQuoteLayout, { Schema as SoftBloomQuoteSchema, layoutId as SoftBloomQuoteId, layoutName as SoftBloomQuoteName, layoutDescription as SoftBloomQuoteDesc } from "./soft-bloom/SoftBloomQuoteLayout";
 
+// Velvet Haze templates
+import VelvetHazeIntroLayout, { Schema as VelvetHazeIntroSchema, layoutId as VelvetHazeIntroId, layoutName as VelvetHazeIntroName, layoutDescription as VelvetHazeIntroDesc } from "./velvet-haze/VelvetHazeIntroLayout";
+import VelvetHazeMetricsLayout, { Schema as VelvetHazeMetricsSchema, layoutId as VelvetHazeMetricsId, layoutName as VelvetHazeMetricsName, layoutDescription as VelvetHazeMetricsDesc } from "./velvet-haze/VelvetHazeMetricsLayout";
+import VelvetHazeFeaturesLayout, { Schema as VelvetHazeFeaturesSchema, layoutId as VelvetHazeFeaturesId, layoutName as VelvetHazeFeaturesName, layoutDescription as VelvetHazeFeaturesDesc } from "./velvet-haze/VelvetHazeFeaturesLayout";
+import VelvetHazeTestimonialsLayout, { Schema as VelvetHazeTestimonialsSchema, layoutId as VelvetHazeTestimonialsId, layoutName as VelvetHazeTestimonialsName, layoutDescription as VelvetHazeTestimonialsDesc } from "./velvet-haze/VelvetHazeTestimonialsLayout";
+
 
 
 // Modern templates
@@ -185,6 +191,7 @@ import neoStandardSettings from "./neo-standard/settings.json";
 import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoBrutalistFancySettings from "./neo-brutalist-fancy/settings.json";
 import softBloomSettings from "./soft-bloom/settings.json";
+import velvetHazeSettings from "./velvet-haze/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
 
@@ -253,6 +260,13 @@ export const softBloomTemplates: TemplateWithData[] = [
     createTemplateEntry(SoftBloomFeaturesLayout, SoftBloomFeaturesSchema, SoftBloomFeaturesId, SoftBloomFeaturesName, SoftBloomFeaturesDesc, "soft-bloom", "SoftBloomFeaturesLayout"),
     createTemplateEntry(SoftBloomStatsLayout, SoftBloomStatsSchema, SoftBloomStatsId, SoftBloomStatsName, SoftBloomStatsDesc, "soft-bloom", "SoftBloomStatsLayout"),
     createTemplateEntry(SoftBloomQuoteLayout, SoftBloomQuoteSchema, SoftBloomQuoteId, SoftBloomQuoteName, SoftBloomQuoteDesc, "soft-bloom", "SoftBloomQuoteLayout"),
+]
+
+export const velvetHazeTemplates: TemplateWithData[] = [
+    createTemplateEntry(VelvetHazeIntroLayout, VelvetHazeIntroSchema, VelvetHazeIntroId, VelvetHazeIntroName, VelvetHazeIntroDesc, "velvet-haze", "VelvetHazeIntroLayout"),
+    createTemplateEntry(VelvetHazeMetricsLayout, VelvetHazeMetricsSchema, VelvetHazeMetricsId, VelvetHazeMetricsName, VelvetHazeMetricsDesc, "velvet-haze", "VelvetHazeMetricsLayout"),
+    createTemplateEntry(VelvetHazeFeaturesLayout, VelvetHazeFeaturesSchema, VelvetHazeFeaturesId, VelvetHazeFeaturesName, VelvetHazeFeaturesDesc, "velvet-haze", "VelvetHazeFeaturesLayout"),
+    createTemplateEntry(VelvetHazeTestimonialsLayout, VelvetHazeTestimonialsSchema, VelvetHazeTestimonialsId, VelvetHazeTestimonialsName, VelvetHazeTestimonialsDesc, "velvet-haze", "VelvetHazeTestimonialsLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [
@@ -385,6 +399,7 @@ export const allLayouts: TemplateWithData[] = [
     ...standardTemplates,
     ...swiftTemplates,
     ...softBloomTemplates,
+    ...velvetHazeTemplates,
 
 
 ];
@@ -413,6 +428,13 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: softBloomSettings.description,
         settings: softBloomSettings as TemplateGroupSettings,
         layouts: softBloomTemplates,
+    },
+    {
+        id: "velvet-haze",
+        name: "Velvet Haze",
+        description: velvetHazeSettings.description,
+        settings: velvetHazeSettings as TemplateGroupSettings,
+        layouts: velvetHazeTemplates,
     },
     {
         id: "neo-general",
