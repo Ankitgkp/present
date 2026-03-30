@@ -59,6 +59,11 @@ import NeoBrutalistMetricsLayout, { Schema as NeoBrutalistMetricsSchema, layoutI
 import NeoBrutalistGridFeaturesLayout, { Schema as NeoBrutalistGridFeaturesSchema, layoutId as NeoBrutalistGridFeaturesId, layoutName as NeoBrutalistGridFeaturesName, layoutDescription as NeoBrutalistGridFeaturesDesc } from "./neo-brutalist/NeoBrutalistGridFeaturesLayout";
 import NeoBrutalistTestimonialsLayout, { Schema as NeoBrutalistTestimonialsSchema, layoutId as NeoBrutalistTestimonialsId, layoutName as NeoBrutalistTestimonialsName, layoutDescription as NeoBrutalistTestimonialsDesc } from "./neo-brutalist/NeoBrutalistTestimonialsLayout";
 
+// Soft Bloom templates
+import SoftBloomIntroLayout, { Schema as SoftBloomIntroSchema, layoutId as SoftBloomIntroId, layoutName as SoftBloomIntroName, layoutDescription as SoftBloomIntroDesc } from "./soft-bloom/SoftBloomIntroLayout";
+import SoftBloomFeaturesLayout, { Schema as SoftBloomFeaturesSchema, layoutId as SoftBloomFeaturesId, layoutName as SoftBloomFeaturesName, layoutDescription as SoftBloomFeaturesDesc } from "./soft-bloom/SoftBloomFeaturesLayout";
+import SoftBloomStatsLayout, { Schema as SoftBloomStatsSchema, layoutId as SoftBloomStatsId, layoutName as SoftBloomStatsName, layoutDescription as SoftBloomStatsDesc } from "./soft-bloom/SoftBloomStatsLayout";
+import SoftBloomQuoteLayout, { Schema as SoftBloomQuoteSchema, layoutId as SoftBloomQuoteId, layoutName as SoftBloomQuoteName, layoutDescription as SoftBloomQuoteDesc } from "./soft-bloom/SoftBloomQuoteLayout";
 
 
 
@@ -179,6 +184,7 @@ import neoGeneralSettings from "./neo-general/settings.json";
 import neoStandardSettings from "./neo-standard/settings.json";
 import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoBrutalistFancySettings from "./neo-brutalist-fancy/settings.json";
+import softBloomSettings from "./soft-bloom/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
 
@@ -240,6 +246,13 @@ export const neoBrutalistFancyTemplates: TemplateWithData[] = [
     createTemplateEntry(NeoBrutalistMetricsLayout, NeoBrutalistMetricsSchema, NeoBrutalistMetricsId, NeoBrutalistMetricsName, NeoBrutalistMetricsDesc, "neo-brutalist-fancy", "NeoBrutalistMetricsLayout"),
     createTemplateEntry(NeoBrutalistGridFeaturesLayout, NeoBrutalistGridFeaturesSchema, NeoBrutalistGridFeaturesId, NeoBrutalistGridFeaturesName, NeoBrutalistGridFeaturesDesc, "neo-brutalist-fancy", "NeoBrutalistGridFeaturesLayout"),
     createTemplateEntry(NeoBrutalistTestimonialsLayout, NeoBrutalistTestimonialsSchema, NeoBrutalistTestimonialsId, NeoBrutalistTestimonialsName, NeoBrutalistTestimonialsDesc, "neo-brutalist-fancy", "NeoBrutalistTestimonialsLayout"),
+]
+
+export const softBloomTemplates: TemplateWithData[] = [
+    createTemplateEntry(SoftBloomIntroLayout, SoftBloomIntroSchema, SoftBloomIntroId, SoftBloomIntroName, SoftBloomIntroDesc, "soft-bloom", "SoftBloomIntroLayout"),
+    createTemplateEntry(SoftBloomFeaturesLayout, SoftBloomFeaturesSchema, SoftBloomFeaturesId, SoftBloomFeaturesName, SoftBloomFeaturesDesc, "soft-bloom", "SoftBloomFeaturesLayout"),
+    createTemplateEntry(SoftBloomStatsLayout, SoftBloomStatsSchema, SoftBloomStatsId, SoftBloomStatsName, SoftBloomStatsDesc, "soft-bloom", "SoftBloomStatsLayout"),
+    createTemplateEntry(SoftBloomQuoteLayout, SoftBloomQuoteSchema, SoftBloomQuoteId, SoftBloomQuoteName, SoftBloomQuoteDesc, "soft-bloom", "SoftBloomQuoteLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [
@@ -371,6 +384,7 @@ export const allLayouts: TemplateWithData[] = [
     ...modernTemplates,
     ...standardTemplates,
     ...swiftTemplates,
+    ...softBloomTemplates,
 
 
 ];
@@ -392,6 +406,13 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: neoBrutalistFancySettings.description,
         settings: neoBrutalistFancySettings as TemplateGroupSettings,
         layouts: neoBrutalistFancyTemplates,
+    },
+    {
+        id: "soft-bloom",
+        name: "Soft Bloom",
+        description: softBloomSettings.description,
+        settings: softBloomSettings as TemplateGroupSettings,
+        layouts: softBloomTemplates,
     },
     {
         id: "neo-general",
