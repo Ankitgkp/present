@@ -305,27 +305,27 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-16 relative z-10">
+    <div className="w-full max-w-2xl mx-auto px-4 pb-6 relative z-10">
       <OverlayLoader show={loadingState.isLoading} text={loadingState.message}
         showProgress={loadingState.showProgress} duration={loadingState.duration} extra_info={loadingState.extra_info} />
 
       {/* Step indicator */}
-      <div className="flex justify-center mb-10">
+      <div className="flex justify-center mb-5 md:mb-6">
         <StepIndicator currentStep={step} totalSteps={3} />
       </div>
 
       {/* Wizard content */}
-      <div className="relative min-h-[420px]">
+      <div className="relative min-h-[380px]">
         <AnimatePresence mode="wait" custom={direction}>
           {/* ─── STEP 1: Topic & Attachments ─── */}
           {step === 1 && (
             <motion.div key="step1" custom={direction} variants={pageVariants}
               initial="enter" animate="center" exit="exit" transition={pageTransition} className="w-full">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF2F2] border border-[#F25D6B]/15 text-[#F25D6B] text-xs font-semibold font-syne mb-4">
+              <div className="text-center mb-4 md:mb-5">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF2F2] border border-[#F25D6B]/15 text-[#F25D6B] text-xs font-semibold font-syne mb-2">
                   <FileText className="w-3.5 h-3.5" /> Step 1 of 3
                 </div>
-                <h2 className="text-3xl md:text-4xl font-unbounded font-normal text-gray-900 mb-3">
+                <h2 className="text-2xl md:text-3xl font-unbounded font-normal text-gray-900 mb-2">
                   What&apos;s your topic?
                 </h2>
                 <p className="text-gray-400 font-syne text-sm max-w-md mx-auto">
@@ -333,18 +333,18 @@ const UploadPage = () => {
                 </p>
               </div>
 
-              <div className="glass-card p-1 mb-4">
+              <div className="glass-card p-1 mb-3">
                 <textarea value={config.prompt} onChange={(e) => handleConfigChange("prompt", e.target.value)}
-                  placeholder={animatedPlaceholder + "│"} rows={4} data-testid="prompt-input"
-                  className="w-full bg-transparent text-gray-800 placeholder:text-gray-300 font-inter text-base p-5 resize-none focus:outline-none min-h-[140px] max-h-[240px] custom_scrollbar rounded-2xl"
+                  placeholder={animatedPlaceholder + "│"} rows={3} data-testid="prompt-input"
+                  className="w-full bg-transparent text-gray-800 placeholder:text-gray-300 font-inter text-base p-4 resize-none focus:outline-none min-h-[96px] max-h-[180px] custom_scrollbar rounded-2xl"
                 />
               </div>
 
-              <div className="glass-card p-5">
+              <div className="glass-card p-4">
                 <SupportingDoc files={[...files]} onFilesChange={setFiles} data-testid="file-upload-input" />
               </div>
 
-              <div className="mt-8 flex justify-end">
+              <div className="mt-5 md:mt-6 flex justify-end">
                 <Button onClick={() => { if (validateStep1()) goNext(); }}
                   className="rounded-full px-8 py-5 bg-[#F25D6B] text-white font-syne font-semibold text-base hover:bg-[#E04A58] transition-all duration-300 btn-glow group">
                   Continue <ArrowRight className="!w-4 !h-4 ml-2 transition-transform group-hover:translate-x-1" />
