@@ -131,7 +131,7 @@ const ChartWithBulletsSlideLayout: React.FC<ChartWithBulletsSlideLayoutProps> = 
     const yAxis = chartType === 'scatter' ? 'y' : 'value';
     const showLegend = slideData?.showLegend || false;
     const showTooltip = slideData?.showTooltip || true;
-    const bulletPoints = slideData?.bulletPoints || []
+    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
 
     const renderChart = () => {
         const renderPieLabel = (props: any) => {

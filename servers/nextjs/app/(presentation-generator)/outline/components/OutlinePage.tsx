@@ -22,6 +22,11 @@ const OutlinePage: React.FC = () => {
   const { presentation_id, outlines } = useSelector(
     (state: RootState) => state.presentationGeneration
   );
+  
+  const { config } = useSelector(
+    (state: RootState) => state.pptGenUpload
+  );
+  const isAutoTheme = !!config?.autoTheme;
 
   const [activeTab, setActiveTab] = useState<string>(TABS.OUTLINE);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateLayoutsWithSettings | string | null>(null);
@@ -32,7 +37,8 @@ const OutlinePage: React.FC = () => {
     presentation_id,
     outlines,
     selectedTemplate,
-    setActiveTab
+    setActiveTab,
+    isAutoTheme
   );
   if (!presentation_id) {
     return <EmptyStateView />;
@@ -59,13 +65,17 @@ const OutlinePage: React.FC = () => {
               >
                 Outline & Content
               </TabsTrigger>
-              <Separator orientation="vertical" className="h-6 mx-1" />
-              <TabsTrigger
-                value={TABS.LAYOUTS}
-                className="relative rounded-full px-5  py-2 text-xs font-medium text-[#2D2D2D] shadow-none  data-[state=active]:bg-[#F4F3FF] data-[state=active]:text-[#7E3AF2] data-[state=active]:shadow-none"
-              >
-                Select Template
-              </TabsTrigger>
+              {!isAutoTheme && (
+                <>
+                  <Separator orientation="vertical" className="h-6 mx-1" />
+                  <TabsTrigger
+                    value={TABS.LAYOUTS}
+                    className="relative rounded-full px-5  py-2 text-xs font-medium text-[#2D2D2D] shadow-none  data-[state=active]:bg-[#F4F3FF] data-[state=active]:text-[#7E3AF2] data-[state=active]:shadow-none"
+                  >
+                    Select Template
+                  </TabsTrigger>
+                </>
+              )}
             </TabsList>
 
             <div className="flex-grow w-full mx-auto">
@@ -84,14 +94,16 @@ const OutlinePage: React.FC = () => {
                 </div>
               </TabsContent>
 
-              <TabsContent value={TABS.LAYOUTS} className="h-[calc(100vh-16rem)] bg-white  overflow-y-auto hide-scrollbar">
-                <div>
-                  <TemplateSelection
-                    selectedTemplate={selectedTemplate}
-                    onSelectTemplate={setSelectedTemplate}
-                  />
-                </div>
-              </TabsContent>
+              {!isAutoTheme && (
+                <TabsContent value={TABS.LAYOUTS} className="h-[calc(100vh-16rem)] bg-white  overflow-y-auto hide-scrollbar">
+                  <div>
+                    <TemplateSelection
+                      selectedTemplate={selectedTemplate}
+                      onSelectTemplate={setSelectedTemplate}
+                    />
+                  </div>
+                </TabsContent>
+              )}
             </div>
           </Tabs>
           {/* Fixed Button */}

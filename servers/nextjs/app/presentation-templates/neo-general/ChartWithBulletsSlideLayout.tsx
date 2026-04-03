@@ -200,7 +200,7 @@ const ChartWithBulletsSlideLayout: React.FC<ChartWithBulletsSlideLayoutProps> = 
 
     const showLegend = slideData?.showLegend || false;
     const showTooltip = slideData?.showTooltip !== false;
-    const bulletPoints = slideData?.bulletPoints || [];
+    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : [];
     const divergingLabels = slideData?.chartData?.divergingLabels || ['Positive', 'Negative'];
 
     const axisProps = {
