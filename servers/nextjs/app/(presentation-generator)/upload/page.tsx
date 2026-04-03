@@ -4,14 +4,13 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import UploadPage from "./components/UploadPage";
 import UploadPageClassic from "./components/UploadPageClassic";
-import Header from "@/app/(presentation-generator)/(dashboard)/dashboard/components/Header";
 import { Layers, Zap } from "lucide-react";
 
 const Page = () => {
   const [isClassicUI, setIsClassicUI] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#FAFAFA]">
+    <div className="relative min-h-screen bg-[#FAFAFA] overflow-x-hidden">
       {/* Soft ambient glow at top */}
       <div
         className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none z-0"
@@ -20,7 +19,6 @@ const Page = () => {
             "radial-gradient(ellipse at center, rgba(242, 93, 107, 0.06) 0%, transparent 70%)",
         }}
       />
-      <Header />
 
       {/* UI toggle button — top right */}
       <div className="fixed top-7 right-6 z-50">
@@ -44,11 +42,11 @@ const Page = () => {
       </div>
 
       {/* Hero */}
-      <div className="flex flex-col items-center justify-center mb-8 relative z-10">
-        <h1 className="text-[48px] md:text-[56px] font-normal font-unbounded gradient-text">
+      <div className="flex flex-col items-center justify-center pt-8 md:pt-10 mb-4 md:mb-5 relative z-10">
+        <h1 className="text-[38px] md:text-[48px] leading-tight font-normal font-unbounded gradient-text text-center px-4">
           {isClassicUI ? "AI Presentation" : "Create a Presentation"}
         </h1>
-        <p className="text-base font-syne text-gray-400">
+        <p className="text-sm md:text-base font-syne text-gray-400 mt-1 text-center px-4">
           {isClassicUI
             ? "Choose a design, set preferences, and generate polished slides."
             : "Three quick steps to a polished deck."}
