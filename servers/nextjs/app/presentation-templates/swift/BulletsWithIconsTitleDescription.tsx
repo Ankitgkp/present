@@ -209,13 +209,15 @@ const InfographicFourIcons: React.FC<SlideLayoutProps> = ({ data }) => {
                     style={{ backgroundColor: 'var(--primary-color, #BFF4FF)' }}
                   >
                     {/* Icon */}
-                    <RemoteSvgIcon
-                      url={item.icon.__icon_url__}
-                      strokeColor={"currentColor"}
-                      className="w-14 h-14"
-                      color="var(--primary-text, #111827)"
-                      title={item.icon.__icon_query__}
-                    />
+                    {item.icon?.__icon_url__ && (
+                      <RemoteSvgIcon
+                        url={item.icon.__icon_url__}
+                        strokeColor={"currentColor"}
+                        className="w-14 h-14"
+                        color="var(--primary-text, #111827)"
+                        title={item.icon.__icon_query__}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mt-5 text-[16px] font-semibold" style={{ color: "var(--background-text, #111827)" }}>
