@@ -146,13 +146,15 @@ const BulletIconsOnlySlideLayout: React.FC<BulletIconsOnlySlideLayoutProps> = ({
                                 >
                                     {/* Icon */}
                                     <div style={{ background: "var(--primary-color,#9333ea)" }} className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center">
-                                        <RemoteSvgIcon
-                                            url={bullet.icon.__icon_url__}
-                                            strokeColor={"currentColor"}
-                                            className="w-6 h-6"
-                                            color="var(--primary-text, #ffffff)"
-                                            title={bullet.icon.__icon_query__}
-                                        />
+                                        {bullet.icon?.__icon_url__ && (
+                                            <RemoteSvgIcon
+                                                url={bullet.icon.__icon_url__}
+                                                strokeColor={"currentColor"}
+                                                className="w-6 h-6"
+                                                color="var(--primary-text, #ffffff)"
+                                                title={bullet.icon.__icon_query__}
+                                            />
+                                        )}
                                     </div>
 
                                     {/* Content */}

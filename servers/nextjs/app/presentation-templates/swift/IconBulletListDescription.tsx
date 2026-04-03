@@ -171,13 +171,15 @@ const FeatureCards: React.FC<SlideLayoutProps> = ({ data: slideData }) => {
               <div key={i} className="rounded-[22px] shadow-[0_16px_40px_rgba(0,0,0,0.08)] overflow-hidden" style={{ backgroundColor: 'var(--primary-color, #BFF4FF)' }}>
                 <div className="px-6 py-5">
                   <div className="w-10 h-10 rounded-sm flex items-center justify-center" style={{ backgroundColor: 'var(--primary-color, #FFFFFF)' }}>
-                    <RemoteSvgIcon
-                      url={f.icon.__icon_url__}
-                      strokeColor={"currentColor"}
-                      className="w-6 h-6"
-                      color="var(--primary-text, #111827)"
-                      title={f.icon.__icon_query__}
-                    />
+                    {f.icon?.__icon_url__ && (
+                      <RemoteSvgIcon
+                        url={f.icon.__icon_url__}
+                        strokeColor={"currentColor"}
+                        className="w-6 h-6"
+                        color="var(--primary-text, #111827)"
+                        title={f.icon.__icon_query__}
+                      />
+                    )}
                   </div>
                   <div className="mt-4 text-[18px] font-semibold whitespace-pre-line" style={{ color: 'var(--primary-text, #111827)' }}>{f.title}</div>
                   <p className="mt-3 text-[14px] leading-[1.7]" style={{ color: 'var(--primary-text, #6B7280)' }}>{f.body}</p>

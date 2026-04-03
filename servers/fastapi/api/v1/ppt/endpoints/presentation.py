@@ -454,6 +454,12 @@ async def stream_presentation(
                 asyncio.create_task(process_slide_and_fetch_assets(image_generation_service, slide))
             )
 
+            if i > 0:
+                yield SSEResponse(
+                    event="response",
+                    data=json.dumps({"type": "chunk", "chunk": ","}),
+                ).to_string()
+
             yield SSEResponse(
                 event="response",
                 data=json.dumps({"type": "chunk", "chunk": slide.model_dump_json()}),
