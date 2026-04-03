@@ -123,40 +123,6 @@ if [[ ! -f "$FASTAPI_DIR/server.py" ]]; then
   exit 1
 fi
 
-free_port_if_busy() {
-  local port="$1"
-
-  if ! command -v lsof >/dev/null 2>&1; then
-    return 0
-  fi
-
-  local pids
-  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
-  if [[ -z "$pids" ]]; then
-    return 0
-  fi
-
-  echo "[dev] Port $port is in use. Stopping existing process(es): $pids"
-  for pid in $pids; do
-    kill "$pid" 2>/dev/null || true
-  done
-  sleep 1
-
-  # Force kill if still running
-  pids="$(lsof -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
-  if [[ -n "$pids" ]]; then
-    for pid in $pids; do
-      kill -9 "$pid" 2>/dev/null || true
-    done
-  fi
-}
-
-free_port_if_busy 8000
-free_port_if_busy 3000
-if [[ "$WITH_MCP" == "true" ]]; then
-  free_port_if_busy 8001
-fi
-
 echo "Starting Presenton local development"
 echo "APP_DATA_DIRECTORY=$APP_DATA_DIRECTORY"
 echo "TEMP_DIRECTORY=$TEMP_DIRECTORY"
@@ -190,12 +156,9 @@ NEXTJS_PID=$!
 cleanup() {
   echo
   echo "Stopping services..."
-  pkill -P "$FASTAPI_PID" 2>/dev/null || true
-  pkill -P "$NEXTJS_PID" 2>/dev/null || true
   kill "$FASTAPI_PID" 2>/dev/null || true
   kill "$NEXTJS_PID" 2>/dev/null || true
   if [[ -n "$MCP_PID" ]]; then
-    pkill -P "$MCP_PID" 2>/dev/null || true
     kill "$MCP_PID" 2>/dev/null || true
   fi
 }

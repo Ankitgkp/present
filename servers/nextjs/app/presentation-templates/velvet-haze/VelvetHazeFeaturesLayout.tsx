@@ -3,7 +3,7 @@ import * as z from "zod";
 
 export const layoutId = "velvet-haze-features";
 export const layoutName = "Velvet Haze Features";
-export const layoutDescription = "A dark, premium feature grid with glowing neon-bordered cards on a deep indigo gradient.";
+export const layoutDescription = "A clean grid of feature cards with frosted glass styling on a soft purple-to-white gradient.";
 
 export const Schema = z.object({
   title: z.string().min(2).max(40).default("Core Features").meta({
@@ -40,59 +40,41 @@ const VelvetHazeFeaturesLayout = ({ data }: { data: Partial<SchemaType> }) => {
   ];
   const features = data?.features || defaultFeatures;
 
-  const cardAccents = [
-    "rgba(168, 85, 247, 0.25)",
-    "rgba(192, 132, 252, 0.25)",
-    "rgba(139, 92, 246, 0.25)",
-    "rgba(124, 58, 237, 0.25)",
-    "rgba(233, 213, 255, 0.2)",
-    "rgba(167, 139, 250, 0.25)",
-  ];
-
   return (
     <div
       className="w-full rounded-sm max-w-[1280px] shadow-lg max-h-[720px] aspect-video relative z-20 mx-auto overflow-hidden flex flex-col items-center"
       style={{
-        background: "linear-gradient(180deg, #0D0818 0%, #1A1035 50%, #0F0A1E 100%)",
+        background: "linear-gradient(180deg, #FFFFFF 0%, #F5F3FF 50%, #EDE9FE 100%)",
         fontFamily: "var(--heading-font-family, 'Inter, sans-serif')",
       }}
     >
-      {/* Mesh gradient overlays */}
-      <div className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-[0.1]"
-        style={{ background: "radial-gradient(circle, #A855F7, transparent 70%)" }}
+      {/* Subtle decorative blurs */}
+      <div className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-[0.08]"
+        style={{ background: "radial-gradient(circle, #8B5CF6, transparent 70%)" }}
       ></div>
-      <div className="absolute bottom-0 left-0 w-56 h-56 rounded-full opacity-[0.08]"
-        style={{ background: "radial-gradient(circle, #7C3AED, transparent 70%)" }}
+      <div className="absolute bottom-0 left-0 w-56 h-56 rounded-full opacity-[0.06]"
+        style={{ background: "radial-gradient(circle, #A78BFA, transparent 70%)" }}
       ></div>
 
-      {/* Neon top accent */}
-      <div className="absolute top-0 left-0 w-full h-[2px]"
-        style={{
-          background: "linear-gradient(90deg, transparent 5%, #A855F7 30%, #C084FC 50%, #A855F7 70%, transparent 95%)",
-          boxShadow: "0 0 15px rgba(168, 85, 247, 0.4)",
-        }}
+      {/* Thin decorative top bar */}
+      <div className="absolute top-0 left-0 w-full h-1"
+        style={{ background: "linear-gradient(90deg, #8B5CF6, #A78BFA, #C4B5FD, #DDD6FE)" }}
       ></div>
 
       {/* Header */}
       <div className="w-full pt-10 pb-4 flex flex-col items-center z-10 px-8">
         <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-none m-0 text-center"
-          style={{ color: "#F1E8FF" }}
+          style={{ color: "#1E1B4B" }}
         >
           {data?.title || "Core Features"}
         </h1>
         <div className="flex items-center gap-2 mt-4 mb-2">
-          <div className="h-[2px] w-10 rounded-full"
-            style={{ background: "linear-gradient(90deg, #A855F7, transparent)", boxShadow: "0 0 6px rgba(168,85,247,0.4)" }}
-          ></div>
-          <div className="w-1.5 h-1.5 rounded-full"
-            style={{ background: "#A855F7", boxShadow: "0 0 6px #A855F7" }}
-          ></div>
-          <div className="h-[2px] w-10 rounded-full"
-            style={{ background: "linear-gradient(270deg, #C084FC, transparent)", boxShadow: "0 0 6px rgba(192,132,252,0.4)" }}
-          ></div>
+          <div className="h-[2px] w-10 rounded-full" style={{ background: "linear-gradient(90deg, #8B5CF6, transparent)" }}></div>
+          <div className="w-1.5 h-1.5 rounded-full bg-violet-400"></div>
+          <div className="h-[2px] w-10 rounded-full" style={{ background: "linear-gradient(270deg, #A78BFA, transparent)" }}></div>
         </div>
         <p className="text-lg lg:text-xl font-normal text-center max-w-2xl"
-          style={{ color: "rgba(203, 195, 227, 0.7)" }}
+          style={{ color: "#6B7280" }}
         >
           {data?.subtitle || "Everything you need, nothing you don't."}
         </p>
@@ -106,30 +88,25 @@ const VelvetHazeFeaturesLayout = ({ data }: { data: Partial<SchemaType> }) => {
               key={idx}
               className="rounded-xl p-5 lg:p-6 flex flex-col gap-3 transition-all hover:-translate-y-1"
               style={{
-                background: "rgba(26, 16, 53, 0.7)",
+                background: "rgba(255, 255, 255, 0.65)",
                 backdropFilter: "blur(10px)",
-                border: `1px solid ${cardAccents[idx % cardAccents.length]}`,
-                boxShadow: `0 0 20px rgba(168, 85, 247, 0.05), 0 4px 16px rgba(0, 0, 0, 0.3)`,
+                border: "1px solid rgba(139, 92, 246, 0.1)",
+                boxShadow: "0 2px 16px rgba(139, 92, 246, 0.05)",
               }}
             >
               {/* Number badge */}
               <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-                style={{
-                  background: "rgba(168, 85, 247, 0.15)",
-                  color: "#C084FC",
-                  border: "1px solid rgba(168, 85, 247, 0.25)",
-                  boxShadow: "0 0 10px rgba(168, 85, 247, 0.1)",
-                }}
+                style={{ background: "rgba(139, 92, 246, 0.1)", color: "#7C3AED" }}
               >
                 {String(idx + 1).padStart(2, '0')}
               </div>
               <h3 className="text-lg lg:text-xl font-semibold leading-tight"
-                style={{ color: "#F1E8FF" }}
+                style={{ color: "#1E1B4B" }}
               >
                 {feature.title}
               </h3>
               <p className="text-sm lg:text-base leading-relaxed line-clamp-3"
-                style={{ color: "rgba(203, 195, 227, 0.65)" }}
+                style={{ color: "#6B7280" }}
               >
                 {feature.description}
               </p>

@@ -1,7 +1,5 @@
 import asyncio
-import colorsys
 from datetime import datetime
-import hashlib
 import json
 import math
 import os
@@ -40,12 +38,6 @@ from utils.get_layout_by_name import get_layout_by_name
 from services.image_generation_service import ImageGenerationService
 from utils.dict_utils import deep_update
 from utils.export_utils import export_presentation
-from utils.theme_utils import (
-    IS_DARK_BELOW,
-    generate_color_palette,
-    get_lightness_key_at_distance,
-)
-from utils.llm_calls.generate_theme_from_topic import generate_theme_from_topic
 from utils.llm_calls.generate_presentation_outlines import generate_ppt_outline
 from models.sql.slide import SlideModel
 from models.sse_response import SSECompleteResponse, SSEErrorResponse, SSEResponse
@@ -77,96 +69,6 @@ import uuid
 
 
 PRESENTATION_ROUTER = APIRouter(prefix="/presentation", tags=["Presentation"])
-
-
-def _to_hex_from_rgb(rgb: tuple[float, float, float]) -> str:
-    r, g, b = rgb
-    return "#{:02X}{:02X}{:02X}".format(
-        int(max(0, min(255, round(r * 255)))),
-        int(max(0, min(255, round(g * 255)))),
-        int(max(0, min(255, round(b * 255)))),
-    )
-
-
-def _build_theme_payload_from_palette(color_palette, description: str) -> dict:
-    is_dark_theme = color_palette.background_lightness < IS_DARK_BELOW
-    graph_colors = list(color_palette.primary_variations.values())
-    if not is_dark_theme:
-        graph_colors.reverse()
-
-    return {
-        "name": "AI Generated Theme",
-        "description": description,
-        "data": {
-            "colors": {
-                "primary": color_palette.primary,
-                "background": color_palette.background,
-                "card": color_palette.background_variations[
-                    get_lightness_key_at_distance(
-                        color_palette.background_lightness,
-                        min_distance=1,
-                        max_distance=1,
-                        prefer_dark=not is_dark_theme,
-                    )
-                ],
-                "stroke": color_palette.background_variations[
-                    get_lightness_key_at_distance(
-                        color_palette.background_lightness,
-                        min_distance=2,
-                        max_distance=2,
-                        prefer_dark=not is_dark_theme,
-                    )
-                ],
-                "background_text": color_palette.text_1,
-                "primary_text": color_palette.text_2,
-                "graph_0": graph_colors[0],
-                "graph_1": graph_colors[1],
-                "graph_2": graph_colors[2],
-                "graph_3": graph_colors[3],
-                "graph_4": graph_colors[4],
-                "graph_5": graph_colors[5],
-                "graph_6": graph_colors[6],
-                "graph_7": graph_colors[7],
-                "graph_8": graph_colors[8],
-                "graph_9": graph_colors[9],
-            },
-            "fonts": {
-                "textFont": {
-                    "name": "Instrument Sans",
-                    "url": "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap",
-                }
-            },
-        },
-    }
-
-
-def _fallback_ai_colors_from_topic(topic: str) -> dict:
-    """Create a deterministic, topic-seeded base palette without domain-specific hardcoding."""
-    seed = hashlib.sha256((topic or "presentation").strip().lower().encode("utf-8")).digest()
-    hue = (seed[0] / 255.0)
-    dark_mode = (seed[1] % 2) == 0
-
-    primary = _to_hex_from_rgb(colorsys.hls_to_rgb(hue, 0.46, 0.62))
-    accent_1 = _to_hex_from_rgb(colorsys.hls_to_rgb((hue + 0.08) % 1.0, 0.56, 0.52))
-    accent_2 = _to_hex_from_rgb(colorsys.hls_to_rgb((hue + 0.50) % 1.0, 0.52, 0.48))
-
-    if dark_mode:
-        background = _to_hex_from_rgb(colorsys.hls_to_rgb(hue, 0.11, 0.25))
-        text_1 = "#F8FAFC"
-    else:
-        background = _to_hex_from_rgb(colorsys.hls_to_rgb(hue, 0.97, 0.12))
-        text_1 = "#0F172A"
-
-    text_2 = "#FFFFFF"
-
-    return {
-        "primary": primary,
-        "background": background,
-        "accent_1": accent_1,
-        "accent_2": accent_2,
-        "text_1": text_1,
-        "text_2": text_2,
-    }
 
 
 @PRESENTATION_ROUTER.get("/all", response_model=List[PresentationWithSlides])
@@ -237,7 +139,6 @@ async def create_presentation(
     include_title_slide: Annotated[bool, Body()] = True,
     web_search: Annotated[bool, Body()] = False,
     theme: Annotated[Optional[dict], Body()] = None,
-    auto_theme: Annotated[bool, Body()] = False,
     sql_session: AsyncSession = Depends(get_async_session),
 ):
 
@@ -246,37 +147,6 @@ async def create_presentation(
             status_code=400,
             detail="Number of slides cannot be less than 3 if table of contents is included",
         )
-
-    if auto_theme and not theme:
-        # Generate dynamic theme from topic
-        try:
-            ai_colors = await generate_theme_from_topic(content)
-            color_palette = generate_color_palette(
-                ai_colors.get("primary"),
-                ai_colors.get("background"),
-                ai_colors.get("accent_1"),
-                ai_colors.get("accent_2"),
-                ai_colors.get("text_1"),
-                ai_colors.get("text_2"),
-            )
-            theme = _build_theme_payload_from_palette(
-                color_palette,
-                "Theme generated automatically from presentation topic",
-            )
-        except Exception:
-            ai_colors = _fallback_ai_colors_from_topic(content)
-            color_palette = generate_color_palette(
-                ai_colors.get("primary"),
-                ai_colors.get("background"),
-                ai_colors.get("accent_1"),
-                ai_colors.get("accent_2"),
-                ai_colors.get("text_1"),
-                ai_colors.get("text_2"),
-            )
-            theme = _build_theme_payload_from_palette(
-                color_palette,
-                "Fallback AI theme generated from topic seed",
-            )
 
     presentation_id = uuid.uuid4()
 
@@ -603,10 +473,8 @@ async def check_if_api_request_is_valid(
             detail="Number of slides must be greater than 0",
         )
 
-    if request.auto_theme:
-        request.template = "neo-general"
     # Checking if template is valid
-    elif request.template not in DEFAULT_TEMPLATES:
+    if request.template not in DEFAULT_TEMPLATES:
         request.template = request.template.lower()
         if not request.template.startswith("custom-"):
             raise HTTPException(

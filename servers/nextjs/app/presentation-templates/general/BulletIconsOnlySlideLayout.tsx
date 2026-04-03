@@ -72,7 +72,7 @@ interface BulletIconsOnlySlideLayoutProps {
 }
 
 const BulletIconsOnlySlideLayout: React.FC<BulletIconsOnlySlideLayoutProps> = ({ data: slideData }) => {
-    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
+    const bulletPoints = slideData?.bulletPoints || []
 
     // Function to determine grid classes based on number of bullets
     const getGridClasses = (count: number) => {

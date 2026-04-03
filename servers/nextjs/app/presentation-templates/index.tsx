@@ -70,10 +70,6 @@ import VelvetHazeIntroLayout, { Schema as VelvetHazeIntroSchema, layoutId as Vel
 import VelvetHazeMetricsLayout, { Schema as VelvetHazeMetricsSchema, layoutId as VelvetHazeMetricsId, layoutName as VelvetHazeMetricsName, layoutDescription as VelvetHazeMetricsDesc } from "./velvet-haze/VelvetHazeMetricsLayout";
 import VelvetHazeFeaturesLayout, { Schema as VelvetHazeFeaturesSchema, layoutId as VelvetHazeFeaturesId, layoutName as VelvetHazeFeaturesName, layoutDescription as VelvetHazeFeaturesDesc } from "./velvet-haze/VelvetHazeFeaturesLayout";
 import VelvetHazeTestimonialsLayout, { Schema as VelvetHazeTestimonialsSchema, layoutId as VelvetHazeTestimonialsId, layoutName as VelvetHazeTestimonialsName, layoutDescription as VelvetHazeTestimonialsDesc } from "./velvet-haze/VelvetHazeTestimonialsLayout";
-import VelvetHazeQuoteLayout, { Schema as VelvetHazeQuoteSchema, layoutId as VelvetHazeQuoteId, layoutName as VelvetHazeQuoteName, layoutDescription as VelvetHazeQuoteDesc } from "./velvet-haze/VelvetHazeQuoteLayout";
-import VelvetHazeTimelineLayout, { Schema as VelvetHazeTimelineSchema, layoutId as VelvetHazeTimelineId, layoutName as VelvetHazeTimelineName, layoutDescription as VelvetHazeTimelineDesc } from "./velvet-haze/VelvetHazeTimelineLayout";
-import VelvetHazeComparisonLayout, { Schema as VelvetHazeComparisonSchema, layoutId as VelvetHazeComparisonId, layoutName as VelvetHazeComparisonName, layoutDescription as VelvetHazeComparisonDesc } from "./velvet-haze/VelvetHazeComparisonLayout";
-import VelvetHazeImageGalleryLayout, { Schema as VelvetHazeImageGallerySchema, layoutId as VelvetHazeImageGalleryId, layoutName as VelvetHazeImageGalleryName, layoutDescription as VelvetHazeImageGalleryDesc } from "./velvet-haze/VelvetHazeImageGalleryLayout";
 
 
 
@@ -271,10 +267,6 @@ export const velvetHazeTemplates: TemplateWithData[] = [
     createTemplateEntry(VelvetHazeMetricsLayout, VelvetHazeMetricsSchema, VelvetHazeMetricsId, VelvetHazeMetricsName, VelvetHazeMetricsDesc, "velvet-haze", "VelvetHazeMetricsLayout"),
     createTemplateEntry(VelvetHazeFeaturesLayout, VelvetHazeFeaturesSchema, VelvetHazeFeaturesId, VelvetHazeFeaturesName, VelvetHazeFeaturesDesc, "velvet-haze", "VelvetHazeFeaturesLayout"),
     createTemplateEntry(VelvetHazeTestimonialsLayout, VelvetHazeTestimonialsSchema, VelvetHazeTestimonialsId, VelvetHazeTestimonialsName, VelvetHazeTestimonialsDesc, "velvet-haze", "VelvetHazeTestimonialsLayout"),
-    createTemplateEntry(VelvetHazeQuoteLayout, VelvetHazeQuoteSchema, VelvetHazeQuoteId, VelvetHazeQuoteName, VelvetHazeQuoteDesc, "velvet-haze", "VelvetHazeQuoteLayout"),
-    createTemplateEntry(VelvetHazeTimelineLayout, VelvetHazeTimelineSchema, VelvetHazeTimelineId, VelvetHazeTimelineName, VelvetHazeTimelineDesc, "velvet-haze", "VelvetHazeTimelineLayout"),
-    createTemplateEntry(VelvetHazeComparisonLayout, VelvetHazeComparisonSchema, VelvetHazeComparisonId, VelvetHazeComparisonName, VelvetHazeComparisonDesc, "velvet-haze", "VelvetHazeComparisonLayout"),
-    createTemplateEntry(VelvetHazeImageGalleryLayout, VelvetHazeImageGallerySchema, VelvetHazeImageGalleryId, VelvetHazeImageGalleryName, VelvetHazeImageGalleryDesc, "velvet-haze", "VelvetHazeImageGalleryLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [

@@ -59,7 +59,7 @@ interface BulletWithIconsSlideLayoutProps {
 }
 
 const BulletWithIconsSlideLayout: React.FC<BulletWithIconsSlideLayoutProps> = ({ data: slideData }) => {
-    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
+    const bulletPoints = slideData?.bulletPoints || []
 
     return (
         <>
@@ -75,11 +75,6 @@ const BulletWithIconsSlideLayout: React.FC<BulletWithIconsSlideLayoutProps> = ({
                     background: "var(--background-color,#ffffff)"
                 }}
             >
-                <div className="absolute -top-16 -left-16 w-64 h-64 rounded-full blur-3xl opacity-15"
-                    style={{ background: 'var(--primary-color,#9333ea)' }} />
-                <div className="absolute -bottom-16 right-8 w-72 h-72 rounded-full blur-3xl opacity-15"
-                    style={{ background: 'var(--graph-3,#22d3ee)' }} />
-
                 {((slideData as any)?.__companyName__ || (slideData as any)?._logo_url__) && (
                     <div className="absolute top-0 left-0 right-0 px-8  pt-4">
                         <div className="flex items-center gap-4">
@@ -134,7 +129,7 @@ const BulletWithIconsSlideLayout: React.FC<BulletWithIconsSlideLayoutProps> = ({
                             </div>
 
                             {/* Decorative Sparkle */}
-                            <div style={{ color: "var(--primary-color,#9333ea)" }} className="absolute top-20 right-8">
+                            <div style={{ color: "var(--primary-color,#9333ea)" }} className="absolute top-20 right-8 text-purple-600">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 0l3.09 6.26L22 9l-6.91 2.74L12 18l-3.09-6.26L2 9l6.91-2.74L12 0z" />
                                 </svg>

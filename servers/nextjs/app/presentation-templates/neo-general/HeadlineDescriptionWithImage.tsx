@@ -36,18 +36,6 @@ const HeadlineDescriptionWithImageLayout = ({ data }: { data: Partial<z.infer<ty
                     background: "var(--background-color,#ffffff)"
                 }}
             >
-                <div className="absolute -top-16 -left-20 w-72 h-72 rounded-full blur-3xl opacity-25"
-                    style={{ background: 'var(--primary-color,#9234EB)' }} />
-                <div className="absolute -bottom-20 -right-24 w-80 h-80 rounded-full blur-3xl opacity-20"
-                    style={{ background: 'var(--graph-2,#3B82F6)' }} />
-                <div className="absolute inset-0 opacity-[0.08]"
-                    style={{
-                        backgroundImage:
-                            'radial-gradient(circle at 1px 1px, var(--stroke,#CBD5E1) 1px, transparent 1px)',
-                        backgroundSize: '22px 22px',
-                    }}
-                />
-
                 {((data as any)?.__companyName__ || (data as any)?._logo_url__) && (
                     <div className="absolute top-0 left-0 right-0 px-8  pt-4">
                         <div className="flex items-center gap-4">
@@ -79,9 +67,10 @@ const HeadlineDescriptionWithImageLayout = ({ data }: { data: Partial<z.infer<ty
                         </h1>
 
                         {/* Decorative Purple Line */}
-                        <div className="w-[140px] h-[6px] rounded-full"
+                        <div className="w-[116.6px] h-[5.7px]"
+
                             style={{
-                                background: 'linear-gradient(90deg, var(--primary-color,#9234EB), var(--graph-1,#3B82F6))'
+                                backgroundColor: 'var(--primary-color,#9234EB)'
                             }}
                         />
 
@@ -98,8 +87,7 @@ const HeadlineDescriptionWithImageLayout = ({ data }: { data: Partial<z.infer<ty
 
                     {/* Right Image Column */}
                     <div className="flex flex-1 justify-end items-center ">
-                        <div className="w-[380px] h-[350px] overflow-hidden rounded-[30px] border"
-                            style={{ borderColor: 'var(--stroke,#E2E8F0)' }}>
+                        <div className="w-[380px] h-[350px] overflow-hidden rounded-[30px]">
                             <img
                                 src={data.image?.__image_url__}
                                 alt={data.image?.__image_prompt__}
