@@ -129,6 +129,7 @@ export interface PresentationConfig {
   includeTableOfContents: boolean;
   includeTitleSlide: boolean;
   webSearch: boolean;
+  autoTheme: boolean;
 }
 
 export enum ToneType {

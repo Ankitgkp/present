@@ -54,7 +54,7 @@ interface NumberedBulletsSlideLayoutProps {
 }
 
 const NumberedBulletsSlideLayout: React.FC<NumberedBulletsSlideLayoutProps> = ({ data: slideData }) => {
-    const bulletPoints = slideData?.bulletPoints || []
+    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
 
     return (
         <>
@@ -70,6 +70,18 @@ const NumberedBulletsSlideLayout: React.FC<NumberedBulletsSlideLayoutProps> = ({
                     background: "var(--background-color,#ffffff)"
                 }}
             >
+                <div className="absolute -top-24 -right-16 w-80 h-80 rounded-full blur-3xl opacity-20"
+                    style={{ background: 'var(--primary-color,#9333ea)' }} />
+                <div className="absolute -bottom-24 -left-20 w-96 h-96 rounded-full blur-3xl opacity-15"
+                    style={{ background: 'var(--graph-2,#3B82F6)' }} />
+                <div className="absolute inset-0 opacity-[0.06]"
+                    style={{
+                        backgroundImage:
+                            'linear-gradient(var(--stroke,#CBD5E1) 1px, transparent 1px), linear-gradient(90deg, var(--stroke,#CBD5E1) 1px, transparent 1px)',
+                        backgroundSize: '28px 28px',
+                    }}
+                />
+
                 {((slideData as any)?.__companyName__ || (slideData as any)?._logo_url__) && (
                     <div className="absolute top-0 left-0 right-0 px-8  pt-4">
                         <div className="flex items-center gap-4">
@@ -95,8 +107,8 @@ const NumberedBulletsSlideLayout: React.FC<NumberedBulletsSlideLayoutProps> = ({
                             <h1 style={{ color: "var(--background-text,#111827)" }} className="text-[42.7px] font-bold text-gray-900 leading-tight mb-4">
                                 {slideData?.title || 'Market Validation'}
                             </h1>
-                            {/* Purple accent line */}
-                            <div style={{ background: "var(--primary-color,#9333ea)" }} className="w-24 h-1 bg-purple-600 mb-6"></div>
+                            {/* Accent line */}
+                            <div style={{ background: "linear-gradient(90deg, var(--primary-color,#9333ea), var(--graph-1,#3B82F6))" }} className="w-28 h-1 rounded-full mb-6"></div>
                         </div>
 
                         {/* Image Section */}

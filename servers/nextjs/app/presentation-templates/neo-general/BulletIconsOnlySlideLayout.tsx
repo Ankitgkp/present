@@ -72,7 +72,7 @@ interface BulletIconsOnlySlideLayoutProps {
 }
 
 const BulletIconsOnlySlideLayout: React.FC<BulletIconsOnlySlideLayoutProps> = ({ data: slideData }) => {
-    const bulletPoints = slideData?.bulletPoints || []
+    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
 
     // Function to determine grid classes based on number of bullets
     const getGridClasses = (count: number) => {
@@ -120,16 +120,21 @@ const BulletIconsOnlySlideLayout: React.FC<BulletIconsOnlySlideLayoutProps> = ({
                 {/* Decorative Wave Patterns */}
                 <div className="absolute top-0 left-0 w-32 h-full opacity-10 overflow-hidden">
                     <svg className="w-full h-full" viewBox="0 0 100 400" fill="none">
-                        <path d="M0 100C25 150 50 50 75 100C87.5 125 100 100 100 100V0H0V100Z" fill="#8b5cf6" opacity="0.4" />
-                        <path d="M0 200C37.5 250 62.5 150 100 200V150C75 175 50 150 25 175L0 200Z" fill="#8b5cf6" opacity="0.3" />
+                        <path d="M0 100C25 150 50 50 75 100C87.5 125 100 100 100 100V0H0V100Z" fill="var(--primary-color,#8b5cf6)" opacity="0.45" />
+                        <path d="M0 200C37.5 250 62.5 150 100 200V150C75 175 50 150 25 175L0 200Z" fill="var(--graph-2,#3b82f6)" opacity="0.35" />
                     </svg>
                 </div>
 
                 <div className="absolute bottom-0 left-0 w-48 h-32 opacity-10 overflow-hidden">
                     <svg className="w-full h-full" viewBox="0 0 200 100" fill="none">
-                        <path d="M0 50C50 25 100 75 150 50C175 37.5 200 50 200 50V100H0V50Z" fill="#8b5cf6" opacity="0.2" />
+                        <path d="M0 50C50 25 100 75 150 50C175 37.5 200 50 200 50V100H0V50Z" fill="var(--graph-1,#60a5fa)" opacity="0.3" />
                     </svg>
                 </div>
+
+                <div className="absolute -top-10 right-20 w-60 h-60 rounded-full blur-3xl opacity-15"
+                    style={{ background: 'var(--primary-color,#9333ea)' }} />
+                <div className="absolute -bottom-20 right-0 w-72 h-72 rounded-full blur-3xl opacity-15"
+                    style={{ background: 'var(--graph-3,#22d3ee)' }} />
 
                 {/* Main Content */}
                 <div className="relative z-10 flex h-full px-8 sm:px-12 lg:px-20 pt-12 pb-8">
@@ -177,14 +182,14 @@ const BulletIconsOnlySlideLayout: React.FC<BulletIconsOnlySlideLayoutProps> = ({
                     {/* Right Section - Image */}
                     <div className="flex-shrink-0 w-96 flex items-center justify-center relative">
                         {/* Decorative Elements */}
-                        <div style={{ color: "var(--primary-color,#9333ea)" }} className="absolute top-8 right-8 text-purple-600 opacity-60">
+                        <div style={{ color: "var(--primary-color,#9333ea)" }} className="absolute top-8 right-8 opacity-60">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
                                 <path d="M16 0l4.12 8.38L28 12l-7.88 3.62L16 24l-4.12-8.38L4 12l7.88-3.62L16 0z" />
                             </svg>
                         </div>
 
                         <div className="absolute top-16 left-8 opacity-20">
-                            <svg width="80" height="20" viewBox="0 0 80 20" className="text-purple-600" style={{ color: "var(--primary-color,#9333ea)" }}>
+                            <svg width="80" height="20" viewBox="0 0 80 20" style={{ color: "var(--primary-color,#9333ea)" }}>
                                 <path
                                     d="M0 10 Q20 0 40 10 T80 10"
                                     stroke="currentColor"

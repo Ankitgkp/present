@@ -1,60 +1,74 @@
-import React from "react";
+"use client";
 
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import UploadPage from "./components/UploadPage";
+import UploadPageClassic from "./components/UploadPageClassic";
 import Header from "@/app/(presentation-generator)/(dashboard)/dashboard/components/Header";
-import { Metadata } from "next";
+import { Layers, Zap } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Presenton | Open Source AI presentation generator",
-  description:
-    "Open-source AI presentation generator with custom layouts, multi-model support (OpenAI, Gemini, Ollama), and PDF/PPTX export. A free Gamma alternative.",
-  alternates: {
-    canonical: "https://presenton.ai/create",
-  },
-  keywords: [
-    "presentation generator",
-    "AI presentations",
-    "data visualization",
-    "automatic presentation maker",
-    "professional slides",
-    "data-driven presentations",
-    "document to presentation",
-    "presentation automation",
-    "smart presentation tool",
-    "business presentations",
-  ],
-  openGraph: {
-    title: "Create Data Presentation | PresentOn",
-    description:
-      "Open-source AI presentation generator with custom layouts, multi-model support (OpenAI, Gemini, Ollama), and PDF/PPTX export. A free Gamma alternative.",
-    type: "website",
-    url: "https://presenton.ai/create",
-    siteName: "PresentOn",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Create Data Presentation | PresentOn",
-    description:
-      "Open-source AI presentation generator with custom layouts, multi-model support (OpenAI, Gemini, Ollama), and PDF/PPTX export. A free Gamma alternative.",
-    site: "@presenton_ai",
-    creator: "@presenton_ai",
-  },
-};
+const Page = () => {
+  const [isClassicUI, setIsClassicUI] = useState(false);
 
-const page = () => {
   return (
-    <div className="relative">
+    <div className="relative min-h-screen bg-[#FAFAFA]">
+      {/* Soft ambient glow at top */}
+      <div
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] pointer-events-none z-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(242, 93, 107, 0.06) 0%, transparent 70%)",
+        }}
+      />
       <Header />
-      <div className="flex flex-col items-center justify-center  mb-8">
-        <h1 className="text-[64px] font-normal font-unbounded text-[#101323] ">
-          AI Presentation
-        </h1>
-        <p className="text-xl font-syne text-[#101323CC]">Choose a design, set preferences, and generate polished slides.</p>
+
+      {/* UI toggle button — top right */}
+      <div className="fixed top-7 right-6 z-50">
+        <button
+          onClick={() => setIsClassicUI(!isClassicUI)}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold font-syne bg-white hover:bg-gray-50 border border-gray-200 text-gray-500 hover:text-gray-700 transition-all duration-300 shadow-sm"
+          title={isClassicUI ? "Switch to Wizard UI" : "Switch to Classic UI"}
+        >
+          {isClassicUI ? (
+            <>
+              <Zap className="w-3.5 h-3.5 text-[#F25D6B]" />
+              <span>Wizard UI</span>
+            </>
+          ) : (
+            <>
+              <Layers className="w-3.5 h-3.5 text-gray-400" />
+              <span>Classic UI</span>
+            </>
+          )}
+        </button>
       </div>
 
-      <UploadPage />
+      {/* Hero */}
+      <div className="flex flex-col items-center justify-center mb-8 relative z-10">
+        <h1 className="text-[48px] md:text-[56px] font-normal font-unbounded gradient-text">
+          {isClassicUI ? "AI Presentation" : "Create a Presentation"}
+        </h1>
+        <p className="text-base font-syne text-gray-400">
+          {isClassicUI
+            ? "Choose a design, set preferences, and generate polished slides."
+            : "Three quick steps to a polished deck."}
+        </p>
+      </div>
+
+      {/* Page content — no fade-in animation */}
+      {isClassicUI ? <UploadPageClassic /> : <UploadPage />}
+
+      {/* Soft ambient bottom glow */}
+      <div
+        className="fixed bottom-[-10rem] left-1/2 -translate-x-1/2 w-[1000px] h-[300px] pointer-events-none z-0"
+        style={{
+          borderRadius: "1440px",
+          background:
+            "radial-gradient(50% 50% at 50% 50%, rgba(242, 93, 107, 0.08) 0%, transparent 100%)",
+        }}
+      />
     </div>
   );
 };
 
-export default page;
+export default Page;

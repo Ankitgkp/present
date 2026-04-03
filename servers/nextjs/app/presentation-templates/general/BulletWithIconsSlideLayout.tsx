@@ -59,7 +59,7 @@ interface BulletWithIconsSlideLayoutProps {
 }
 
 const BulletWithIconsSlideLayout: React.FC<BulletWithIconsSlideLayoutProps> = ({ data: slideData }) => {
-    const bulletPoints = slideData?.bulletPoints || []
+    const bulletPoints = Array.isArray(slideData?.bulletPoints) ? slideData.bulletPoints : []
 
     return (
         <>

@@ -40,3 +40,6 @@ class GeneratePresentationRequest(BaseModel):
     trigger_webhook: bool = Field(
         default=False, description="Whether to trigger subscribed webhooks"
     )
+    auto_theme: bool = Field(
+        default=False, description="Whether to auto-generate theme from topic using AI"
+    )
