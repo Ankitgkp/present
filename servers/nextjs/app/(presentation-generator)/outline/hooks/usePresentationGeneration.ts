@@ -149,7 +149,7 @@ export const usePresentationGeneration = (
             }))
           };
         }
-      } else if (templateToUse) {
+      } else if (templateToUse && typeof templateToUse !== 'string') {
         // Built-in template
         layout = {
           name: templateToUse.id,
