@@ -1,5 +1,6 @@
 import asyncio
 import colorsys
+from copy import deepcopy
 from datetime import datetime
 import hashlib
 import json
@@ -141,10 +142,10 @@ def _build_theme_payload_from_palette(color_palette, description: str) -> dict:
 
 
 def _fallback_ai_colors_from_topic(topic: str) -> dict:
-    """Create a deterministic, topic-seeded base palette without domain-specific hardcoding."""
+    """Create a topic-aware fallback palette with slight variation across runs."""
     seed = hashlib.sha256((topic or "presentation").strip().lower().encode("utf-8")).digest()
-    hue = (seed[0] / 255.0)
-    dark_mode = (seed[1] % 2) == 0
+    hue = ((seed[0] / 255.0) + random.SystemRandom().uniform(-0.06, 0.06)) % 1.0
+    dark_mode = (seed[1] % 2) == 0 if random.SystemRandom().random() > 0.25 else not ((seed[1] % 2) == 0)
 
     primary = _to_hex_from_rgb(colorsys.hls_to_rgb(hue, 0.46, 0.62))
     accent_1 = _to_hex_from_rgb(colorsys.hls_to_rgb((hue + 0.08) % 1.0, 0.56, 0.52))
@@ -167,6 +168,53 @@ def _fallback_ai_colors_from_topic(topic: str) -> dict:
         "text_1": text_1,
         "text_2": text_2,
     }
+
+
+async def _build_auto_theme_layout_model(topic: str) -> PresentationLayoutModel:
+    """Build a mixed layout model for auto-theme mode instead of forcing a single prebuilt group."""
+    candidate_groups = [
+        "neo-general",
+        "neo-modern",
+        "neo-standard",
+        "neo-swift",
+        "neo-brutalist",
+        "neo-brutalist-fancy",
+        "soft-bloom",
+        "velvet-haze",
+        *DEFAULT_TEMPLATES,
+    ]
+
+    layouts_pool = []
+    for group in candidate_groups:
+        try:
+            group_layout = await get_layout_by_name(group)
+            for slide in group_layout.slides:
+                slide_copy = deepcopy(slide)
+                slide_copy.id = f"auto-{group}:{slide.id}"
+                if slide_copy.description:
+                    slide_copy.description = f"{slide_copy.description} (source: {group})"
+                else:
+                    slide_copy.description = f"Auto-mixed layout (source: {group})"
+                layouts_pool.append(slide_copy)
+        except Exception:
+            # Ignore missing groups and continue building from available ones.
+            continue
+
+    if not layouts_pool:
+        raise HTTPException(status_code=500, detail="No layouts available for auto-theme generation")
+
+    random.SystemRandom().shuffle(layouts_pool)
+
+    # Keep a rich but controlled pool to reduce repetition while avoiding over-complexity.
+    target_size = min(max(12, len(layouts_pool) // 3), 24)
+    mixed_slides = layouts_pool[:target_size]
+
+    topic_hash = hashlib.sha256((topic or "presentation").encode("utf-8")).hexdigest()[:8]
+    return PresentationLayoutModel(
+        name=f"auto-theme-{topic_hash}-{uuid.uuid4().hex[:6]}",
+        ordered=False,
+        slides=mixed_slides,
+    )
 
 
 @PRESENTATION_ROUTER.get("/all", response_model=List[PresentationWithSlides])
@@ -250,7 +298,10 @@ async def create_presentation(
     if auto_theme and not theme:
         # Generate dynamic theme from topic
         try:
-            ai_colors = await generate_theme_from_topic(content)
+            ai_colors = await generate_theme_from_topic(
+                content,
+                variation_seed=uuid.uuid4().hex[:8],
+            )
             color_palette = generate_color_palette(
                 ai_colors.get("primary"),
                 ai_colors.get("background"),
@@ -305,7 +356,8 @@ async def create_presentation(
 async def prepare_presentation(
     presentation_id: Annotated[uuid.UUID, Body()],
     outlines: Annotated[List[SlideOutlineModel], Body()],
-    layout: Annotated[PresentationLayoutModel, Body()],
+    layout: Annotated[Optional[PresentationLayoutModel], Body()] = None,
+    auto_theme: Annotated[bool, Body()] = False,
     title: Annotated[Optional[str], Body()] = None,
     sql_session: AsyncSession = Depends(get_async_session),
 ):
@@ -317,6 +369,12 @@ async def prepare_presentation(
         raise HTTPException(status_code=404, detail="Presentation not found")
 
     presentation_outline_model = PresentationOutlineModel(slides=outlines)
+
+    if auto_theme:
+        layout = await _build_auto_theme_layout_model(presentation.content)
+
+    if not layout:
+        raise HTTPException(status_code=400, detail="Layout is required")
 
     total_slide_layouts = len(layout.slides)
     total_outlines = len(outlines)
@@ -609,10 +667,8 @@ async def check_if_api_request_is_valid(
             detail="Number of slides must be greater than 0",
         )
 
-    if request.auto_theme:
-        request.template = "neo-general"
-    # Checking if template is valid
-    elif request.template not in DEFAULT_TEMPLATES:
+    # Checking if template is valid (auto-theme builds a dynamic mixed layout)
+    if not request.auto_theme and request.template not in DEFAULT_TEMPLATES:
         request.template = request.template.lower()
         if not request.template.startswith("custom-"):
             raise HTTPException(
@@ -641,6 +697,40 @@ async def generate_presentation_handler(
 ):
     try:
         using_slides_markdown = False
+        generated_theme = None
+
+        if request.auto_theme:
+            try:
+                ai_colors = await generate_theme_from_topic(
+                    request.content,
+                    variation_seed=uuid.uuid4().hex[:8],
+                )
+                color_palette = generate_color_palette(
+                    ai_colors.get("primary"),
+                    ai_colors.get("background"),
+                    ai_colors.get("accent_1"),
+                    ai_colors.get("accent_2"),
+                    ai_colors.get("text_1"),
+                    ai_colors.get("text_2"),
+                )
+                generated_theme = _build_theme_payload_from_palette(
+                    color_palette,
+                    "Theme generated automatically from presentation topic",
+                )
+            except Exception:
+                ai_colors = _fallback_ai_colors_from_topic(request.content)
+                color_palette = generate_color_palette(
+                    ai_colors.get("primary"),
+                    ai_colors.get("background"),
+                    ai_colors.get("accent_1"),
+                    ai_colors.get("accent_2"),
+                    ai_colors.get("text_1"),
+                    ai_colors.get("text_2"),
+                )
+                generated_theme = _build_theme_payload_from_palette(
+                    color_palette,
+                    "Fallback AI theme generated from topic",
+                )
 
         if request.slides_markdown:
             using_slides_markdown = True
@@ -732,7 +822,11 @@ async def generate_presentation_handler(
         print(f"Generated {total_outlines} outlines for the presentation")
 
         # Parse Layouts
-        layout_model = await get_layout_by_name(request.template)
+        layout_model = (
+            await _build_auto_theme_layout_model(request.content)
+            if request.auto_theme
+            else await get_layout_by_name(request.template)
+        )
         total_slide_layouts = len(layout_model.slides)
 
         # Generate Structure
@@ -804,6 +898,7 @@ async def generate_presentation_handler(
             outlines=presentation_outlines.model_dump(),
             layout=layout_model.model_dump(),
             structure=presentation_structure.model_dump(),
+            theme=generated_theme,
             tone=request.tone.value,
             verbosity=request.verbosity.value,
             instructions=request.instructions,
