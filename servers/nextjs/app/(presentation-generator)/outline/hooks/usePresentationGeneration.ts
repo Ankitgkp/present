@@ -85,16 +85,18 @@ export const usePresentationGeneration = (
     });
 
     try {
-      const templateToUse = selectedTemplate ?? (isAutoTheme ? "general" : null);
+      const templateToUse = selectedTemplate ?? null;
       if (!templateToUse) {
-        setActiveTab(TABS.LAYOUTS);
-        return;
+        if (!isAutoTheme) {
+          setActiveTab(TABS.LAYOUTS);
+          return;
+        }
       }
 
       let layout;
 
       // Check if it's a custom template (string)
-      if (typeof templateToUse === 'string') {
+      if (templateToUse && typeof templateToUse === 'string') {
         const builtInTemplate = templates.find(t => t.id === templateToUse);
         if (builtInTemplate) {
           layout = {
@@ -147,7 +149,7 @@ export const usePresentationGeneration = (
             }))
           };
         }
-      } else {
+      } else if (templateToUse) {
         // Built-in template
         layout = {
           name: templateToUse.id,
@@ -167,6 +169,7 @@ export const usePresentationGeneration = (
         presentation_id: presentationId,
         outlines: outlines,
         layout: layout,
+        auto_theme: isAutoTheme,
       });
 
       if (response) {

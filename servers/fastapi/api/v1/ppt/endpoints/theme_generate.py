@@ -1,4 +1,5 @@
 from typing import Optional
+import uuid
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
@@ -34,7 +35,11 @@ async def generate_theme_from_topic_endpoint(
 ) -> ThemeData:
     """Generate a theme color palette using AI based on the presentation topic."""
     try:
-        ai_colors = await generate_theme_from_topic(request.topic, request.mood)
+        ai_colors = await generate_theme_from_topic(
+            request.topic,
+            request.mood,
+            variation_seed=uuid.uuid4().hex[:8],
+        )
     except Exception:
         raise HTTPException(
             status_code=500,

@@ -41,10 +41,18 @@ THEME_GENERATION_SCHEMA = {
 def _get_theme_generation_messages(
     topic: str,
     mood: Optional[str] = None,
+    variation_seed: Optional[str] = None,
 ):
     mood_instruction = ""
     if mood:
         mood_instruction = f"\nThe user wants a '{mood}' mood/style for the theme."
+
+    variation_instruction = ""
+    if variation_seed:
+        variation_instruction = (
+            "\nDesign a fresh variant for this request and avoid reusing your most common default palette patterns."
+            f"\nVariation token: {variation_seed}"
+        )
 
     return [
         LLMSystemMessage(
@@ -71,10 +79,12 @@ Follow these guidelines:
    - text_2 should contrast well against the primary color.
 
 4. **Professionalism**: Avoid overly saturated or clashing colors. Aim for a polished, premium look.
+4.1 **Restrained palette first**: Keep the visual system focused and calm by default (one dominant, one support, one accent). Avoid rainbow-like palettes unless explicitly requested.
 
 5. **Background choice**: Default to light backgrounds (#F8FAFC to #FFFFFF range) unless the topic strongly suggests a dark theme (e.g., night photography, space, cybersecurity, gaming).
 6. **Topic match priority**: Prioritize topic relevance over generic trendy palettes. If topic implies ocean/space/night, use blue-dark families first.
 {mood_instruction}
+{variation_instruction}
 
 Return exactly 6 hex color values.""",
         ),
@@ -87,6 +97,7 @@ Return exactly 6 hex color values.""",
 async def generate_theme_from_topic(
     topic: str,
     mood: Optional[str] = None,
+    variation_seed: Optional[str] = None,
 ) -> dict:
     """
     Uses the LLM to generate a color palette based on the presentation topic.
@@ -98,7 +109,7 @@ async def generate_theme_from_topic(
     try:
         response = await client.generate_structured(
             model=model,
-            messages=_get_theme_generation_messages(topic, mood),
+            messages=_get_theme_generation_messages(topic, mood, variation_seed),
             response_format=THEME_GENERATION_SCHEMA,
             strict=True,
         )

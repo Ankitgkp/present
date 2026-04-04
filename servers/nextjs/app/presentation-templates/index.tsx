@@ -75,6 +75,56 @@ import VelvetHazeTimelineLayout, { Schema as VelvetHazeTimelineSchema, layoutId 
 import VelvetHazeComparisonLayout, { Schema as VelvetHazeComparisonSchema, layoutId as VelvetHazeComparisonId, layoutName as VelvetHazeComparisonName, layoutDescription as VelvetHazeComparisonDesc } from "./velvet-haze/VelvetHazeComparisonLayout";
 import VelvetHazeImageGalleryLayout, { Schema as VelvetHazeImageGallerySchema, layoutId as VelvetHazeImageGalleryId, layoutName as VelvetHazeImageGalleryName, layoutDescription as VelvetHazeImageGalleryDesc } from "./velvet-haze/VelvetHazeImageGalleryLayout";
 
+// Professional Pitch templates
+import PitchIntroLayout, { Schema as PitchIntroSchema, layoutId as PitchIntroId, layoutName as PitchIntroName, layoutDescription as PitchIntroDesc } from "./professional-pitch/PitchIntroLayout";
+import PitchAgendaLayout, { Schema as PitchAgendaSchema, layoutId as PitchAgendaId, layoutName as PitchAgendaName, layoutDescription as PitchAgendaDesc } from "./professional-pitch/PitchAgendaLayout";
+import PitchProblemSolutionLayout, { Schema as PitchProblemSolutionSchema, layoutId as PitchProblemSolutionId, layoutName as PitchProblemSolutionName, layoutDescription as PitchProblemSolutionDesc } from "./professional-pitch/PitchProblemSolutionLayout";
+import PitchMarketOpportunityLayout, { Schema as PitchMarketOpportunitySchema, layoutId as PitchMarketOpportunityId, layoutName as PitchMarketOpportunityName, layoutDescription as PitchMarketOpportunityDesc } from "./professional-pitch/PitchMarketOpportunityLayout";
+import PitchBusinessModelLayout, { Schema as PitchBusinessModelSchema, layoutId as PitchBusinessModelId, layoutName as PitchBusinessModelName, layoutDescription as PitchBusinessModelDesc } from "./professional-pitch/PitchBusinessModelLayout";
+import PitchTractionMetricsLayout, { Schema as PitchTractionMetricsSchema, layoutId as PitchTractionMetricsId, layoutName as PitchTractionMetricsName, layoutDescription as PitchTractionMetricsDesc } from "./professional-pitch/PitchTractionMetricsLayout";
+import PitchFinancialOverviewLayout, { Schema as PitchFinancialOverviewSchema, layoutId as PitchFinancialOverviewId, layoutName as PitchFinancialOverviewName, layoutDescription as PitchFinancialOverviewDesc } from "./professional-pitch/PitchFinancialOverviewLayout";
+import PitchGoToMarketLayout, { Schema as PitchGoToMarketSchema, layoutId as PitchGoToMarketId, layoutName as PitchGoToMarketName, layoutDescription as PitchGoToMarketDesc } from "./professional-pitch/PitchGoToMarketLayout";
+import PitchCompetitiveLandscapeLayout, { Schema as PitchCompetitiveLandscapeSchema, layoutId as PitchCompetitiveLandscapeId, layoutName as PitchCompetitiveLandscapeName, layoutDescription as PitchCompetitiveLandscapeDesc } from "./professional-pitch/PitchCompetitiveLandscapeLayout";
+import PitchTeamLayout, { Schema as PitchTeamSchema, layoutId as PitchTeamId, layoutName as PitchTeamName, layoutDescription as PitchTeamDesc } from "./professional-pitch/PitchTeamLayout";
+import PitchProductSnapshotLayout, { Schema as PitchProductSnapshotSchema, layoutId as PitchProductSnapshotId, layoutName as PitchProductSnapshotName, layoutDescription as PitchProductSnapshotDesc } from "./professional-pitch/PitchProductSnapshotLayout";
+import PitchClosingLayout, { Schema as PitchClosingSchema, layoutId as PitchClosingId, layoutName as PitchClosingName, layoutDescription as PitchClosingDesc } from "./professional-pitch/PitchClosingLayout";
+
+// Educational Social Science templates
+import SocialScienceIntroLayout, { Schema as SocialScienceIntroSchema, layoutId as SocialScienceIntroId, layoutName as SocialScienceIntroName, layoutDescription as SocialScienceIntroDesc } from "./educational-social-science/SocialScienceIntroLayout";
+import SocialScienceConceptLayout, { Schema as SocialScienceConceptSchema, layoutId as SocialScienceConceptId, layoutName as SocialScienceConceptName, layoutDescription as SocialScienceConceptDesc } from "./educational-social-science/SocialScienceConceptLayout";
+import SocialScienceTimelineLayout, { Schema as SocialScienceTimelineSchema, layoutId as SocialScienceTimelineId, layoutName as SocialScienceTimelineName, layoutDescription as SocialScienceTimelineDesc } from "./educational-social-science/SocialScienceTimelineLayout";
+import SocialScienceCaseStudyLayout, { Schema as SocialScienceCaseStudySchema, layoutId as SocialScienceCaseStudyId, layoutName as SocialScienceCaseStudyName, layoutDescription as SocialScienceCaseStudyDesc } from "./educational-social-science/SocialScienceCaseStudyLayout";
+import SocialScienceDataInsightsLayout, { Schema as SocialScienceDataInsightsSchema, layoutId as SocialScienceDataInsightsId, layoutName as SocialScienceDataInsightsName, layoutDescription as SocialScienceDataInsightsDesc } from "./educational-social-science/SocialScienceDataInsightsLayout";
+import SocialScienceComparisonLayout, { Schema as SocialScienceComparisonSchema, layoutId as SocialScienceComparisonId, layoutName as SocialScienceComparisonName, layoutDescription as SocialScienceComparisonDesc } from "./educational-social-science/SocialScienceComparisonLayout";
+import SocialScienceImageExplainerLayout, { Schema as SocialScienceImageExplainerSchema, layoutId as SocialScienceImageExplainerId, layoutName as SocialScienceImageExplainerName, layoutDescription as SocialScienceImageExplainerDesc } from "./educational-social-science/SocialScienceImageExplainerLayout";
+import SocialScienceFAQLayout, { Schema as SocialScienceFAQSchema, layoutId as SocialScienceFAQId, layoutName as SocialScienceFAQName, layoutDescription as SocialScienceFAQDesc } from "./educational-social-science/SocialScienceFAQLayout";
+import SocialScienceGlossaryLayout, { Schema as SocialScienceGlossarySchema, layoutId as SocialScienceGlossaryId, layoutName as SocialScienceGlossaryName, layoutDescription as SocialScienceGlossaryDesc } from "./educational-social-science/SocialScienceGlossaryLayout";
+import SocialScienceSummaryLayout, { Schema as SocialScienceSummarySchema, layoutId as SocialScienceSummaryId, layoutName as SocialScienceSummaryName, layoutDescription as SocialScienceSummaryDesc } from "./educational-social-science/SocialScienceSummaryLayout";
+
+// Tech AI Red templates
+import TechAIIntroLayout, { Schema as TechAIIntroSchema, layoutId as TechAIIntroId, layoutName as TechAIIntroName, layoutDescription as TechAIIntroDesc } from "./tech-ai-red/TechAIIntroLayout";
+import TechAIPipelineLayout, { Schema as TechAIPipelineSchema, layoutId as TechAIPipelineId, layoutName as TechAIPipelineName, layoutDescription as TechAIPipelineDesc } from "./tech-ai-red/TechAIPipelineLayout";
+import TechAIArchitectureLayout, { Schema as TechAIArchitectureSchema, layoutId as TechAIArchitectureId, layoutName as TechAIArchitectureName, layoutDescription as TechAIArchitectureDesc } from "./tech-ai-red/TechAIArchitectureLayout";
+import TechAIMetricsLayout, { Schema as TechAIMetricsSchema, layoutId as TechAIMetricsId, layoutName as TechAIMetricsName, layoutDescription as TechAIMetricsDesc } from "./tech-ai-red/TechAIMetricsLayout";
+import TechAIModelComparisonLayout, { Schema as TechAIModelComparisonSchema, layoutId as TechAIModelComparisonId, layoutName as TechAIModelComparisonName, layoutDescription as TechAIModelComparisonDesc } from "./tech-ai-red/TechAIModelComparisonLayout";
+import TechAIUseCasesLayout, { Schema as TechAIUseCasesSchema, layoutId as TechAIUseCasesId, layoutName as TechAIUseCasesName, layoutDescription as TechAIUseCasesDesc } from "./tech-ai-red/TechAIUseCasesLayout";
+import TechAIRiskGovernanceLayout, { Schema as TechAIRiskGovernanceSchema, layoutId as TechAIRiskGovernanceId, layoutName as TechAIRiskGovernanceName, layoutDescription as TechAIRiskGovernanceDesc } from "./tech-ai-red/TechAIRiskGovernanceLayout";
+import TechAIRoadmapLayout, { Schema as TechAIRoadmapSchema, layoutId as TechAIRoadmapId, layoutName as TechAIRoadmapName, layoutDescription as TechAIRoadmapDesc } from "./tech-ai-red/TechAIRoadmapLayout";
+import TechAITeamLayout, { Schema as TechAITeamSchema, layoutId as TechAITeamId, layoutName as TechAITeamName, layoutDescription as TechAITeamDesc } from "./tech-ai-red/TechAITeamLayout";
+import TechAIClosingLayout, { Schema as TechAIClosingSchema, layoutId as TechAIClosingId, layoutName as TechAIClosingName, layoutDescription as TechAIClosingDesc } from "./tech-ai-red/TechAIClosingLayout";
+
+// Educational Science templates
+import EduScienceIntroLayout, { Schema as EduScienceIntroSchema, layoutId as EduScienceIntroId, layoutName as EduScienceIntroName, layoutDescription as EduScienceIntroDesc } from "./educational-science/EduScienceIntroLayout";
+import EduScienceConceptLayout, { Schema as EduScienceConceptSchema, layoutId as EduScienceConceptId, layoutName as EduScienceConceptName, layoutDescription as EduScienceConceptDesc } from "./educational-science/EduScienceConceptLayout";
+import EduScienceTimelineLayout, { Schema as EduScienceTimelineSchema, layoutId as EduScienceTimelineId, layoutName as EduScienceTimelineName, layoutDescription as EduScienceTimelineDesc } from "./educational-science/EduScienceTimelineLayout";
+import EduScienceExperimentLayout, { Schema as EduScienceExperimentSchema, layoutId as EduScienceExperimentId, layoutName as EduScienceExperimentName, layoutDescription as EduScienceExperimentDesc } from "./educational-science/EduScienceExperimentLayout";
+import EduScienceDataInsightsLayout, { Schema as EduScienceDataInsightsSchema, layoutId as EduScienceDataInsightsId, layoutName as EduScienceDataInsightsName, layoutDescription as EduScienceDataInsightsDesc } from "./educational-science/EduScienceDataInsightsLayout";
+import EduScienceComparisonLayout, { Schema as EduScienceComparisonSchema, layoutId as EduScienceComparisonId, layoutName as EduScienceComparisonName, layoutDescription as EduScienceComparisonDesc } from "./educational-science/EduScienceComparisonLayout";
+import EduScienceImageExplainerLayout, { Schema as EduScienceImageExplainerSchema, layoutId as EduScienceImageExplainerId, layoutName as EduScienceImageExplainerName, layoutDescription as EduScienceImageExplainerDesc } from "./educational-science/EduScienceImageExplainerLayout";
+import EduScienceFAQLayout, { Schema as EduScienceFAQSchema, layoutId as EduScienceFAQId, layoutName as EduScienceFAQName, layoutDescription as EduScienceFAQDesc } from "./educational-science/EduScienceFAQLayout";
+import EduScienceGlossaryLayout, { Schema as EduScienceGlossarySchema, layoutId as EduScienceGlossaryId, layoutName as EduScienceGlossaryName, layoutDescription as EduScienceGlossaryDesc } from "./educational-science/EduScienceGlossaryLayout";
+import EduScienceSummaryLayout, { Schema as EduScienceSummarySchema, layoutId as EduScienceSummaryId, layoutName as EduScienceSummaryName, layoutDescription as EduScienceSummaryDesc } from "./educational-science/EduScienceSummaryLayout";
+
 
 
 // Modern templates
@@ -198,6 +248,10 @@ import softBloomSettings from "./soft-bloom/settings.json";
 import velvetHazeSettings from "./velvet-haze/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
+import professionalPitchSettings from "./professional-pitch/settings.json";
+import educationalScienceSettings from "./educational-science/settings.json";
+import educationalSocialScienceSettings from "./educational-social-science/settings.json";
+import techAIRedSettings from "./tech-ai-red/settings.json";
 
 
 // Helper to create template entry
@@ -393,6 +447,60 @@ export const swiftTemplates: TemplateWithData[] = [
     createTemplateEntry(Timeline, TimelineSchema, TimelineId, TimelineName, TimelineDesc, "swift", "Timeline"),
 ];
 
+export const professionalPitchTemplates: TemplateWithData[] = [
+    createTemplateEntry(PitchIntroLayout, PitchIntroSchema, PitchIntroId, PitchIntroName, PitchIntroDesc, "professional-pitch", "PitchIntroLayout"),
+    createTemplateEntry(PitchAgendaLayout, PitchAgendaSchema, PitchAgendaId, PitchAgendaName, PitchAgendaDesc, "professional-pitch", "PitchAgendaLayout"),
+    createTemplateEntry(PitchProblemSolutionLayout, PitchProblemSolutionSchema, PitchProblemSolutionId, PitchProblemSolutionName, PitchProblemSolutionDesc, "professional-pitch", "PitchProblemSolutionLayout"),
+    createTemplateEntry(PitchMarketOpportunityLayout, PitchMarketOpportunitySchema, PitchMarketOpportunityId, PitchMarketOpportunityName, PitchMarketOpportunityDesc, "professional-pitch", "PitchMarketOpportunityLayout"),
+    createTemplateEntry(PitchBusinessModelLayout, PitchBusinessModelSchema, PitchBusinessModelId, PitchBusinessModelName, PitchBusinessModelDesc, "professional-pitch", "PitchBusinessModelLayout"),
+    createTemplateEntry(PitchTractionMetricsLayout, PitchTractionMetricsSchema, PitchTractionMetricsId, PitchTractionMetricsName, PitchTractionMetricsDesc, "professional-pitch", "PitchTractionMetricsLayout"),
+    createTemplateEntry(PitchFinancialOverviewLayout, PitchFinancialOverviewSchema, PitchFinancialOverviewId, PitchFinancialOverviewName, PitchFinancialOverviewDesc, "professional-pitch", "PitchFinancialOverviewLayout"),
+    createTemplateEntry(PitchGoToMarketLayout, PitchGoToMarketSchema, PitchGoToMarketId, PitchGoToMarketName, PitchGoToMarketDesc, "professional-pitch", "PitchGoToMarketLayout"),
+    createTemplateEntry(PitchCompetitiveLandscapeLayout, PitchCompetitiveLandscapeSchema, PitchCompetitiveLandscapeId, PitchCompetitiveLandscapeName, PitchCompetitiveLandscapeDesc, "professional-pitch", "PitchCompetitiveLandscapeLayout"),
+    createTemplateEntry(PitchTeamLayout, PitchTeamSchema, PitchTeamId, PitchTeamName, PitchTeamDesc, "professional-pitch", "PitchTeamLayout"),
+    createTemplateEntry(PitchProductSnapshotLayout, PitchProductSnapshotSchema, PitchProductSnapshotId, PitchProductSnapshotName, PitchProductSnapshotDesc, "professional-pitch", "PitchProductSnapshotLayout"),
+    createTemplateEntry(PitchClosingLayout, PitchClosingSchema, PitchClosingId, PitchClosingName, PitchClosingDesc, "professional-pitch", "PitchClosingLayout"),
+];
+
+export const educationalScienceTemplates: TemplateWithData[] = [
+    createTemplateEntry(EduScienceIntroLayout, EduScienceIntroSchema, EduScienceIntroId, EduScienceIntroName, EduScienceIntroDesc, "educational-science", "EduScienceIntroLayout"),
+    createTemplateEntry(EduScienceConceptLayout, EduScienceConceptSchema, EduScienceConceptId, EduScienceConceptName, EduScienceConceptDesc, "educational-science", "EduScienceConceptLayout"),
+    createTemplateEntry(EduScienceTimelineLayout, EduScienceTimelineSchema, EduScienceTimelineId, EduScienceTimelineName, EduScienceTimelineDesc, "educational-science", "EduScienceTimelineLayout"),
+    createTemplateEntry(EduScienceExperimentLayout, EduScienceExperimentSchema, EduScienceExperimentId, EduScienceExperimentName, EduScienceExperimentDesc, "educational-science", "EduScienceExperimentLayout"),
+    createTemplateEntry(EduScienceDataInsightsLayout, EduScienceDataInsightsSchema, EduScienceDataInsightsId, EduScienceDataInsightsName, EduScienceDataInsightsDesc, "educational-science", "EduScienceDataInsightsLayout"),
+    createTemplateEntry(EduScienceComparisonLayout, EduScienceComparisonSchema, EduScienceComparisonId, EduScienceComparisonName, EduScienceComparisonDesc, "educational-science", "EduScienceComparisonLayout"),
+    createTemplateEntry(EduScienceImageExplainerLayout, EduScienceImageExplainerSchema, EduScienceImageExplainerId, EduScienceImageExplainerName, EduScienceImageExplainerDesc, "educational-science", "EduScienceImageExplainerLayout"),
+    createTemplateEntry(EduScienceFAQLayout, EduScienceFAQSchema, EduScienceFAQId, EduScienceFAQName, EduScienceFAQDesc, "educational-science", "EduScienceFAQLayout"),
+    createTemplateEntry(EduScienceGlossaryLayout, EduScienceGlossarySchema, EduScienceGlossaryId, EduScienceGlossaryName, EduScienceGlossaryDesc, "educational-science", "EduScienceGlossaryLayout"),
+    createTemplateEntry(EduScienceSummaryLayout, EduScienceSummarySchema, EduScienceSummaryId, EduScienceSummaryName, EduScienceSummaryDesc, "educational-science", "EduScienceSummaryLayout"),
+];
+
+export const educationalSocialScienceTemplates: TemplateWithData[] = [
+    createTemplateEntry(SocialScienceIntroLayout, SocialScienceIntroSchema, SocialScienceIntroId, SocialScienceIntroName, SocialScienceIntroDesc, "educational-social-science", "SocialScienceIntroLayout"),
+    createTemplateEntry(SocialScienceConceptLayout, SocialScienceConceptSchema, SocialScienceConceptId, SocialScienceConceptName, SocialScienceConceptDesc, "educational-social-science", "SocialScienceConceptLayout"),
+    createTemplateEntry(SocialScienceTimelineLayout, SocialScienceTimelineSchema, SocialScienceTimelineId, SocialScienceTimelineName, SocialScienceTimelineDesc, "educational-social-science", "SocialScienceTimelineLayout"),
+    createTemplateEntry(SocialScienceCaseStudyLayout, SocialScienceCaseStudySchema, SocialScienceCaseStudyId, SocialScienceCaseStudyName, SocialScienceCaseStudyDesc, "educational-social-science", "SocialScienceCaseStudyLayout"),
+    createTemplateEntry(SocialScienceDataInsightsLayout, SocialScienceDataInsightsSchema, SocialScienceDataInsightsId, SocialScienceDataInsightsName, SocialScienceDataInsightsDesc, "educational-social-science", "SocialScienceDataInsightsLayout"),
+    createTemplateEntry(SocialScienceComparisonLayout, SocialScienceComparisonSchema, SocialScienceComparisonId, SocialScienceComparisonName, SocialScienceComparisonDesc, "educational-social-science", "SocialScienceComparisonLayout"),
+    createTemplateEntry(SocialScienceImageExplainerLayout, SocialScienceImageExplainerSchema, SocialScienceImageExplainerId, SocialScienceImageExplainerName, SocialScienceImageExplainerDesc, "educational-social-science", "SocialScienceImageExplainerLayout"),
+    createTemplateEntry(SocialScienceFAQLayout, SocialScienceFAQSchema, SocialScienceFAQId, SocialScienceFAQName, SocialScienceFAQDesc, "educational-social-science", "SocialScienceFAQLayout"),
+    createTemplateEntry(SocialScienceGlossaryLayout, SocialScienceGlossarySchema, SocialScienceGlossaryId, SocialScienceGlossaryName, SocialScienceGlossaryDesc, "educational-social-science", "SocialScienceGlossaryLayout"),
+    createTemplateEntry(SocialScienceSummaryLayout, SocialScienceSummarySchema, SocialScienceSummaryId, SocialScienceSummaryName, SocialScienceSummaryDesc, "educational-social-science", "SocialScienceSummaryLayout"),
+];
+
+export const techAIRedTemplates: TemplateWithData[] = [
+    createTemplateEntry(TechAIIntroLayout, TechAIIntroSchema, TechAIIntroId, TechAIIntroName, TechAIIntroDesc, "tech-ai-red", "TechAIIntroLayout"),
+    createTemplateEntry(TechAIPipelineLayout, TechAIPipelineSchema, TechAIPipelineId, TechAIPipelineName, TechAIPipelineDesc, "tech-ai-red", "TechAIPipelineLayout"),
+    createTemplateEntry(TechAIArchitectureLayout, TechAIArchitectureSchema, TechAIArchitectureId, TechAIArchitectureName, TechAIArchitectureDesc, "tech-ai-red", "TechAIArchitectureLayout"),
+    createTemplateEntry(TechAIMetricsLayout, TechAIMetricsSchema, TechAIMetricsId, TechAIMetricsName, TechAIMetricsDesc, "tech-ai-red", "TechAIMetricsLayout"),
+    createTemplateEntry(TechAIModelComparisonLayout, TechAIModelComparisonSchema, TechAIModelComparisonId, TechAIModelComparisonName, TechAIModelComparisonDesc, "tech-ai-red", "TechAIModelComparisonLayout"),
+    createTemplateEntry(TechAIUseCasesLayout, TechAIUseCasesSchema, TechAIUseCasesId, TechAIUseCasesName, TechAIUseCasesDesc, "tech-ai-red", "TechAIUseCasesLayout"),
+    createTemplateEntry(TechAIRiskGovernanceLayout, TechAIRiskGovernanceSchema, TechAIRiskGovernanceId, TechAIRiskGovernanceName, TechAIRiskGovernanceDesc, "tech-ai-red", "TechAIRiskGovernanceLayout"),
+    createTemplateEntry(TechAIRoadmapLayout, TechAIRoadmapSchema, TechAIRoadmapId, TechAIRoadmapName, TechAIRoadmapDesc, "tech-ai-red", "TechAIRoadmapLayout"),
+    createTemplateEntry(TechAITeamLayout, TechAITeamSchema, TechAITeamId, TechAITeamName, TechAITeamDesc, "tech-ai-red", "TechAITeamLayout"),
+    createTemplateEntry(TechAIClosingLayout, TechAIClosingSchema, TechAIClosingId, TechAIClosingName, TechAIClosingDesc, "tech-ai-red", "TechAIClosingLayout"),
+];
+
 // TODO: Step 4: Combine all templates into a single array For UseCases (like the ones below)
 // All templates combined
 export const allLayouts: TemplateWithData[] = [
@@ -408,6 +516,10 @@ export const allLayouts: TemplateWithData[] = [
     ...swiftTemplates,
     ...softBloomTemplates,
     ...velvetHazeTemplates,
+    ...professionalPitchTemplates,
+    ...educationalScienceTemplates,
+    ...educationalSocialScienceTemplates,
+    ...techAIRedTemplates,
 
 
 ];
@@ -499,6 +611,34 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: swiftSettings.description,
         settings: swiftSettings as TemplateGroupSettings,
         layouts: swiftTemplates,
+    },
+    {
+        id: "professional-pitch",
+        name: "Professional Pitch",
+        description: professionalPitchSettings.description,
+        settings: professionalPitchSettings as TemplateGroupSettings,
+        layouts: professionalPitchTemplates,
+    },
+    {
+        id: "educational-science",
+        name: "Educational Science",
+        description: educationalScienceSettings.description,
+        settings: educationalScienceSettings as TemplateGroupSettings,
+        layouts: educationalScienceTemplates,
+    },
+    {
+        id: "educational-social-science",
+        name: "Educational Social Science",
+        description: educationalSocialScienceSettings.description,
+        settings: educationalSocialScienceSettings as TemplateGroupSettings,
+        layouts: educationalSocialScienceTemplates,
+    },
+    {
+        id: "tech-ai-red",
+        name: "Tech AI Red",
+        description: techAIRedSettings.description,
+        settings: techAIRedSettings as TemplateGroupSettings,
+        layouts: techAIRedTemplates,
     },
 
 ];
