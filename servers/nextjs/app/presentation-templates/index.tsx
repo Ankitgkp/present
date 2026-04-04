@@ -113,6 +113,29 @@ import TechAIRoadmapLayout, { Schema as TechAIRoadmapSchema, layoutId as TechAIR
 import TechAITeamLayout, { Schema as TechAITeamSchema, layoutId as TechAITeamId, layoutName as TechAITeamName, layoutDescription as TechAITeamDesc } from "./tech-ai-red/TechAITeamLayout";
 import TechAIClosingLayout, { Schema as TechAIClosingSchema, layoutId as TechAIClosingId, layoutName as TechAIClosingName, layoutDescription as TechAIClosingDesc } from "./tech-ai-red/TechAIClosingLayout";
 
+// Dark Space templates
+import DarkSpaceIntroLayout, { Schema as DarkSpaceIntroSchema, layoutId as DarkSpaceIntroId, layoutName as DarkSpaceIntroName, layoutDescription as DarkSpaceIntroDesc } from "./dark-space/DarkSpaceIntroLayout";
+import DarkSpaceAgendaLayout, { Schema as DarkSpaceAgendaSchema, layoutId as DarkSpaceAgendaId, layoutName as DarkSpaceAgendaName, layoutDescription as DarkSpaceAgendaDesc } from "./dark-space/DarkSpaceAgendaLayout";
+import DarkSpaceConceptLayout, { Schema as DarkSpaceConceptSchema, layoutId as DarkSpaceConceptId, layoutName as DarkSpaceConceptName, layoutDescription as DarkSpaceConceptDesc } from "./dark-space/DarkSpaceConceptLayout";
+import DarkSpaceArchitectureLayout, { Schema as DarkSpaceArchitectureSchema, layoutId as DarkSpaceArchitectureId, layoutName as DarkSpaceArchitectureName, layoutDescription as DarkSpaceArchitectureDesc } from "./dark-space/DarkSpaceArchitectureLayout";
+import DarkSpaceMetricsLayout, { Schema as DarkSpaceMetricsSchema, layoutId as DarkSpaceMetricsId, layoutName as DarkSpaceMetricsName, layoutDescription as DarkSpaceMetricsDesc } from "./dark-space/DarkSpaceMetricsLayout";
+import DarkSpaceTimelineLayout, { Schema as DarkSpaceTimelineSchema, layoutId as DarkSpaceTimelineId, layoutName as DarkSpaceTimelineName, layoutDescription as DarkSpaceTimelineDesc } from "./dark-space/DarkSpaceTimelineLayout";
+import DarkSpaceComparisonLayout, { Schema as DarkSpaceComparisonSchema, layoutId as DarkSpaceComparisonId, layoutName as DarkSpaceComparisonName, layoutDescription as DarkSpaceComparisonDesc } from "./dark-space/DarkSpaceComparisonLayout";
+import DarkSpaceUseCasesLayout, { Schema as DarkSpaceUseCasesSchema, layoutId as DarkSpaceUseCasesId, layoutName as DarkSpaceUseCasesName, layoutDescription as DarkSpaceUseCasesDesc } from "./dark-space/DarkSpaceUseCasesLayout";
+import DarkSpaceTeamLayout, { Schema as DarkSpaceTeamSchema, layoutId as DarkSpaceTeamId, layoutName as DarkSpaceTeamName, layoutDescription as DarkSpaceTeamDesc } from "./dark-space/DarkSpaceTeamLayout";
+import DarkSpaceClosingLayout, { Schema as DarkSpaceClosingSchema, layoutId as DarkSpaceClosingId, layoutName as DarkSpaceClosingName, layoutDescription as DarkSpaceClosingDesc } from "./dark-space/DarkSpaceClosingLayout";
+
+// Minimalist Mono templates
+import MonoIntroLayout, { Schema as MonoIntroSchema, layoutId as MonoIntroId, layoutName as MonoIntroName, layoutDescription as MonoIntroDesc } from "./minimalist-mono/MonoIntroLayout";
+import MonoAgendaLayout, { Schema as MonoAgendaSchema, layoutId as MonoAgendaId, layoutName as MonoAgendaName, layoutDescription as MonoAgendaDesc } from "./minimalist-mono/MonoAgendaLayout";
+import MonoConceptLayout, { Schema as MonoConceptSchema, layoutId as MonoConceptId, layoutName as MonoConceptName, layoutDescription as MonoConceptDesc } from "./minimalist-mono/MonoConceptLayout";
+import MonoMetricsLayout, { Schema as MonoMetricsSchema, layoutId as MonoMetricsId, layoutName as MonoMetricsName, layoutDescription as MonoMetricsDesc } from "./minimalist-mono/MonoMetricsLayout";
+import MonoComparisonLayout, { Schema as MonoComparisonSchema, layoutId as MonoComparisonId, layoutName as MonoComparisonName, layoutDescription as MonoComparisonDesc } from "./minimalist-mono/MonoComparisonLayout";
+import MonoTimelineLayout, { Schema as MonoTimelineSchema, layoutId as MonoTimelineId, layoutName as MonoTimelineName, layoutDescription as MonoTimelineDesc } from "./minimalist-mono/MonoTimelineLayout";
+import MonoUseCasesLayout, { Schema as MonoUseCasesSchema, layoutId as MonoUseCasesId, layoutName as MonoUseCasesName, layoutDescription as MonoUseCasesDesc } from "./minimalist-mono/MonoUseCasesLayout";
+import MonoTeamLayout, { Schema as MonoTeamSchema, layoutId as MonoTeamId, layoutName as MonoTeamName, layoutDescription as MonoTeamDesc } from "./minimalist-mono/MonoTeamLayout";
+import MonoClosingLayout, { Schema as MonoClosingSchema, layoutId as MonoClosingId, layoutName as MonoClosingName, layoutDescription as MonoClosingDesc } from "./minimalist-mono/MonoClosingLayout";
+
 // Educational Science templates
 import EduScienceIntroLayout, { Schema as EduScienceIntroSchema, layoutId as EduScienceIntroId, layoutName as EduScienceIntroName, layoutDescription as EduScienceIntroDesc } from "./educational-science/EduScienceIntroLayout";
 import EduScienceConceptLayout, { Schema as EduScienceConceptSchema, layoutId as EduScienceConceptId, layoutName as EduScienceConceptName, layoutDescription as EduScienceConceptDesc } from "./educational-science/EduScienceConceptLayout";
@@ -252,6 +275,8 @@ import professionalPitchSettings from "./professional-pitch/settings.json";
 import educationalScienceSettings from "./educational-science/settings.json";
 import educationalSocialScienceSettings from "./educational-social-science/settings.json";
 import techAIRedSettings from "./tech-ai-red/settings.json";
+import darkSpaceSettings from "./dark-space/settings.json";
+import minimalistMonoSettings from "./minimalist-mono/settings.json";
 
 
 // Helper to create template entry
@@ -501,6 +526,31 @@ export const techAIRedTemplates: TemplateWithData[] = [
     createTemplateEntry(TechAIClosingLayout, TechAIClosingSchema, TechAIClosingId, TechAIClosingName, TechAIClosingDesc, "tech-ai-red", "TechAIClosingLayout"),
 ];
 
+export const darkSpaceTemplates: TemplateWithData[] = [
+    createTemplateEntry(DarkSpaceIntroLayout, DarkSpaceIntroSchema, DarkSpaceIntroId, DarkSpaceIntroName, DarkSpaceIntroDesc, "dark-space", "DarkSpaceIntroLayout"),
+    createTemplateEntry(DarkSpaceAgendaLayout, DarkSpaceAgendaSchema, DarkSpaceAgendaId, DarkSpaceAgendaName, DarkSpaceAgendaDesc, "dark-space", "DarkSpaceAgendaLayout"),
+    createTemplateEntry(DarkSpaceConceptLayout, DarkSpaceConceptSchema, DarkSpaceConceptId, DarkSpaceConceptName, DarkSpaceConceptDesc, "dark-space", "DarkSpaceConceptLayout"),
+    createTemplateEntry(DarkSpaceArchitectureLayout, DarkSpaceArchitectureSchema, DarkSpaceArchitectureId, DarkSpaceArchitectureName, DarkSpaceArchitectureDesc, "dark-space", "DarkSpaceArchitectureLayout"),
+    createTemplateEntry(DarkSpaceMetricsLayout, DarkSpaceMetricsSchema, DarkSpaceMetricsId, DarkSpaceMetricsName, DarkSpaceMetricsDesc, "dark-space", "DarkSpaceMetricsLayout"),
+    createTemplateEntry(DarkSpaceTimelineLayout, DarkSpaceTimelineSchema, DarkSpaceTimelineId, DarkSpaceTimelineName, DarkSpaceTimelineDesc, "dark-space", "DarkSpaceTimelineLayout"),
+    createTemplateEntry(DarkSpaceComparisonLayout, DarkSpaceComparisonSchema, DarkSpaceComparisonId, DarkSpaceComparisonName, DarkSpaceComparisonDesc, "dark-space", "DarkSpaceComparisonLayout"),
+    createTemplateEntry(DarkSpaceUseCasesLayout, DarkSpaceUseCasesSchema, DarkSpaceUseCasesId, DarkSpaceUseCasesName, DarkSpaceUseCasesDesc, "dark-space", "DarkSpaceUseCasesLayout"),
+    createTemplateEntry(DarkSpaceTeamLayout, DarkSpaceTeamSchema, DarkSpaceTeamId, DarkSpaceTeamName, DarkSpaceTeamDesc, "dark-space", "DarkSpaceTeamLayout"),
+    createTemplateEntry(DarkSpaceClosingLayout, DarkSpaceClosingSchema, DarkSpaceClosingId, DarkSpaceClosingName, DarkSpaceClosingDesc, "dark-space", "DarkSpaceClosingLayout"),
+];
+
+export const minimalistMonoTemplates: TemplateWithData[] = [
+    createTemplateEntry(MonoIntroLayout, MonoIntroSchema, MonoIntroId, MonoIntroName, MonoIntroDesc, "minimalist-mono", "MonoIntroLayout"),
+    createTemplateEntry(MonoAgendaLayout, MonoAgendaSchema, MonoAgendaId, MonoAgendaName, MonoAgendaDesc, "minimalist-mono", "MonoAgendaLayout"),
+    createTemplateEntry(MonoConceptLayout, MonoConceptSchema, MonoConceptId, MonoConceptName, MonoConceptDesc, "minimalist-mono", "MonoConceptLayout"),
+    createTemplateEntry(MonoMetricsLayout, MonoMetricsSchema, MonoMetricsId, MonoMetricsName, MonoMetricsDesc, "minimalist-mono", "MonoMetricsLayout"),
+    createTemplateEntry(MonoComparisonLayout, MonoComparisonSchema, MonoComparisonId, MonoComparisonName, MonoComparisonDesc, "minimalist-mono", "MonoComparisonLayout"),
+    createTemplateEntry(MonoTimelineLayout, MonoTimelineSchema, MonoTimelineId, MonoTimelineName, MonoTimelineDesc, "minimalist-mono", "MonoTimelineLayout"),
+    createTemplateEntry(MonoUseCasesLayout, MonoUseCasesSchema, MonoUseCasesId, MonoUseCasesName, MonoUseCasesDesc, "minimalist-mono", "MonoUseCasesLayout"),
+    createTemplateEntry(MonoTeamLayout, MonoTeamSchema, MonoTeamId, MonoTeamName, MonoTeamDesc, "minimalist-mono", "MonoTeamLayout"),
+    createTemplateEntry(MonoClosingLayout, MonoClosingSchema, MonoClosingId, MonoClosingName, MonoClosingDesc, "minimalist-mono", "MonoClosingLayout"),
+];
+
 // TODO: Step 4: Combine all templates into a single array For UseCases (like the ones below)
 // All templates combined
 export const allLayouts: TemplateWithData[] = [
@@ -520,6 +570,8 @@ export const allLayouts: TemplateWithData[] = [
     ...educationalScienceTemplates,
     ...educationalSocialScienceTemplates,
     ...techAIRedTemplates,
+    ...darkSpaceTemplates,
+    ...minimalistMonoTemplates,
 
 
 ];
@@ -639,6 +691,20 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: techAIRedSettings.description,
         settings: techAIRedSettings as TemplateGroupSettings,
         layouts: techAIRedTemplates,
+    },
+    {
+        id: "dark-space",
+        name: "Dark Space",
+        description: darkSpaceSettings.description,
+        settings: darkSpaceSettings as TemplateGroupSettings,
+        layouts: darkSpaceTemplates,
+    },
+    {
+        id: "minimalist-mono",
+        name: "Minimalist Mono",
+        description: minimalistMonoSettings.description,
+        settings: minimalistMonoSettings as TemplateGroupSettings,
+        layouts: minimalistMonoTemplates,
     },
 
 ];
