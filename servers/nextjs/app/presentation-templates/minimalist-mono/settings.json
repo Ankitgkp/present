@@ -1,5 +1,6 @@
 {
-  "description": "Minimalist Mono: modern white-and-black layouts with simple structure and non-rounded edges.",
-  "ordered": false,
-  "default": false
+    "description": "Minimalist Mono: modern white-and-black layouts with simple structure and non-rounded edges.",
+    "ordered": false,
+    "default": false,
+    "category": "professional"
 }

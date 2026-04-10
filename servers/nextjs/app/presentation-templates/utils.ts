@@ -72,6 +72,16 @@ export interface TemplateWithData extends TemplateMetadata {
     schemaJSON: any;
 }
 
+export type TemplateCategory = "general" | "creative" | "professional" | "educational" | "technical";
+
+export const CATEGORY_LABELS: Record<TemplateCategory, string> = {
+    general: "General Purpose",
+    creative: "Creative & Artistic",
+    professional: "Professional & Business",
+    educational: "Educational",
+    technical: "Technical"
+};
+
 /**
  * Template group settings
  */
@@ -79,6 +89,7 @@ export interface TemplateGroupSettings {
     description: string;
     ordered: boolean;
     default: boolean;
+    category?: TemplateCategory;
 }
 
 // Template with settings

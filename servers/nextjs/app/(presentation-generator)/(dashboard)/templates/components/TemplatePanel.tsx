@@ -2,9 +2,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
-import { ArrowUpRight, ChevronRight, ExternalLink, Loader2, Plus } from "lucide-react";
+import { ArrowUpRight, ChevronRight, ExternalLink, Loader2, Plus, Search } from "lucide-react";
 import { templates } from "@/app/presentation-templates";
-import { TemplateWithData, TemplateLayoutsWithSettings } from "@/app/presentation-templates/utils";
+import { TemplateLayoutsWithSettings, TemplateWithData, TemplateCategory, CATEGORY_LABELS } from "@/app/presentation-templates/utils";
 import {
     useCustomTemplateSummaries,
     useCustomTemplatePreview,
@@ -159,6 +159,8 @@ const InbuiltTemplateCard = React.memo(function InbuiltTemplateCard({
 
 const LayoutPreview = () => {
     const [tab, setTab] = useState<'custom' | 'default'>('default');
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filterCategory, setFilterCategory] = useState<TemplateCategory | "all">("all");
     const router = useRouter();
     const { templates: customTemplates, loading: customLoading } = useCustomTemplateSummaries();
 
@@ -177,13 +179,22 @@ const LayoutPreview = () => {
 
 
 
-    const inbuiltTemplateCards = useMemo(
-        () =>
-            templates.map((template: TemplateLayoutsWithSettings) => (
-                <InbuiltTemplateCard key={template.id} template={template} onOpen={handleOpenPreview} />
-            )),
-        [handleOpenPreview],
-    );
+    // Compute filtered templates based on search and selected category
+    const filteredTemplates = useMemo(() => {
+        let result = templates;
+        if (filterCategory !== "all") {
+            result = result.filter(t => (t.settings.category || "general") === filterCategory);
+        }
+        if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase();
+            result = result.filter(t => 
+                t.name.toLowerCase().includes(q) || 
+                t.description.toLowerCase().includes(q) ||
+                (t.settings.category && CATEGORY_LABELS[t.settings.category].toLowerCase().includes(q))
+            );
+        }
+        return result;
+    }, [filterCategory, searchQuery]);
 
     const customTemplateCards = useMemo(
         () => customTemplates.map((template: CustomTemplates) => <CustomTemplateCard key={template.id} template={template} />),
@@ -251,9 +262,43 @@ const LayoutPreview = () => {
 
                 {/* Inbuilt Templates Section */}
                 {tab === 'default' && <section className="my-12">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {inbuiltTemplateCards}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                        <h3 className="text-xl font-bold text-gray-900 font-syne">All Templates</h3>
+                        <div className="flex items-center gap-3">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <input 
+                                    type="text" 
+                                    placeholder="Search matching templates..." 
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-syne w-[250px]"
+                                />
+                            </div>
+                            <select
+                                value={filterCategory}
+                                onChange={(e) => setFilterCategory(e.target.value as TemplateCategory | "all")}
+                                className="py-2 pl-3 pr-8 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-syne cursor-pointer"
+                            >
+                                <option value="all">All Categories</option>
+                                {(Object.keys(CATEGORY_LABELS) as TemplateCategory[]).map(cat => (
+                                    <option key={cat} value={cat}>{CATEGORY_LABELS[cat]}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
+
+                    {filteredTemplates.length === 0 ? (
+                        <div className="py-16 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50/50">
+                            <p className="text-gray-500 font-syne">No templates match your search criteria.</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {filteredTemplates.map(template => (
+                                <InbuiltTemplateCard key={template.id} template={template} onOpen={handleOpenPreview} />
+                            ))}
+                        </div>
+                    )}
                 </section>}
 
 

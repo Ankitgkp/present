@@ -1,5 +1,6 @@
 {
     "description": "An extra-featured, pop-art brutalist style with vibrant colors, complex grid elements, and bold metrics.",
     "ordered": false,
-    "default": false
+    "default": false,
+    "category": "creative"
 }

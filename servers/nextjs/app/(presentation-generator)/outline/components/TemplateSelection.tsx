@@ -1,12 +1,11 @@
 "use client";
-import React, { useEffect, useMemo, useCallback, memo } from "react";
+import React, { useEffect, useMemo, useCallback, memo, useState } from "react";
 
-import { TemplateLayoutsWithSettings } from "@/app/presentation-templates/utils";
+import { TemplateLayoutsWithSettings, TemplateWithData, TemplateCategory, CATEGORY_LABELS } from "@/app/presentation-templates/utils";
 import { templates } from "@/app/presentation-templates";
 import { Card } from "@/components/ui/card";
-import { TemplateWithData } from "@/app/presentation-templates/utils";
 import { CustomTemplates, useCustomTemplateSummaries } from "@/app/hooks/useCustomTemplates";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import { CustomTemplateCard } from "./CustomTemplateCard";
 import CreateCustomTemplate from "../../(dashboard)/templates/components/CreateCustomTemplate";
 
@@ -100,6 +99,9 @@ const TemplateSelection: React.FC<TemplateSelectionProps> = memo(({
     }
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState<TemplateCategory | "all">("all");
+
   const { templates: customTemplates, loading: customLoading } = useCustomTemplateSummaries();
 
   // Stable callback for custom template selection
@@ -158,19 +160,22 @@ const TemplateSelection: React.FC<TemplateSelectionProps> = memo(({
     );
   }, [customLoading, customTemplates, handleCustomSelect, selectedCustomId]);
 
-  // Memoize the built-in templates list
-  const builtInTemplateCards = useMemo(
-    () =>
-      templates.map((template: TemplateLayoutsWithSettings) => (
-        <BuiltInTemplateCard
-          key={template.id}
-          template={template}
-          isSelected={selectedBuiltInId === template.id}
-          onSelect={handleBuiltInSelect}
-        />
-      )),
-    [selectedBuiltInId, handleBuiltInSelect]
-  );
+  // Compute filtered templates based on search and selected category
+  const filteredTemplates = useMemo(() => {
+    let result = templates;
+    if (filterCategory !== "all") {
+      result = result.filter(t => (t.settings.category || "general") === filterCategory);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(t => 
+        t.name.toLowerCase().includes(q) || 
+        t.description.toLowerCase().includes(q) ||
+        (t.settings.category && CATEGORY_LABELS[t.settings.category].toLowerCase().includes(q))
+      );
+    }
+    return result;
+  }, [filterCategory, searchQuery]);
 
   return (
     <div className="space-y-[30px] mb-4">
@@ -183,10 +188,48 @@ const TemplateSelection: React.FC<TemplateSelectionProps> = memo(({
       </div>
       {/* In Built Templates */}
       <div>
-        <h3 className="text-base font-semibold text-gray-900 mb-3 font-syne">In Built</h3>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {builtInTemplateCards}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+          <h3 className="text-base font-semibold text-gray-900 font-syne">In Built</h3>
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input 
+                type="text" 
+                placeholder="Search matching templates..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-syne w-[220px]"
+              />
+            </div>
+            <select
+              value={filterCategory}
+              onChange={(e) => setFilterCategory(e.target.value as TemplateCategory | "all")}
+              className="py-2 pl-3 pr-8 border border-gray-200 rounded-lg text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 font-syne cursor-pointer"
+            >
+              <option value="all">All Categories</option>
+              {(Object.keys(CATEGORY_LABELS) as TemplateCategory[]).map(cat => (
+                <option key={cat} value={cat}>{CATEGORY_LABELS[cat]}</option>
+              ))}
+            </select>
+          </div>
         </div>
+        
+        {filteredTemplates.length === 0 ? (
+          <div className="py-12 text-center border border-dashed border-gray-300 rounded-xl bg-gray-50">
+            <p className="text-gray-500 font-syne text-sm">No templates match your search criteria.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {filteredTemplates.map(template => (
+              <BuiltInTemplateCard
+                key={template.id}
+                template={template}
+                isSelected={selectedBuiltInId === template.id}
+                onSelect={handleBuiltInSelect}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

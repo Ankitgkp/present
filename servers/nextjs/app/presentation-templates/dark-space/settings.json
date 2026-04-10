@@ -1,5 +1,6 @@
 {
-  "description": "Dark Space: clean dark layouts with red accents, minimal edge rounding, and strong readability.",
-  "ordered": false,
-  "default": false
+    "description": "Dark Space: clean dark layouts with red accents, minimal edge rounding, and strong readability.",
+    "ordered": false,
+    "default": false,
+    "category": "professional"
 }

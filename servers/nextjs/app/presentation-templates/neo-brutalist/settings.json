@@ -1,5 +1,6 @@
 {
     "description": "Bold, retro pop-art neo-brutalist layouts with thick borders, bright colors, solid shadows, and high contrast designs.",
     "ordered": false,
-    "default": false
+    "default": false,
+    "category": "creative"
 }

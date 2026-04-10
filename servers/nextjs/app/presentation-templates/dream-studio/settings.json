@@ -1,5 +1,6 @@
 {
     "description": "A dreamy, light-themed aesthetic with soft pastel blue-pink-lavender gradients, frosted glass cards, and elegant serif typography for a smooth, creative studio vibe.",
     "ordered": false,
-    "default": false
+    "default": false,
+    "category": "creative"
 }

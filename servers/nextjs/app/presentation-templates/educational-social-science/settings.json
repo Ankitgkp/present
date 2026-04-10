@@ -1,5 +1,6 @@
 {
-  "description": "Educational Social Science: clean, text-first layouts for history, civics, sociology, economics, and policy learning.",
-  "ordered": false,
-  "default": false
+    "description": "Educational Social Science: clean, text-first layouts for history, civics, sociology, economics, and policy learning.",
+    "ordered": false,
+    "default": false,
+    "category": "educational"
 }

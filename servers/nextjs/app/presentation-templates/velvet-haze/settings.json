@@ -1,5 +1,6 @@
 {
     "description": "A dark, premium aesthetic with deep indigo gradients, neon violet accents, glowing borders, and atmospheric mesh overlays for a bold, modern look.",
     "ordered": false,
-    "default": false
+    "default": false,
+    "category": "creative"
 }
