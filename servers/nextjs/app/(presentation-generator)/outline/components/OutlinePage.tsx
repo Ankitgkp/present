@@ -46,7 +46,7 @@ const OutlinePage: React.FC = () => {
 
 
   return (
-    <div className=" font-syne  pb-9">
+    <div className="font-syne pb-24 relative z-10">
 
       <OverlayLoader
         show={loadingState.isLoading}
@@ -55,13 +55,18 @@ const OutlinePage: React.FC = () => {
         duration={loadingState.duration}
       />
 
-      <Wrapper className="h-full  flex flex-col w-full relative px-5 sm:px-10 lg:px-20 ">
-        <div className="flex-grow w-full hidden-scrollbar   mx-auto ">
+      <Wrapper className="h-full flex flex-col w-full relative px-5 sm:px-8 lg:px-12 max-w-[1280px] mx-auto">
+        <div className="w-full mx-auto">
+          <div className="mt-5 mb-4 flex flex-col gap-1">
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900">Presentation Outline</h1>
+            <p className="text-sm text-slate-600">Review and refine your slides before generating the final deck.</p>
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-            <TabsList className="my-4 h-auto w-fit  rounded-full border border-[#EDEEEF] bg-white p-1.5">
+            <TabsList className="my-2 h-auto w-fit rounded-xl border border-blue-100 bg-[#f4f8ff] p-1">
               <TabsTrigger
                 value={TABS.OUTLINE}
-                className="rounded-full px-5 py-2  text-xs font-medium text-[#2D2D2D] shadow-none data-[state=active]:bg-[#F4F3FF] data-[state=active]:text-[#7E3AF2] data-[state=active]:shadow-none"
+                className="rounded-lg px-4 py-2 text-xs font-medium text-slate-600 shadow-none data-[state=active]:bg-white data-[state=active]:text-blue-700 data-[state=active]:shadow-sm"
               >
                 Outline & Content
               </TabsTrigger>
@@ -70,7 +75,7 @@ const OutlinePage: React.FC = () => {
                   <Separator orientation="vertical" className="h-6 mx-1" />
                   <TabsTrigger
                     value={TABS.LAYOUTS}
-                    className="relative rounded-full px-5  py-2 text-xs font-medium text-[#2D2D2D] shadow-none  data-[state=active]:bg-[#F4F3FF] data-[state=active]:text-[#7E3AF2] data-[state=active]:shadow-none"
+                    className="relative rounded-lg px-4 py-2 text-xs font-medium text-slate-600 shadow-none data-[state=active]:bg-white data-[state=active]:text-blue-700 data-[state=active]:shadow-sm"
                   >
                     Select Template
                   </TabsTrigger>
@@ -78,8 +83,8 @@ const OutlinePage: React.FC = () => {
               )}
             </TabsList>
 
-            <div className="flex-grow w-full mx-auto">
-              <TabsContent value={TABS.OUTLINE} className="h-[calc(100vh-15rem)]   overflow-y-auto hide-scrollbar"
+            <div className="flex-grow w-full mx-auto mt-3 rounded-2xl border border-blue-100 bg-[#f7faff]/90 p-3 sm:p-4 shadow-[0_8px_24px_rgba(37,99,235,0.08)]">
+              <TabsContent value={TABS.OUTLINE} className="h-[calc(100vh-16.5rem)] overflow-y-auto hide-scrollbar"
               >
                 <div>
                   <OutlineContent
@@ -95,7 +100,7 @@ const OutlinePage: React.FC = () => {
               </TabsContent>
 
               {!isAutoTheme && (
-                <TabsContent value={TABS.LAYOUTS} className="h-[calc(100vh-16rem)] bg-white  overflow-y-auto hide-scrollbar">
+                <TabsContent value={TABS.LAYOUTS} className="h-[calc(100vh-16.5rem)] overflow-y-auto hide-scrollbar">
                   <div>
                     <TemplateSelection
                       selectedTemplate={selectedTemplate}
@@ -106,9 +111,8 @@ const OutlinePage: React.FC = () => {
               )}
             </div>
           </Tabs>
-          {/* Fixed Button */}
 
-          <div className="absolute bottom-[26px] right-[26px] z-50">
+          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
             <GenerateButton
               outlineCount={outlines.length}
               loadingState={loadingState}
@@ -118,9 +122,6 @@ const OutlinePage: React.FC = () => {
             />
           </div>
         </div>
-
-
-
       </Wrapper>
     </div>
   );

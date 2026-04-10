@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
+import React, { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { File, Paperclip, X } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -33,6 +33,7 @@ const ALLOWED_EXTENSIONS = [...PDF_TYPES, ...TEXT_TYPES, ...POWERPOINT_TYPES, ..
 
 const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple = true }: SupportingDocProps) => {
     const [isDragging, setIsDragging] = useState(false)
+    const dragDepthRef = useRef(0)
     const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([])
     const hasFiles = files.length > 0
     const filteredFiles = useMemo(() => files.filter(isAllowedFile), [files])
@@ -60,7 +61,9 @@ const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple
     }
 
     const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-        e.preventDefault(); setIsDragging(false)
+        e.preventDefault();
+        dragDepthRef.current = 0
+        setIsDragging(false)
         const droppedFiles = Array.from(e.dataTransfer.files ?? [])
         if (droppedFiles.length === 0) return
         const nextFiles = multiple ? [...files, ...droppedFiles] : [droppedFiles[0]]
@@ -70,6 +73,19 @@ const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple
         if (allowedFiles.length > files.length) toast.success('Files selected', { description: `${allowedFiles.length - files.length} file(s) have been added` })
     }
 
+    const handleDragEnter = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault()
+        if (!Array.from(e.dataTransfer.types || []).includes('Files')) return
+        dragDepthRef.current += 1
+        setIsDragging(true)
+    }
+
+    const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+        e.preventDefault()
+        dragDepthRef.current = Math.max(0, dragDepthRef.current - 1)
+        if (dragDepthRef.current === 0) setIsDragging(false)
+    }
+
     return (
         <div className="space-y-2" data-testid="attachments-uploader">
             <div className="flex items-center justify-between">
@@ -77,23 +93,24 @@ const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple
                     {hasFiles ? `${filteredFiles.length} attachment${filteredFiles.length > 1 ? 's' : ''}` : 'No attachments yet'}
                 </p>
                 <button type="button" onClick={() => hasFiles && onFilesChange([])} disabled={!hasFiles}
-                    className={`text-sm font-medium font-syne ${!hasFiles ? 'cursor-not-allowed text-gray-300' : 'text-red-400 hover:text-red-500'}`}
+                    className={`text-sm font-medium font-syne ${!hasFiles ? 'cursor-not-allowed text-gray-300' : 'text-blue-300 hover:text-blue-200'}`}
                     data-testid="attachments-clear-button" aria-disabled={!hasFiles}>
                     Clear all
                 </button>
             </div>
             <label
-                className={`mt-1 block cursor-pointer rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-200 ${isDragging ? 'border-[#F25D6B]/40 bg-[#FEF2F2]' : 'border-gray-200 hover:border-[#F25D6B]/30 hover:bg-gray-50'}`}
-                onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
-                onDragLeave={(e) => { e.preventDefault(); setIsDragging(false) }}
+                className={`mt-1 block cursor-pointer rounded-xl border-2 border-dashed px-4 py-6 text-center transition-all duration-200 ${isDragging ? 'border-blue-400/50 bg-blue-500/10' : 'border-gray-200 hover:border-blue-400/40 hover:bg-blue-500/5'}`}
+                onDragEnter={handleDragEnter}
+                onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy' }}
+                onDragLeave={handleDragLeave}
                 onDrop={handleDrop}>
                 <input type="file" className="hidden" onChange={handleFilesSelected} accept={accept} multiple={multiple} data-testid="file-upload-input" />
                 <div className="flex flex-col items-center gap-2">
-                    <div className="p-2 rounded-lg bg-[#FEF2F2]">
-                        <Paperclip className="h-5 w-5 text-[#F25D6B]" />
+                    <div className="p-2 rounded-lg bg-blue-500/15">
+                        <Paperclip className="h-5 w-5 text-blue-300" />
                     </div>
                     <p className="text-sm font-medium text-gray-400 font-syne">
-                        Drag and drop PDF, TXT, PPTX, DOCX, or <span className="text-[#F25D6B]">click to browse</span>
+                        Drag and drop PDF, TXT, PPTX, DOCX, or <span className="text-blue-300">click to browse</span>
                     </p>
                 </div>
             </label>
@@ -108,7 +125,7 @@ const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple
                                 {previewUrls[idx] ? (
                                     <img src={previewUrls[idx] as string} alt="Preview" className="h-10 w-10 flex-none rounded object-cover" />
                                 ) : (
-                                    <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-[#FEF2F2] text-[#F25D6B]">
+                                    <div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg bg-blue-500/15 text-blue-300">
                                         <File className="h-5 w-5" />
                                     </div>
                                 )}
@@ -117,7 +134,7 @@ const SupportingDoc = ({ files, onFilesChange, accept = ACCEPT_DEFAULT, multiple
                                     <p className="text-xs text-gray-400 font-syne">{formatFileSize(file.size)}</p>
                                 </div>
                                 <button type="button" onClick={() => onFilesChange(filteredFiles.filter((_, i) => i !== idx))}
-                                    className="ml-2 inline-flex h-8 w-8 items-center justify-center rounded-lg text-red-300 hover:bg-red-50 hover:text-red-400 transition-colors"
+                                    className="ml-2 inline-flex h-8 w-8 items-center justify-center rounded-lg text-blue-300 hover:bg-blue-500/10 hover:text-blue-200 transition-colors"
                                     aria-label={`Remove ${file.name}`} data-testid="remove-file-button">
                                     <X className="h-5 w-5" />
                                 </button>

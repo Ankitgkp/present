@@ -105,7 +105,7 @@ const UploadPageClassic = () => {
   };
 
   return (
-    <Wrapper className="pb-10 lg:max-w-[70%] xl:max-w-[65%] relative z-10">
+    <Wrapper className="upload-neo pb-10 lg:max-w-[70%] xl:max-w-[65%] relative z-10">
       <OverlayLoader show={loadingState.isLoading} text={loadingState.message}
         showProgress={loadingState.showProgress} duration={loadingState.duration} extra_info={loadingState.extra_info} />
       <div className="glass-card glow-border">

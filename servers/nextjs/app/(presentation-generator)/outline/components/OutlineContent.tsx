@@ -48,7 +48,7 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
     const pathname = usePathname();
 
     return (
-        <div className="space-y-6 font-syne ">
+        <div className="space-y-4 font-syne">
             {isLoading && (!outlines || outlines.length === 0) && (
                 <div className="flex items-center justify-center">
                     <span className="inline-flex items-center gap-1 rounded-full border border-blue-200 bg-blue-50 text-blue-600 px-2 py-0.5 text-xs">
@@ -70,10 +70,10 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
             </div> */}
             {/* Skeleton loading state */}
             {isLoading && (
-                <div className="space-y-4 bg-white">
+                <div className="space-y-3">
                     {[...Array(6)].map((_, index) => (
                         <div key={index} className="animate-pulse">
-                            <div className="flex items-start space-x-3 p-4 border rounded-lg bg-white">
+                            <div className="flex items-start space-x-3 p-4 border border-blue-100 rounded-xl bg-blue-50/50">
                                 <div className="w-6 h-6 bg-gray-200 rounded-full flex-shrink-0"></div>
                                 <div className="flex-1 space-y-2">
                                     <div className="h-5 bg-gray-200 rounded w-3/4"></div>
@@ -93,7 +93,7 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
             {/* Outlines content */}
 
             {outlines && outlines.length > 0 && (
-                <div className="bg-[#F9F8F8] min-h-[calc(100vh-16rem)] p-7 relative z-20  rounded-[20px] overflow-y-auto custom_scrollbar">
+                <div className="bg-[#f2f7ff] min-h-[calc(100vh-18rem)] p-4 sm:p-5 relative z-20 rounded-2xl border border-blue-100 overflow-y-auto custom_scrollbar">
                     <DndContext
                         sensors={sensors}
                         collisionDetection={closestCenter}
@@ -124,7 +124,7 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
                             onAddSlide();
                         }}
                         disabled={isLoading || isStreaming}
-                        className="w-full my-4 text-blue-600 border-blue-200"
+                        className="w-full my-3 text-blue-700 border-blue-200 bg-white hover:bg-blue-50"
                     >
                         + Add Slide
                     </Button>
@@ -133,7 +133,7 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
 
             {/* Empty state */}
             {!isStreaming && !isLoading && outlines && outlines.length === 0 && (
-                <div className="text-center py-12 bg-white rounded-lg border-2 border-dashed border-gray-200">
+                <div className="text-center py-12 bg-[#f2f7ff] rounded-xl border-2 border-dashed border-blue-200">
                     <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                     <p className="text-gray-600 mb-4">No outlines available</p>
                     <Button
@@ -142,7 +142,7 @@ const OutlineContent: React.FC<OutlineContentProps> = ({
                             trackEvent(MixpanelEvent.Outline_Add_Slide_Button_Clicked, { pathname });
                             onAddSlide();
                         }}
-                        className="text-blue-600 border-blue-200"
+                        className="text-blue-700 border-blue-200 bg-white hover:bg-blue-50"
                     >
                         + Add First Slide
                     </Button>

@@ -147,6 +147,183 @@ strong {
   transform: translateY(-1px);
 }
 
+/* ─── Upload page (Bolt-inspired) ─── */
+
+.upload-neo .glass-card {
+  background: rgba(17, 24, 39, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.upload-neo .glow-border::after {
+  background: linear-gradient(135deg, rgba(116, 182, 255, 0.3), transparent 55%, rgba(79, 144, 255, 0.18));
+}
+
+.upload-neo .btn-glow:hover {
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.28), 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.upload-neo .btn-border-sweep {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 220ms ease, transform 220ms ease;
+}
+
+.upload-neo .btn-border-sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 55%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  transform: skewX(-20deg);
+  opacity: 0;
+  pointer-events: none;
+  will-change: left, opacity;
+  transition: left 560ms ease, opacity 220ms ease;
+}
+
+.upload-neo .btn-border-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.985);
+  will-change: opacity, transform;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.upload-neo .btn-border-sweep:hover::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.upload-neo .btn-border-sweep:hover::before {
+  left: 130%;
+  opacity: 0.9;
+}
+
+.upload-neo .btn-border-sweep:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.upload-neo .text-gray-900,
+.upload-neo .text-gray-800 {
+  color: #f8fafc;
+}
+
+.upload-heartbeat-overlay .heartbeat-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(147, 197, 253, 0.95) 0%, rgba(59, 130, 246, 0.88) 55%, rgba(37, 99, 235, 0.1) 100%);
+  box-shadow: 0 0 16px rgba(96, 165, 250, 0.9), 0 0 40px rgba(59, 130, 246, 0.55);
+  animation: uploadHeartbeatCore 1.45s ease-in-out infinite;
+}
+
+.upload-heartbeat-overlay .heartbeat-star {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #93c5fd;
+  text-shadow: 0 0 14px rgba(147, 197, 253, 0.95), 0 0 30px rgba(59, 130, 246, 0.65);
+  animation: uploadStarPulse 1.45s ease-in-out infinite;
+  opacity: 0;
+  font-weight: 700;
+}
+
+.upload-heartbeat-overlay .heartbeat-star-1 {
+  font-size: 26px;
+  animation-delay: 0s;
+}
+
+.upload-heartbeat-overlay .heartbeat-star-2 {
+  font-size: 22px;
+  animation-delay: 0.2s;
+}
+
+.upload-heartbeat-overlay .heartbeat-star-3 {
+  font-size: 20px;
+  animation-delay: 0.4s;
+}
+
+.upload-heartbeat-overlay .heartbeat-star-4 {
+  font-size: 18px;
+  animation-delay: 0.6s;
+}
+
+@keyframes uploadHeartbeatCore {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.85);
+    opacity: 0.6;
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes uploadStarPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  55% {
+    transform: translate(-50%, -76px) scale(1.15);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(-50%, -112px) scale(0.75);
+    opacity: 0;
+  }
+}
+
+.upload-neo .text-gray-600,
+.upload-neo .text-gray-500,
+.upload-neo .text-gray-400 {
+  color: rgba(226, 232, 240, 0.75);
+}
+
+.upload-neo .border-gray-100,
+.upload-neo .border-gray-200 {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.upload-neo .bg-gray-100,
+.upload-neo .bg-gray-50,
+.upload-neo .bg-white {
+  background-color: rgba(15, 23, 42, 0.65);
+}
+
+.upload-neo textarea,
+.upload-neo input,
+.upload-neo [role="combobox"] {
+  color: #f8fafc;
+}
+
+.upload-neo textarea::placeholder,
+.upload-neo input::placeholder {
+  color: rgba(226, 232, 240, 0.45);
+}
+
+
 /* ─── Keyframe Animations ─── */
 
 @keyframes shimmer {
@@ -180,7 +357,7 @@ strong {
 }
 
 ::selection {
-  background-color: #F25D6B;
+  background-color: #3B82F6;
   color: white;
 }
 

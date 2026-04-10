@@ -26,6 +26,8 @@ const GenerateButton: React.FC<GenerateButtonProps> = ({
   const isDisabled =
     loadingState.isLoading || streamState.isLoading || streamState.isStreaming;
 
+  const hasTemplate = !!selectedTemplate;
+
   const getButtonText = () => {
     if (loadingState.isLoading) return loadingState.message;
     if (streamState.isLoading || streamState.isStreaming) return "Loading...";
@@ -51,10 +53,11 @@ const GenerateButton: React.FC<GenerateButtonProps> = ({
         }
         onSubmit();
       }}
-      className=" w-full flex items-center gap-0.5 rounded-[58px] text-sm py-3 px-5 font-instrument_sans font-semibold  text-[#101323] disabled:opacity-50 disabled:cursor-not-allowed font-syne"
-      style={{
-        background: "linear-gradient(270deg, #D5CAFC 2.4%, #E3D2EB 27.88%, #F4DCD3 69.23%, #FDE4C2 100%)",
-      }}
+      className={`w-full sm:w-auto min-w-[210px] flex items-center justify-center gap-1 rounded-xl text-sm py-3 px-5 font-semibold font-syne disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg backdrop-blur-sm ${
+        hasTemplate
+          ? "bg-blue-600 hover:bg-blue-700 text-white"
+          : "bg-white/95 hover:bg-white text-slate-700 border border-blue-100"
+      }`}
     >
 
       {getButtonText()}

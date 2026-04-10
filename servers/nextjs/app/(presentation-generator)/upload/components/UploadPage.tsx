@@ -28,18 +28,12 @@ import {
   ChevronLeft,
   Sparkles,
   ArrowRight,
-  Layers,
-  Settings2,
-  FileText,
   Globe,
-  Check,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PresentationGenerationApi } from "../../services/api/presentation-generation";
-import { OverlayLoader } from "@/components/ui/overlay-loader";
 import { setPptGenUploadState } from "@/store/slices/presentationGenUpload";
 import { trackEvent, MixpanelEvent } from "@/utils/mixpanel";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   Select,
   SelectContent,
@@ -84,44 +78,6 @@ interface LoadingState {
   extra_info?: string;
 }
 
-// ─── Step indicator ────────────────────────────────
-const StepIndicator = ({
-  currentStep,
-  totalSteps,
-}: {
-  currentStep: number;
-  totalSteps: number;
-}) => (
-  <div className="flex items-center gap-2">
-    {Array.from({ length: totalSteps }, (_, i) => (
-      <React.Fragment key={i}>
-        <div
-          className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-semibold transition-all duration-500 ${
-            i + 1 < currentStep
-              ? "bg-[#F25D6B] text-white scale-90"
-              : i + 1 === currentStep
-              ? "bg-[#F25D6B] text-white ring-4 ring-[#F25D6B]/15 scale-100"
-              : "bg-gray-100 text-gray-400 scale-90"
-          }`}
-        >
-          {i + 1 < currentStep ? (
-            <Check className="w-3.5 h-3.5" />
-          ) : (
-            i + 1
-          )}
-        </div>
-        {i < totalSteps - 1 && (
-          <div
-            className={`h-[2px] w-8 rounded-full transition-all duration-500 ${
-              i + 1 < currentStep ? "bg-[#F25D6B]" : "bg-gray-200"
-            }`}
-          />
-        )}
-      </React.Fragment>
-    ))}
-  </div>
-);
-
 // ─── Animated placeholder hook ─────────────────────
 function useAnimatedPlaceholder(topics: string[], interval = 3000) {
   const [index, setIndex] = useState(0);
@@ -165,28 +121,6 @@ function useAnimatedPlaceholder(topics: string[], interval = 3000) {
   return displayed;
 }
 
-// ─── Step transition (kept minimal, no fade-in) ────
-const pageVariants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? 40 : -40,
-    opacity: 0,
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: (direction: number) => ({
-    x: direction < 0 ? 40 : -40,
-    opacity: 0,
-  }),
-};
-
-const pageTransition: any = {
-  type: "spring",
-  stiffness: 350,
-  damping: 35,
-};
-
 // ─── Main Component ────────────────────────────────
 const UploadPage = () => {
   const router = useRouter();
@@ -194,7 +128,6 @@ const UploadPage = () => {
   const dispatch = useDispatch();
 
   const [step, setStep] = useState(1);
-  const [direction, setDirection] = useState(1);
   const [files, setFiles] = useState<File[]>([]);
   const [config, setConfig] = useState<PresentationConfig>({
     slides: "5",
@@ -225,12 +158,10 @@ const UploadPage = () => {
   };
 
   const goNext = () => {
-    setDirection(1);
     setStep((s) => Math.min(s + 1, 3));
   };
 
   const goBack = () => {
-    setDirection(-1);
     setStep((s) => Math.max(s - 1, 1));
   };
 
@@ -305,26 +236,36 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 pb-6 relative z-10">
-      <OverlayLoader show={loadingState.isLoading} text={loadingState.message}
-        showProgress={loadingState.showProgress} duration={loadingState.duration} extra_info={loadingState.extra_info} />
+    <div className="upload-neo w-full max-w-2xl mx-auto px-4 pb-6 relative z-10">
+      {loadingState.isLoading && (
+        <div className="upload-heartbeat-overlay fixed inset-0 z-[1000] flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" />
 
-      {/* Step indicator */}
-      <div className="flex justify-center mb-5 md:mb-6">
-        <StepIndicator currentStep={step} totalSteps={3} />
-      </div>
+          <div className="relative z-10 flex flex-col items-center gap-4 px-6">
+            <div className="relative h-32 w-32">
+              <span className="heartbeat-star heartbeat-star-1">✦</span>
+              <span className="heartbeat-star heartbeat-star-2">✦</span>
+              <span className="heartbeat-star heartbeat-star-3">✦</span>
+              <span className="heartbeat-star heartbeat-star-4">✦</span>
+              <span className="heartbeat-core" />
+            </div>
+
+            <div className="text-center">
+              <p className="text-white font-semibold font-syne text-base">{loadingState.message || "Preparing your presentation..."}</p>
+              {loadingState.extra_info && (
+                <p className="text-white/75 font-syne text-xs mt-1">{loadingState.extra_info}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Wizard content */}
       <div className="relative min-h-[380px]">
-        <AnimatePresence mode="wait" custom={direction}>
-          {/* ─── STEP 1: Topic & Attachments ─── */}
-          {step === 1 && (
-            <motion.div key="step1" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit" transition={pageTransition} className="w-full">
+        {/* ─── STEP 1: Topic & Attachments ─── */}
+        {step === 1 && (
+          <div className="w-full">
               <div className="text-center mb-4 md:mb-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF2F2] border border-[#F25D6B]/15 text-[#F25D6B] text-xs font-semibold font-syne mb-2">
-                  <FileText className="w-3.5 h-3.5" /> Step 1 of 3
-                </div>
                 <h2 className="text-2xl md:text-3xl font-unbounded font-normal text-gray-900 mb-2">
                   What&apos;s your topic?
                 </h2>
@@ -333,34 +274,33 @@ const UploadPage = () => {
                 </p>
               </div>
 
-              <div className="glass-card p-1 mb-3">
+              <div className="glass-card p-0 mb-3 overflow-hidden">
                 <textarea value={config.prompt} onChange={(e) => handleConfigChange("prompt", e.target.value)}
                   placeholder={animatedPlaceholder + "│"} rows={3} data-testid="prompt-input"
-                  className="w-full bg-transparent text-gray-800 placeholder:text-gray-300 font-inter text-base p-4 resize-none focus:outline-none min-h-[96px] max-h-[180px] custom_scrollbar rounded-2xl"
+                  className="w-full bg-transparent text-gray-800 placeholder:text-gray-300 font-inter text-base p-4 resize-none focus:outline-none min-h-[120px] max-h-[220px] custom_scrollbar"
                 />
+
+                <div className="flex items-center justify-end px-4 pb-3">
+                  <Button
+                    onClick={() => { if (validateStep1()) goNext(); }}
+                    className="rounded-full px-7 py-3 bg-[#2563EB] text-white font-syne font-semibold text-base hover:bg-[#1D4ED8] transition-all duration-300 btn-border-sweep group"
+                  >
+                    Continue <ArrowRight className="!w-4 !h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </div>
               </div>
 
               <div className="glass-card p-4">
                 <SupportingDoc files={[...files]} onFilesChange={setFiles} data-testid="file-upload-input" />
               </div>
 
-              <div className="mt-5 md:mt-6 flex justify-end">
-                <Button onClick={() => { if (validateStep1()) goNext(); }}
-                  className="rounded-full px-8 py-5 bg-[#F25D6B] text-white font-syne font-semibold text-base hover:bg-[#E04A58] transition-all duration-300 btn-glow group">
-                  Continue <ArrowRight className="!w-4 !h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </div>
-            </motion.div>
-          )}
+          </div>
+        )}
 
-          {/* ─── STEP 2: Slides & Language ─── */}
-          {step === 2 && (
-            <motion.div key="step2" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit" transition={pageTransition} className="w-full">
+        {/* ─── STEP 2: Slides & Language ─── */}
+        {step === 2 && (
+          <div className="w-full">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF2F2] border border-[#F25D6B]/15 text-[#F25D6B] text-xs font-semibold font-syne mb-4">
-                  <Layers className="w-3.5 h-3.5" /> Step 2 of 3
-                </div>
                 <h2 className="text-3xl md:text-4xl font-unbounded font-normal text-gray-900 mb-3">
                   Customize your deck
                 </h2>
@@ -376,7 +316,7 @@ const UploadPage = () => {
                     <button key={n} onClick={() => handleConfigChange("slides", String(n))}
                       className={`px-4 py-2.5 rounded-xl text-sm font-semibold font-syne transition-all duration-200 ${
                         config.slides === String(n)
-                          ? "bg-[#F25D6B] text-white shadow-md shadow-[#F25D6B]/20"
+                          ? "bg-[#3B82F6] text-white shadow-md shadow-[#3B82F6]/25"
                           : "bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-700 border border-gray-200"
                       }`}>
                       {n}
@@ -391,7 +331,7 @@ const UploadPage = () => {
                   </div>
                 </div>
                 <p className="text-xs text-gray-400 font-syne">
-                  Selected: <span className="text-[#F25D6B] font-semibold">{config.slides} slides</span>
+                  Selected: <span className="text-[#60A5FA] font-semibold">{config.slides} slides</span>
                 </p>
               </div>
 
@@ -404,7 +344,7 @@ const UploadPage = () => {
                     <button key={lang} onClick={() => handleConfigChange("language", lang)}
                       className={`px-4 py-2 rounded-xl text-sm font-medium font-syne transition-all duration-200 ${
                         config.language === lang
-                          ? "bg-[#F25D6B] text-white shadow-md shadow-[#F25D6B]/20"
+                          ? "bg-[#3B82F6] text-white shadow-md shadow-[#3B82F6]/25"
                           : "bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-700 border border-gray-200"
                       }`}>
                       {lang}
@@ -412,12 +352,12 @@ const UploadPage = () => {
                   ))}
                 </div>
                 <Select value={config.language || undefined} onValueChange={(v) => handleConfigChange("language", v)}>
-                  <SelectTrigger className="w-full mt-2 bg-gray-50 border-gray-200 text-gray-500 rounded-xl text-sm font-syne">
+                  <SelectTrigger className="w-full mt-2 bg-gray-50 border-gray-200 text-gray-500 rounded-xl text-sm font-syne focus:ring-[#3B82F6]/45 focus:border-[#3B82F6]/60 focus-visible:ring-[#3B82F6]/45 focus-visible:border-[#3B82F6]/60 focus-visible:ring-offset-0">
                     <SelectValue placeholder="Or choose another language…" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-gray-200 max-h-60">
+                  <SelectContent className="bg-[#0f1b33] border-white/15 text-slate-100 max-h-60 rounded-xl shadow-[0_14px_30px_rgba(0,0,0,0.45)]">
                     {Object.values(LanguageType).map((lang) => (
-                      <SelectItem key={lang} value={lang} className="text-gray-600 text-sm font-syne focus:bg-gray-50">{lang}</SelectItem>
+                      <SelectItem key={lang} value={lang} className="text-slate-200 text-sm font-syne focus:bg-blue-500/20 focus:text-white">{lang}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -428,21 +368,17 @@ const UploadPage = () => {
                   <ChevronLeft className="!w-4 !h-4 mr-1 transition-transform group-hover:-translate-x-1" /> Back
                 </Button>
                 <Button onClick={() => { if (validateStep2()) goNext(); }}
-                  className="rounded-full px-8 py-5 bg-[#F25D6B] text-white font-syne font-semibold text-base hover:bg-[#E04A58] transition-all duration-300 btn-glow group">
+                  className="rounded-full px-8 py-5 bg-[#3B82F6] text-white font-syne font-semibold text-base hover:bg-[#2563EB] transition-all duration-300 btn-glow group">
                   Continue <ArrowRight className="!w-4 !h-4 ml-2 transition-transform group-hover:translate-x-1" />
                 </Button>
               </div>
-            </motion.div>
-          )}
+          </div>
+        )}
 
-          {/* ─── STEP 3: Advanced Settings + Generate ─── */}
-          {step === 3 && (
-            <motion.div key="step3" custom={direction} variants={pageVariants}
-              initial="enter" animate="center" exit="exit" transition={pageTransition} className="w-full">
+        {/* ─── STEP 3: Advanced Settings + Generate ─── */}
+        {step === 3 && (
+          <div className="w-full">
               <div className="text-center mb-8">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FEF2F2] border border-[#F25D6B]/15 text-[#F25D6B] text-xs font-semibold font-syne mb-4">
-                  <Settings2 className="w-3.5 h-3.5" /> Step 3 of 3
-                </div>
                 <h2 className="text-3xl md:text-4xl font-unbounded font-normal text-gray-900 mb-3">
                   Fine-tune & generate
                 </h2>
@@ -456,12 +392,12 @@ const UploadPage = () => {
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-gray-500 font-syne">Tone</label>
                     <Select value={config.tone} onValueChange={(v) => handleConfigChange("tone", v)}>
-                      <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-600 rounded-xl font-syne text-sm capitalize">
+                      <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-600 rounded-xl font-syne text-sm capitalize focus:ring-[#3B82F6]/45 focus:border-[#3B82F6]/60 focus-visible:ring-[#3B82F6]/45 focus-visible:border-[#3B82F6]/60 focus-visible:ring-offset-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-gray-200">
+                      <SelectContent className="bg-[#0f1b33] border-white/15 text-slate-100 rounded-xl shadow-[0_14px_30px_rgba(0,0,0,0.45)]">
                         {Object.values(ToneType).map((t) => (
-                          <SelectItem key={t} value={t} className="text-gray-600 text-sm capitalize font-syne focus:bg-gray-50">{t}</SelectItem>
+                          <SelectItem key={t} value={t} className="text-slate-200 text-sm capitalize font-syne focus:bg-blue-500/20 focus:text-white">{t}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -469,12 +405,12 @@ const UploadPage = () => {
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-semibold text-gray-500 font-syne">Verbosity</label>
                     <Select value={config.verbosity} onValueChange={(v) => handleConfigChange("verbosity", v)}>
-                      <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-600 rounded-xl font-syne text-sm capitalize">
+                      <SelectTrigger className="bg-gray-50 border-gray-200 text-gray-600 rounded-xl font-syne text-sm capitalize focus:ring-[#3B82F6]/45 focus:border-[#3B82F6]/60 focus-visible:ring-[#3B82F6]/45 focus-visible:border-[#3B82F6]/60 focus-visible:ring-offset-0">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-gray-200">
+                      <SelectContent className="bg-[#0f1b33] border-white/15 text-slate-100 rounded-xl shadow-[0_14px_30px_rgba(0,0,0,0.45)]">
                         {Object.values(VerbosityType).map((v) => (
-                          <SelectItem key={v} value={v} className="text-gray-600 text-sm capitalize font-syne focus:bg-gray-50">{v}</SelectItem>
+                          <SelectItem key={v} value={v} className="text-slate-200 text-sm capitalize font-syne focus:bg-blue-500/20 focus:text-white">{v}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -485,21 +421,37 @@ const UploadPage = () => {
                   <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
                     <span className="text-xs font-medium text-gray-500 font-syne">Table of Contents</span>
                     <Switch checked={config.includeTableOfContents}
+                      className="data-[state=checked]:bg-[#3B82F6] data-[state=checked]:border-[#60A5FA] data-[state=unchecked]:bg-slate-700/70 data-[state=unchecked]:border-white/20 focus-visible:ring-[#3B82F6]/45 focus-visible:ring-offset-0"
                       onCheckedChange={(c) => handleConfigChange("includeTableOfContents", c)} />
                   </div>
                   <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
                     <span className="text-xs font-medium text-gray-500 font-syne">Title Slide</span>
                     <Switch checked={config.includeTitleSlide}
+                      className="data-[state=checked]:bg-[#3B82F6] data-[state=checked]:border-[#60A5FA] data-[state=unchecked]:bg-slate-700/70 data-[state=unchecked]:border-white/20 focus-visible:ring-[#3B82F6]/45 focus-visible:ring-offset-0"
                       onCheckedChange={(c) => handleConfigChange("includeTitleSlide", c)} />
                   </div>
                   <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
                     <span className="text-xs font-medium text-gray-500 font-syne">Web Search</span>
                     <Switch checked={config.webSearch}
+                      className="data-[state=checked]:bg-[#3B82F6] data-[state=checked]:border-[#60A5FA] data-[state=unchecked]:bg-slate-700/70 data-[state=unchecked]:border-white/20 focus-visible:ring-[#3B82F6]/45 focus-visible:ring-offset-0"
                       onCheckedChange={(c) => handleConfigChange("webSearch", c)} />
                   </div>
-                  <div className="flex items-center justify-between p-3 rounded-xl bg-purple-50/50 border border-purple-100">
-                    <span className="text-xs font-semibold text-purple-600 font-syne flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> AI Color Theme</span>
+                  <div
+                    className={`flex items-center justify-between p-3 rounded-xl border transition-colors ${
+                      config.autoTheme
+                        ? "bg-blue-500/12 border-blue-300/55"
+                        : "bg-gray-50 border border-gray-100"
+                    }`}
+                  >
+                    <span
+                      className={`text-xs font-semibold font-syne flex items-center gap-1.5 ${
+                        config.autoTheme ? "text-blue-300" : "text-gray-500"
+                      }`}
+                    >
+                      <Sparkles className="w-3.5 h-3.5" /> AI Color Theme
+                    </span>
                     <Switch checked={config.autoTheme}
+                      className="data-[state=checked]:bg-[#3B82F6] data-[state=checked]:border-[#60A5FA] data-[state=unchecked]:bg-slate-700/70 data-[state=unchecked]:border-white/20 focus-visible:ring-[#3B82F6]/45 focus-visible:ring-offset-0"
                       onCheckedChange={(c) => handleConfigChange("autoTheme", c)} />
                   </div>
                 </div>
@@ -510,7 +462,7 @@ const UploadPage = () => {
                   </label>
                   <Textarea value={config.instructions} onChange={(e) => handleConfigChange("instructions", e.target.value)}
                     rows={3} placeholder="E.g. Focus on data-driven insights, use minimal text per slide…"
-                    className="bg-gray-50 border-gray-200 text-gray-600 placeholder:text-gray-300 rounded-xl font-syne text-sm min-h-[80px] max-h-[150px] focus:border-[#F25D6B]/40 focus-visible:ring-[#F25D6B]/15 focus-visible:ring-offset-0" />
+                    className="bg-gray-50 border-gray-200 text-gray-600 placeholder:text-gray-300 rounded-xl font-syne text-sm min-h-[80px] max-h-[150px] focus:border-[#3B82F6]/45 focus-visible:ring-[#3B82F6]/20 focus-visible:ring-offset-0" />
                 </div>
               </div>
 
@@ -519,15 +471,14 @@ const UploadPage = () => {
                   <ChevronLeft className="!w-4 !h-4 mr-1 transition-transform group-hover:-translate-x-1" /> Back
                 </Button>
                 <Button onClick={handleGenerate}
-                  className="rounded-full px-10 py-5 bg-[#F25D6B] text-white font-syne font-bold text-base hover:bg-[#E04A58] transition-all duration-300 btn-glow group shadow-lg shadow-[#F25D6B]/15"
+                  className="rounded-full px-10 py-5 bg-[#3B82F6] text-white font-syne font-bold text-base hover:bg-[#2563EB] transition-all duration-300 btn-glow group shadow-lg shadow-[#3B82F6]/20"
                   data-testid="next-button">
                   <Sparkles className="!w-5 !h-5 mr-2" /> Generate Presentation
                   <ChevronRight className="!w-5 !h-5 ml-1.5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          </div>
+        )}
       </div>
     </div>
   );

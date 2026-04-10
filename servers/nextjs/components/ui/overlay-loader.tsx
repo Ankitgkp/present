@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils"
-import { Loader } from "./loader"
 import { ProgressBar } from "./progress-bar"
 import { useEffect, useState } from "react"
 
@@ -40,29 +39,38 @@ export const OverlayLoader = ({
                 zIndex: 1000
             }}
             className={cn(
-                "fixed inset-0 bg-black/70 z-50 flex items-center justify-center transition-opacity duration-300",
+                "upload-heartbeat-overlay fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300",
                 isVisible ? "opacity-100" : "opacity-0"
             )}
         >
+            <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" />
+
             <div
                 className={cn(
-                    "flex flex-col items-center justify-center px-6  pt-0 pb-8 rounded-xl bg-[#030303] shadow-2xl",
-                    "min-w-[280px] sm:min-w-[330px] border border-white/10 transition-all duration-400 ease-out",
+                    "relative z-10 flex flex-col items-center justify-center px-6 pt-1 pb-4",
+                    "min-w-[280px] sm:min-w-[330px] transition-all duration-400 ease-out",
                     isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90",
                     className
                 )}
 
             >
-                <img loading="eager" src={'/loading.gif'} alt="loading" width={250} height={250} />
+                <div className="relative h-32 w-32 mb-2">
+                    <span className="heartbeat-star heartbeat-star-1">✦</span>
+                    <span className="heartbeat-star heartbeat-star-2">✦</span>
+                    <span className="heartbeat-star heartbeat-star-3">✦</span>
+                    <span className="heartbeat-star heartbeat-star-4">✦</span>
+                    <span className="heartbeat-core" />
+                </div>
+
                 {showProgress ? (
-                    <div className="w-full space-y-6 pt-4">
+                    <div className="w-full space-y-4 pt-1">
                         <ProgressBar
                             duration={duration}
                             onComplete={onProgressComplete}
                         />
                         {text && (
                             <div className="space-y-1">
-                                <p className="text-white text-base text-center font-semibold font-inter">
+                                <p className="text-white text-base text-center font-semibold font-inter drop-shadow-[0_2px_10px_rgba(37,99,235,0.35)]">
                                     {text}
                                 </p>
                                 {extra_info && <p className="text-white/80 text-xs text-center font-semibold font-inter">{extra_info}</p>}
@@ -71,7 +79,7 @@ export const OverlayLoader = ({
                     </div>
                 ) : (
                     <>
-                        <p className="text-white text-base text-center font-semibold font-inter">
+                        <p className="text-white text-base text-center font-semibold font-inter drop-shadow-[0_2px_10px_rgba(37,99,235,0.35)]">
                             {text}
                         </p>
                         {extra_info && <p className="text-white/80 text-xs text-center font-semibold font-inter">{extra_info}</p>}
