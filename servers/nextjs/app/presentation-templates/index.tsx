@@ -75,6 +75,19 @@ import VelvetHazeTimelineLayout, { Schema as VelvetHazeTimelineSchema, layoutId 
 import VelvetHazeComparisonLayout, { Schema as VelvetHazeComparisonSchema, layoutId as VelvetHazeComparisonId, layoutName as VelvetHazeComparisonName, layoutDescription as VelvetHazeComparisonDesc } from "./velvet-haze/VelvetHazeComparisonLayout";
 import VelvetHazeImageGalleryLayout, { Schema as VelvetHazeImageGallerySchema, layoutId as VelvetHazeImageGalleryId, layoutName as VelvetHazeImageGalleryName, layoutDescription as VelvetHazeImageGalleryDesc } from "./velvet-haze/VelvetHazeImageGalleryLayout";
 
+// Dream Studio templates
+import DreamStudioIntroLayout, { Schema as DreamStudioIntroSchema, layoutId as DreamStudioIntroId, layoutName as DreamStudioIntroName, layoutDescription as DreamStudioIntroDesc } from "./dream-studio/DreamStudioIntroLayout";
+import DreamStudioAboutLayout, { Schema as DreamStudioAboutSchema, layoutId as DreamStudioAboutId, layoutName as DreamStudioAboutName, layoutDescription as DreamStudioAboutDesc } from "./dream-studio/DreamStudioAboutLayout";
+import DreamStudioServicesLayout, { Schema as DreamStudioServicesSchema, layoutId as DreamStudioServicesId, layoutName as DreamStudioServicesName, layoutDescription as DreamStudioServicesDesc } from "./dream-studio/DreamStudioServicesLayout";
+import DreamStudioCoreValuesLayout, { Schema as DreamStudioCoreValuesSchema, layoutId as DreamStudioCoreValuesId, layoutName as DreamStudioCoreValuesName, layoutDescription as DreamStudioCoreValuesDesc } from "./dream-studio/DreamStudioCoreValuesLayout";
+import DreamStudioTimelineLayout, { Schema as DreamStudioTimelineSchema, layoutId as DreamStudioTimelineId, layoutName as DreamStudioTimelineName, layoutDescription as DreamStudioTimelineDesc } from "./dream-studio/DreamStudioTimelineLayout";
+import DreamStudioTextShowcaseLayout, { Schema as DreamStudioTextShowcaseSchema, layoutId as DreamStudioTextShowcaseId, layoutName as DreamStudioTextShowcaseName, layoutDescription as DreamStudioTextShowcaseDesc } from "./dream-studio/DreamStudioTextShowcaseLayout";
+import DreamStudioExperienceLayout, { Schema as DreamStudioExperienceSchema, layoutId as DreamStudioExperienceId, layoutName as DreamStudioExperienceName, layoutDescription as DreamStudioExperienceDesc } from "./dream-studio/DreamStudioExperienceLayout";
+import DreamStudioTestimonialsLayout, { Schema as DreamStudioTestimonialsSchema, layoutId as DreamStudioTestimonialsId, layoutName as DreamStudioTestimonialsName, layoutDescription as DreamStudioTestimonialsDesc } from "./dream-studio/DreamStudioTestimonialsLayout";
+import DreamStudioProcessLayout, { Schema as DreamStudioProcessSchema, layoutId as DreamStudioProcessId, layoutName as DreamStudioProcessName, layoutDescription as DreamStudioProcessDesc } from "./dream-studio/DreamStudioProcessLayout";
+import DreamStudioSplitContentLayout, { Schema as DreamStudioSplitContentSchema, layoutId as DreamStudioSplitContentId, layoutName as DreamStudioSplitContentName, layoutDescription as DreamStudioSplitContentDesc } from "./dream-studio/DreamStudioSplitContentLayout";
+import DreamStudioFeaturesGridLayout, { Schema as DreamStudioFeaturesGridSchema, layoutId as DreamStudioFeaturesGridId, layoutName as DreamStudioFeaturesGridName, layoutDescription as DreamStudioFeaturesGridDesc } from "./dream-studio/DreamStudioFeaturesGridLayout";
+
 // Professional Pitch templates
 import PitchIntroLayout, { Schema as PitchIntroSchema, layoutId as PitchIntroId, layoutName as PitchIntroName, layoutDescription as PitchIntroDesc } from "./professional-pitch/PitchIntroLayout";
 import PitchAgendaLayout, { Schema as PitchAgendaSchema, layoutId as PitchAgendaId, layoutName as PitchAgendaName, layoutDescription as PitchAgendaDesc } from "./professional-pitch/PitchAgendaLayout";
@@ -269,6 +282,7 @@ import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoBrutalistFancySettings from "./neo-brutalist-fancy/settings.json";
 import softBloomSettings from "./soft-bloom/settings.json";
 import velvetHazeSettings from "./velvet-haze/settings.json";
+import dreamStudioSettings from "./dream-studio/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
 import professionalPitchSettings from "./professional-pitch/settings.json";
@@ -354,6 +368,20 @@ export const velvetHazeTemplates: TemplateWithData[] = [
     createTemplateEntry(VelvetHazeTimelineLayout, VelvetHazeTimelineSchema, VelvetHazeTimelineId, VelvetHazeTimelineName, VelvetHazeTimelineDesc, "velvet-haze", "VelvetHazeTimelineLayout"),
     createTemplateEntry(VelvetHazeComparisonLayout, VelvetHazeComparisonSchema, VelvetHazeComparisonId, VelvetHazeComparisonName, VelvetHazeComparisonDesc, "velvet-haze", "VelvetHazeComparisonLayout"),
     createTemplateEntry(VelvetHazeImageGalleryLayout, VelvetHazeImageGallerySchema, VelvetHazeImageGalleryId, VelvetHazeImageGalleryName, VelvetHazeImageGalleryDesc, "velvet-haze", "VelvetHazeImageGalleryLayout"),
+]
+
+export const dreamStudioTemplates: TemplateWithData[] = [
+    createTemplateEntry(DreamStudioIntroLayout, DreamStudioIntroSchema, DreamStudioIntroId, DreamStudioIntroName, DreamStudioIntroDesc, "dream-studio", "DreamStudioIntroLayout"),
+    createTemplateEntry(DreamStudioAboutLayout, DreamStudioAboutSchema, DreamStudioAboutId, DreamStudioAboutName, DreamStudioAboutDesc, "dream-studio", "DreamStudioAboutLayout"),
+    createTemplateEntry(DreamStudioServicesLayout, DreamStudioServicesSchema, DreamStudioServicesId, DreamStudioServicesName, DreamStudioServicesDesc, "dream-studio", "DreamStudioServicesLayout"),
+    createTemplateEntry(DreamStudioCoreValuesLayout, DreamStudioCoreValuesSchema, DreamStudioCoreValuesId, DreamStudioCoreValuesName, DreamStudioCoreValuesDesc, "dream-studio", "DreamStudioCoreValuesLayout"),
+    createTemplateEntry(DreamStudioTimelineLayout, DreamStudioTimelineSchema, DreamStudioTimelineId, DreamStudioTimelineName, DreamStudioTimelineDesc, "dream-studio", "DreamStudioTimelineLayout"),
+    createTemplateEntry(DreamStudioTextShowcaseLayout, DreamStudioTextShowcaseSchema, DreamStudioTextShowcaseId, DreamStudioTextShowcaseName, DreamStudioTextShowcaseDesc, "dream-studio", "DreamStudioTextShowcaseLayout"),
+    createTemplateEntry(DreamStudioExperienceLayout, DreamStudioExperienceSchema, DreamStudioExperienceId, DreamStudioExperienceName, DreamStudioExperienceDesc, "dream-studio", "DreamStudioExperienceLayout"),
+    createTemplateEntry(DreamStudioTestimonialsLayout, DreamStudioTestimonialsSchema, DreamStudioTestimonialsId, DreamStudioTestimonialsName, DreamStudioTestimonialsDesc, "dream-studio", "DreamStudioTestimonialsLayout"),
+    createTemplateEntry(DreamStudioProcessLayout, DreamStudioProcessSchema, DreamStudioProcessId, DreamStudioProcessName, DreamStudioProcessDesc, "dream-studio", "DreamStudioProcessLayout"),
+    createTemplateEntry(DreamStudioSplitContentLayout, DreamStudioSplitContentSchema, DreamStudioSplitContentId, DreamStudioSplitContentName, DreamStudioSplitContentDesc, "dream-studio", "DreamStudioSplitContentLayout"),
+    createTemplateEntry(DreamStudioFeaturesGridLayout, DreamStudioFeaturesGridSchema, DreamStudioFeaturesGridId, DreamStudioFeaturesGridName, DreamStudioFeaturesGridDesc, "dream-studio", "DreamStudioFeaturesGridLayout"),
 ]
 
 export const neoStandardTemplates: TemplateWithData[] = [
@@ -566,6 +594,7 @@ export const allLayouts: TemplateWithData[] = [
     ...swiftTemplates,
     ...softBloomTemplates,
     ...velvetHazeTemplates,
+    ...dreamStudioTemplates,
     ...professionalPitchTemplates,
     ...educationalScienceTemplates,
     ...educationalSocialScienceTemplates,
@@ -607,6 +636,13 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: velvetHazeSettings.description,
         settings: velvetHazeSettings as TemplateGroupSettings,
         layouts: velvetHazeTemplates,
+    },
+    {
+        id: "dream-studio",
+        name: "Dream Studio",
+        description: dreamStudioSettings.description,
+        settings: dreamStudioSettings as TemplateGroupSettings,
+        layouts: dreamStudioTemplates,
     },
     {
         id: "neo-general",
