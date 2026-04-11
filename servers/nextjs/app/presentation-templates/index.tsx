@@ -65,6 +65,37 @@ import SoftBloomFeaturesLayout, { Schema as SoftBloomFeaturesSchema, layoutId as
 import SoftBloomStatsLayout, { Schema as SoftBloomStatsSchema, layoutId as SoftBloomStatsId, layoutName as SoftBloomStatsName, layoutDescription as SoftBloomStatsDesc } from "./soft-bloom/SoftBloomStatsLayout";
 import SoftBloomQuoteLayout, { Schema as SoftBloomQuoteSchema, layoutId as SoftBloomQuoteId, layoutName as SoftBloomQuoteName, layoutDescription as SoftBloomQuoteDesc } from "./soft-bloom/SoftBloomQuoteLayout";
 
+// Calm Waves templates
+import CalmWavesCoverLayout, { Schema as CalmWavesCoverSchema, layoutId as CalmWavesCoverId, layoutName as CalmWavesCoverName, layoutDescription as CalmWavesCoverDesc } from "./calm-waves/CalmWavesCoverLayout";
+import CalmWavesImageLeftLayout, { Schema as CalmWavesImageLeftSchema, layoutId as CalmWavesImageLeftId, layoutName as CalmWavesImageLeftName, layoutDescription as CalmWavesImageLeftDesc } from "./calm-waves/CalmWavesImageLeftLayout";
+import CalmWavesImageRightLayout, { Schema as CalmWavesImageRightSchema, layoutId as CalmWavesImageRightId, layoutName as CalmWavesImageRightName, layoutDescription as CalmWavesImageRightDesc } from "./calm-waves/CalmWavesImageRightLayout";
+import CalmWavesImageGridLayout, { Schema as CalmWavesImageGridSchema, layoutId as CalmWavesImageGridId, layoutName as CalmWavesImageGridName, layoutDescription as CalmWavesImageGridDesc } from "./calm-waves/CalmWavesImageGridLayout";
+import CalmWavesTwoImagesLayout, { Schema as CalmWavesTwoImagesSchema, layoutId as CalmWavesTwoImagesId, layoutName as CalmWavesTwoImagesName, layoutDescription as CalmWavesTwoImagesDesc } from "./calm-waves/CalmWavesTwoImagesLayout";
+import CalmWavesContactImageLayout, { Schema as CalmWavesContactImageSchema, layoutId as CalmWavesContactImageId, layoutName as CalmWavesContactImageName, layoutDescription as CalmWavesContactImageDesc } from "./calm-waves/CalmWavesContactImageLayout";
+
+// Salvia Nature templates
+import SalviaNatureCoverLayout, { Schema as SalviaNatureCoverSchema, layoutId as SalviaNatureCoverId, layoutName as SalviaNatureCoverName, layoutDescription as SalviaNatureCoverDesc } from "./salvia-nature/SalviaNatureCoverLayout";
+import SalviaNatureSplitHeroLayout, { Schema as SalviaNatureSplitHeroSchema, layoutId as SalviaNatureSplitHeroId, layoutName as SalviaNatureSplitHeroName, layoutDescription as SalviaNatureSplitHeroDesc } from "./salvia-nature/SalviaNatureSplitHeroLayout";
+import SalviaNatureActionLayout, { Schema as SalviaNatureActionSchema, layoutId as SalviaNatureActionId, layoutName as SalviaNatureActionName, layoutDescription as SalviaNatureActionDesc } from "./salvia-nature/SalviaNatureActionLayout";
+import SalviaNatureImageColumnsLayout, { Schema as SalviaNatureImageColumnsSchema, layoutId as SalviaNatureImageColumnsId, layoutName as SalviaNatureImageColumnsName, layoutDescription as SalviaNatureImageColumnsDesc } from "./salvia-nature/SalviaNatureImageColumnsLayout";
+import SalviaNatureTwoCardsLayout, { Schema as SalviaNatureTwoCardsSchema, layoutId as SalviaNatureTwoCardsId, layoutName as SalviaNatureTwoCardsName, layoutDescription as SalviaNatureTwoCardsDesc } from "./salvia-nature/SalviaNatureTwoCardsLayout";
+import SalviaNatureAboutLayout, { Schema as SalviaNatureAboutSchema, layoutId as SalviaNatureAboutId, layoutName as SalviaNatureAboutName, layoutDescription as SalviaNatureAboutDesc } from "./salvia-nature/SalviaNatureAboutLayout";
+import SalviaNatureContactLayout, { Schema as SalviaNatureContactSchema, layoutId as SalviaNatureContactId, layoutName as SalviaNatureContactName, layoutDescription as SalviaNatureContactDesc } from "./salvia-nature/SalviaNatureContactLayout";
+
+// Gradient Mesh templates
+import GradientMeshCoverLayout, { Schema as GradientMeshCoverSchema, layoutId as GradientMeshCoverId, layoutName as GradientMeshCoverName, layoutDescription as GradientMeshCoverDesc } from "./gradient-mesh/GradientMeshCoverLayout";
+import GradientMeshSplitHeroLayout, { Schema as GradientMeshSplitHeroSchema, layoutId as GradientMeshSplitHeroId, layoutName as GradientMeshSplitHeroName, layoutDescription as GradientMeshSplitHeroDesc } from "./gradient-mesh/GradientMeshSplitHeroLayout";
+
+// Blush Company templates
+import BlushCompanyCoverLayout, { Schema as BlushCompanyCoverSchema, layoutId as BlushCompanyCoverId, layoutName as BlushCompanyCoverName, layoutDescription as BlushCompanyCoverDesc } from "./blush-company/BlushCompanyCoverLayout";
+import BlushCompanyAboutStoryLayout, { Schema as BlushCompanyAboutStorySchema, layoutId as BlushCompanyAboutStoryId, layoutName as BlushCompanyAboutStoryName, layoutDescription as BlushCompanyAboutStoryDesc } from "./blush-company/BlushCompanyAboutStoryLayout";
+import BlushCompanyProjectLayout, { Schema as BlushCompanyProjectSchema, layoutId as BlushCompanyProjectId, layoutName as BlushCompanyProjectName, layoutDescription as BlushCompanyProjectDesc } from "./blush-company/BlushCompanyProjectLayout";
+import BlushCompanySocialMediaLayout, { Schema as BlushCompanySocialMediaSchema, layoutId as BlushCompanySocialMediaId, layoutName as BlushCompanySocialMediaName, layoutDescription as BlushCompanySocialMediaDesc } from "./blush-company/BlushCompanySocialMediaLayout";
+import BlushCompanyProcessLayout, { Schema as BlushCompanyProcessSchema, layoutId as BlushCompanyProcessId, layoutName as BlushCompanyProcessName, layoutDescription as BlushCompanyProcessDesc } from "./blush-company/BlushCompanyProcessLayout";
+import BlushCompanyTeamLayout, { Schema as BlushCompanyTeamSchema, layoutId as BlushCompanyTeamId, layoutName as BlushCompanyTeamName, layoutDescription as BlushCompanyTeamDesc } from "./blush-company/BlushCompanyTeamLayout";
+import BlushCompanyContactLayout, { Schema as BlushCompanyContactSchema, layoutId as BlushCompanyContactId, layoutName as BlushCompanyContactName, layoutDescription as BlushCompanyContactDesc } from "./blush-company/BlushCompanyContactLayout";
+import BlushCompanyThankYouLayout, { Schema as BlushCompanyThankYouSchema, layoutId as BlushCompanyThankYouId, layoutName as BlushCompanyThankYouName, layoutDescription as BlushCompanyThankYouDesc } from "./blush-company/BlushCompanyThankYouLayout";
+
 // Velvet Haze templates
 import VelvetHazeIntroLayout, { Schema as VelvetHazeIntroSchema, layoutId as VelvetHazeIntroId, layoutName as VelvetHazeIntroName, layoutDescription as VelvetHazeIntroDesc } from "./velvet-haze/VelvetHazeIntroLayout";
 import VelvetHazeMetricsLayout, { Schema as VelvetHazeMetricsSchema, layoutId as VelvetHazeMetricsId, layoutName as VelvetHazeMetricsName, layoutDescription as VelvetHazeMetricsDesc } from "./velvet-haze/VelvetHazeMetricsLayout";
@@ -281,6 +312,10 @@ import neoStandardSettings from "./neo-standard/settings.json";
 import neoBrutalistSettings from "./neo-brutalist/settings.json";
 import neoBrutalistFancySettings from "./neo-brutalist-fancy/settings.json";
 import softBloomSettings from "./soft-bloom/settings.json";
+import calmWavesSettings from "./calm-waves/settings.json";
+import salviaNatureSettings from "./salvia-nature/settings.json";
+import gradientMeshSettings from "./gradient-mesh/settings.json";
+import blushCompanySettings from "./blush-company/settings.json";
 import velvetHazeSettings from "./velvet-haze/settings.json";
 import dreamStudioSettings from "./dream-studio/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
@@ -357,6 +392,41 @@ export const softBloomTemplates: TemplateWithData[] = [
     createTemplateEntry(SoftBloomFeaturesLayout, SoftBloomFeaturesSchema, SoftBloomFeaturesId, SoftBloomFeaturesName, SoftBloomFeaturesDesc, "soft-bloom", "SoftBloomFeaturesLayout"),
     createTemplateEntry(SoftBloomStatsLayout, SoftBloomStatsSchema, SoftBloomStatsId, SoftBloomStatsName, SoftBloomStatsDesc, "soft-bloom", "SoftBloomStatsLayout"),
     createTemplateEntry(SoftBloomQuoteLayout, SoftBloomQuoteSchema, SoftBloomQuoteId, SoftBloomQuoteName, SoftBloomQuoteDesc, "soft-bloom", "SoftBloomQuoteLayout"),
+]
+
+export const calmWavesTemplates: TemplateWithData[] = [
+    createTemplateEntry(CalmWavesCoverLayout, CalmWavesCoverSchema, CalmWavesCoverId, CalmWavesCoverName, CalmWavesCoverDesc, "calm-waves", "CalmWavesCoverLayout"),
+    createTemplateEntry(CalmWavesImageLeftLayout, CalmWavesImageLeftSchema, CalmWavesImageLeftId, CalmWavesImageLeftName, CalmWavesImageLeftDesc, "calm-waves", "CalmWavesImageLeftLayout"),
+    createTemplateEntry(CalmWavesImageRightLayout, CalmWavesImageRightSchema, CalmWavesImageRightId, CalmWavesImageRightName, CalmWavesImageRightDesc, "calm-waves", "CalmWavesImageRightLayout"),
+    createTemplateEntry(CalmWavesImageGridLayout, CalmWavesImageGridSchema, CalmWavesImageGridId, CalmWavesImageGridName, CalmWavesImageGridDesc, "calm-waves", "CalmWavesImageGridLayout"),
+    createTemplateEntry(CalmWavesTwoImagesLayout, CalmWavesTwoImagesSchema, CalmWavesTwoImagesId, CalmWavesTwoImagesName, CalmWavesTwoImagesDesc, "calm-waves", "CalmWavesTwoImagesLayout"),
+    createTemplateEntry(CalmWavesContactImageLayout, CalmWavesContactImageSchema, CalmWavesContactImageId, CalmWavesContactImageName, CalmWavesContactImageDesc, "calm-waves", "CalmWavesContactImageLayout"),
+]
+
+export const salviaNatureTemplates: TemplateWithData[] = [
+    createTemplateEntry(SalviaNatureCoverLayout, SalviaNatureCoverSchema, SalviaNatureCoverId, SalviaNatureCoverName, SalviaNatureCoverDesc, "salvia-nature", "SalviaNatureCoverLayout"),
+    createTemplateEntry(SalviaNatureSplitHeroLayout, SalviaNatureSplitHeroSchema, SalviaNatureSplitHeroId, SalviaNatureSplitHeroName, SalviaNatureSplitHeroDesc, "salvia-nature", "SalviaNatureSplitHeroLayout"),
+    createTemplateEntry(SalviaNatureActionLayout, SalviaNatureActionSchema, SalviaNatureActionId, SalviaNatureActionName, SalviaNatureActionDesc, "salvia-nature", "SalviaNatureActionLayout"),
+    createTemplateEntry(SalviaNatureImageColumnsLayout, SalviaNatureImageColumnsSchema, SalviaNatureImageColumnsId, SalviaNatureImageColumnsName, SalviaNatureImageColumnsDesc, "salvia-nature", "SalviaNatureImageColumnsLayout"),
+    createTemplateEntry(SalviaNatureTwoCardsLayout, SalviaNatureTwoCardsSchema, SalviaNatureTwoCardsId, SalviaNatureTwoCardsName, SalviaNatureTwoCardsDesc, "salvia-nature", "SalviaNatureTwoCardsLayout"),
+    createTemplateEntry(SalviaNatureAboutLayout, SalviaNatureAboutSchema, SalviaNatureAboutId, SalviaNatureAboutName, SalviaNatureAboutDesc, "salvia-nature", "SalviaNatureAboutLayout"),
+    createTemplateEntry(SalviaNatureContactLayout, SalviaNatureContactSchema, SalviaNatureContactId, SalviaNatureContactName, SalviaNatureContactDesc, "salvia-nature", "SalviaNatureContactLayout"),
+]
+
+export const gradientMeshTemplates: TemplateWithData[] = [
+    createTemplateEntry(GradientMeshCoverLayout, GradientMeshCoverSchema, GradientMeshCoverId, GradientMeshCoverName, GradientMeshCoverDesc, "gradient-mesh", "GradientMeshCoverLayout"),
+    createTemplateEntry(GradientMeshSplitHeroLayout, GradientMeshSplitHeroSchema, GradientMeshSplitHeroId, GradientMeshSplitHeroName, GradientMeshSplitHeroDesc, "gradient-mesh", "GradientMeshSplitHeroLayout"),
+]
+
+export const blushCompanyTemplates: TemplateWithData[] = [
+    createTemplateEntry(BlushCompanyCoverLayout, BlushCompanyCoverSchema, BlushCompanyCoverId, BlushCompanyCoverName, BlushCompanyCoverDesc, "blush-company", "BlushCompanyCoverLayout"),
+    createTemplateEntry(BlushCompanyAboutStoryLayout, BlushCompanyAboutStorySchema, BlushCompanyAboutStoryId, BlushCompanyAboutStoryName, BlushCompanyAboutStoryDesc, "blush-company", "BlushCompanyAboutStoryLayout"),
+    createTemplateEntry(BlushCompanyProjectLayout, BlushCompanyProjectSchema, BlushCompanyProjectId, BlushCompanyProjectName, BlushCompanyProjectDesc, "blush-company", "BlushCompanyProjectLayout"),
+    createTemplateEntry(BlushCompanySocialMediaLayout, BlushCompanySocialMediaSchema, BlushCompanySocialMediaId, BlushCompanySocialMediaName, BlushCompanySocialMediaDesc, "blush-company", "BlushCompanySocialMediaLayout"),
+    createTemplateEntry(BlushCompanyProcessLayout, BlushCompanyProcessSchema, BlushCompanyProcessId, BlushCompanyProcessName, BlushCompanyProcessDesc, "blush-company", "BlushCompanyProcessLayout"),
+    createTemplateEntry(BlushCompanyTeamLayout, BlushCompanyTeamSchema, BlushCompanyTeamId, BlushCompanyTeamName, BlushCompanyTeamDesc, "blush-company", "BlushCompanyTeamLayout"),
+    createTemplateEntry(BlushCompanyContactLayout, BlushCompanyContactSchema, BlushCompanyContactId, BlushCompanyContactName, BlushCompanyContactDesc, "blush-company", "BlushCompanyContactLayout"),
+    createTemplateEntry(BlushCompanyThankYouLayout, BlushCompanyThankYouSchema, BlushCompanyThankYouId, BlushCompanyThankYouName, BlushCompanyThankYouDesc, "blush-company", "BlushCompanyThankYouLayout"),
 ]
 
 export const velvetHazeTemplates: TemplateWithData[] = [
@@ -593,6 +663,10 @@ export const allLayouts: TemplateWithData[] = [
     ...standardTemplates,
     ...swiftTemplates,
     ...softBloomTemplates,
+    ...calmWavesTemplates,
+    ...salviaNatureTemplates,
+    ...gradientMeshTemplates,
+    ...blushCompanyTemplates,
     ...velvetHazeTemplates,
     ...dreamStudioTemplates,
     ...professionalPitchTemplates,
@@ -629,6 +703,34 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: softBloomSettings.description,
         settings: softBloomSettings as TemplateGroupSettings,
         layouts: softBloomTemplates,
+    },
+    {
+        id: "calm-waves",
+        name: "Calm Waves",
+        description: calmWavesSettings.description,
+        settings: calmWavesSettings as TemplateGroupSettings,
+        layouts: calmWavesTemplates,
+    },
+    {
+        id: "salvia-nature",
+        name: "Salvia Nature",
+        description: salviaNatureSettings.description,
+        settings: salviaNatureSettings as TemplateGroupSettings,
+        layouts: salviaNatureTemplates,
+    },
+    {
+        id: "gradient-mesh",
+        name: "Gradient Mesh",
+        description: gradientMeshSettings.description,
+        settings: gradientMeshSettings as TemplateGroupSettings,
+        layouts: gradientMeshTemplates,
+    },
+    {
+        id: "blush-company",
+        name: "Blush Company",
+        description: blushCompanySettings.description,
+        settings: blushCompanySettings as TemplateGroupSettings,
+        layouts: blushCompanyTemplates,
     },
     {
         id: "velvet-haze",
