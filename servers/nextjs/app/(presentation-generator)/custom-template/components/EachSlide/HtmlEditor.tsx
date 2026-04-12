@@ -43,18 +43,18 @@ export const HtmlEditor: React.FC<HtmlEditorProps> = ({
 
   return (
     <Sheet open={isHtmlEditMode} onOpenChange={(open) => { if (!open) handleCancel(); }}>
-      <SheetContent side="right" className="w-full sm:max-w-[860px] p-0">
-        <SheetHeader className="px-6 py-4 border-b">
+      <SheetContent side="right" className="w-full border-white/[0.12] bg-[#0b1426] p-0 text-white sm:max-w-[860px]">
+        <SheetHeader className="border-b border-white/[0.08] px-6 py-4">
           <SheetTitle className="flex items-center justify-between w-full">
-            <span className="flex items-center gap-2 text-purple-800">
-              <Code className="w-5 h-5 text-purple-600" />
+            <span className="flex items-center gap-2 text-white">
+              <Code className="w-5 h-5 text-[#78b5ff]" />
               HTML Editor
             </span>
            
           </SheetTitle>
         </SheetHeader>
 
-        <div className="space-y-4 px-2 overflow-y-auto h-[85%]">
+        <div className="h-[85%] overflow-y-auto px-2 py-2">
           <div className="container__content_area">
             <Editor
               value={htmlContent}
@@ -67,7 +67,7 @@ export const HtmlEditor: React.FC<HtmlEditorProps> = ({
             />
           </div>
         </div>
-         <SheetFooter className="px-6 py-4 border-b">
+         <SheetFooter className="border-t border-white/[0.08] px-6 py-4">
           <SheetTitle className="flex items-center justify-between w-full">
            <div></div>
             <div className="flex gap-2">
@@ -75,14 +75,14 @@ export const HtmlEditor: React.FC<HtmlEditorProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={handleCancel}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"
               >
                 <X size={14} />
                 Cancel
               </Button>
               <Button
                 onClick={handleSave}
-                className="flex items-center gap-1 bg-purple-600 hover:bg-purple-700"
+                className="flex items-center gap-1 border border-[#6aaeff]/40 bg-[#2c6cff] text-white hover:bg-[#3777ff]"
                 size="sm"
               >
                 <Save size={14} />

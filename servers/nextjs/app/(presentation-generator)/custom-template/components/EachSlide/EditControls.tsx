@@ -37,7 +37,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
   if (!isEditMode) return null;
 
   return (
-    <div className="border-2 max-w-[1280px] mx-auto border-blue-200 rounded-lg p-4 bg-blue-50 space-y-4">
+    <div className="max-w-[1280px] mx-auto space-y-4 rounded-2xl border border-white/[0.12] bg-[#10203d]/78 p-4 text-white shadow-[0_14px_40px_rgba(0,0,0,0.25)]">
       {/* Drawing Tools */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center gap-4 flex-wrap">
@@ -47,7 +47,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
               variant={!eraserMode ? "default" : "outline"}
               size="sm"
               onClick={() => onEraserModeChange(false)}
-              className="flex items-center gap-1"
+              className={`flex items-center gap-1 ${!eraserMode ? "border border-[#6aaeff]/40 bg-[#2c6cff] text-white hover:bg-[#3777ff]" : "border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"}`}
             >
               <Pencil size={14} />
               Draw
@@ -57,7 +57,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
               variant={eraserMode ? "default" : "outline"}
               size="sm"
               onClick={() => onEraserModeChange(true)}
-              className="flex items-center gap-1"
+              className={`flex items-center gap-1 ${eraserMode ? "border border-[#6aaeff]/40 bg-[#2c6cff] text-white hover:bg-[#3777ff]" : "border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"}`}
             >
               <Eraser size={14} />
               Erase
@@ -72,8 +72,8 @@ export const EditControls: React.FC<EditControlsProps> = ({
                   key={color}
                   className={`w-5 h-5 rounded-full border-2 ${
                     strokeColor === color
-                      ? "border-gray-800"
-                      : "border-gray-300"
+                      ? "border-white"
+                      : "border-white/30"
                   }`}
                   style={{ backgroundColor: color }}
                   onClick={() => onStrokeColorChange(color)}
@@ -87,15 +87,15 @@ export const EditControls: React.FC<EditControlsProps> = ({
             {strokeWidths.map((width) => (
               <button
                 key={width}
-                className={`w-7 h-7 rounded border flex items-center justify-center ${
+                className={`flex h-7 w-7 items-center justify-center rounded border ${
                   strokeWidth === width
-                    ? "bg-blue-100 border-blue-500"
-                    : "border-gray-300"
+                    ? "border-[#6aaeff] bg-[#2c6cff]/20"
+                    : "border-white/20 bg-white/[0.05]"
                 }`}
                 onClick={() => onStrokeWidthChange(width)}
               >
                 <div
-                  className="rounded-full bg-gray-800"
+                  className="rounded-full bg-white"
                   style={{
                     width: `${width + 1}px`,
                     height: `${width + 1}px`,
@@ -109,7 +109,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
             variant="outline"
             size="sm"
             onClick={onClearCanvas}
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"
           >
             <RotateCcw size={14} />
             Clear
@@ -120,7 +120,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
           variant="outline"
           size="sm"
           onClick={onCancel}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"
         >
           <X size={14} />
           Cancel
@@ -131,7 +131,7 @@ export const EditControls: React.FC<EditControlsProps> = ({
       <div className="space-y-2 mt-2">
         <label
           htmlFor="edit-prompt"
-          className="text-sm font-medium font-inter text-gray-700"
+          className="text-sm font-medium font-inter text-white/[0.80]"
         >
           Describe the changes you want to make:
         </label>
@@ -141,14 +141,14 @@ export const EditControls: React.FC<EditControlsProps> = ({
             placeholder="Enter your prompt here... (e.g., 'Change the title color to blue', 'Add a border to the image', etc.)"
             value={prompt}
             onChange={(e) => onPromptChange(e.target.value)}
-            className="flex-1 font-inter duration-300 h-[70px] border-blue-200 border-2 rounded-lg outline-none focus:border-blue-500 focus:ring-0 max-h-[70px] resize-none"
+            className="h-[70px] max-h-[70px] flex-1 resize-none rounded-xl border border-white/[0.12] bg-white/[0.05] font-inter text-white outline-none duration-300 placeholder:text-white/[0.35] focus:border-[#6aaeff] focus:ring-0"
             disabled={isUpdating}
           />
           <div>
             <Button
               onClick={onSave}
               disabled={isUpdating || !prompt.trim()}
-              className="flex flex-col w-28 font-inter font-semibold items-center gap-1 h-full bg-green-600 hover:bg-green-700 px-4"
+              className="flex h-full w-28 flex-col items-center gap-1 border border-[#6aaeff]/40 bg-[#2c6cff] px-4 font-inter font-semibold text-white hover:bg-[#3777ff]"
             >
               {isUpdating ? (
                 "Updating..."

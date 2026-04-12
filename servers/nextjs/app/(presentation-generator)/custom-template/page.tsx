@@ -94,20 +94,28 @@ const CustomTemplatePage = () => {
 
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+    <div className="upload-neo relative min-h-screen overflow-hidden bg-[#060A15] text-white">
+      <div
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(58% 42% at 50% 14%, rgba(44,123,255,0.28) 0%, rgba(27,88,190,0.16) 38%, rgba(6,10,21,0) 72%)",
+        }}
+      />
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[34vh] bg-gradient-to-b from-black/35 via-transparent to-transparent" />
       <Header />
-      <div className="max-w-[1440px] aspect-video mx-auto px-6">
+      <div className="relative z-10 max-w-[1440px] aspect-video mx-auto px-6 pb-16">
         {/* Header */}
         <div className="text-center space-y-2 my-6">
-          <h1 className="text-4xl font-bold text-gray-900">
+          <h1 className="text-4xl font-bold text-white">
             Custom Template Processor
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto">
             Upload your PDF or PPTX file to extract slides and convert them to
             a template which you can use to generate AI presentations.
           </p>
           <div className="max-w-2xl mx-auto mt-2">
-            <div className="inline-block rounded border border-orange-200 bg-orange-50 px-3 py-2 text-sm text-orange-700">
+            <div className="inline-block rounded-full border border-white/[0.15] bg-white/[0.08] px-4 py-2 text-sm text-[#d7e7ff] backdrop-blur-md">
               AI template generation can take around 5 minutes per slide.
             </div>
           </div>
@@ -178,5 +186,3 @@ const CustomTemplatePage = () => {
 };
 
 export default CustomTemplatePage;
-
-

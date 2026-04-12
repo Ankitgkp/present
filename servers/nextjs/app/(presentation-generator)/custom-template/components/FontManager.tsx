@@ -90,13 +90,13 @@ const FontManager: React.FC<FontManagerProps> = ({
   }
 
   return (
-    <Card className="my-6">
+    <Card className="glass-card my-6 border-white/[0.12] bg-[#0b1426]/80 text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
       <CardHeader>
         <CardTitle className="text-xl flex items-center gap-2">
-          <Type className="w-6 h-6" />
+          <Type className="w-6 h-6 text-[#78b5ff]" />
           Font Management
         </CardTitle>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-white/[0.65]">
           We couldn't load these fonts automatically. Please upload them manually. Make sure naem of the font should be exactly as shown. 
         </p>
       </CardHeader>
@@ -104,7 +104,7 @@ const FontManager: React.FC<FontManagerProps> = ({
         {/* Supported Fonts */}
         {fontsData.internally_supported_fonts.length > 0 && (
           <div>
-            <h4 className="text-sm font-medium text-green-700 mb-3 flex items-center gap-1">
+            <h4 className="mb-3 flex items-center gap-1 text-sm font-medium text-[#9fe8b7]">
               <CheckCircle className="w-4 h-4" />
               Supported Fonts ({fontsData.internally_supported_fonts.length})
             </h4>
@@ -112,7 +112,7 @@ const FontManager: React.FC<FontManagerProps> = ({
               {fontsData.internally_supported_fonts.map((font, index) => (
                 <div
                   key={index}
-                  className="p-2 bg-green-50 border border-green-200 rounded text-sm text-green-800"
+                  className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.10] p-2 text-sm text-emerald-100"
                 >
                   {font.name}
                 </div>
@@ -124,7 +124,7 @@ const FontManager: React.FC<FontManagerProps> = ({
         {/* Fonts Needing Upload */}
         {fontsNeedingUpload.length > 0 && (
           <div>
-            <h4 className="text-sm font-medium text-orange-700 mb-3 flex items-center gap-1">
+            <h4 className="mb-3 flex items-center gap-1 text-sm font-medium text-[#ffd089]">
               <AlertCircle className="w-4 h-4" />
               Fonts Needing Upload ({fontsNeedingUpload.length})
             </h4>
@@ -132,14 +132,14 @@ const FontManager: React.FC<FontManagerProps> = ({
               {fontsNeedingUpload.map((fontName: string, index: number) => (
                 <div
                   key={index}
-                  className="p-4 bg-orange-50 border border-orange-200 rounded-lg"
+                  className="rounded-2xl border border-amber-300/20 bg-amber-300/[0.08] p-4"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-sm font-medium text-orange-800">
+                      <span className="text-sm font-medium text-amber-100">
                         {fontName}
                       </span>
-                      <p className="text-xs text-orange-600 mt-1">
+                      <p className="mt-1 text-xs text-amber-100/70">
                         Required for presentation
                       </p>
                     </div>
@@ -159,7 +159,7 @@ const FontManager: React.FC<FontManagerProps> = ({
                         variant="outline"
                         disabled={uploadingFonts.has(fontName)}
                         onClick={() => fileInputRefs.current[fontName]?.click()}
-                        className="text-xs bg-blue-600 text-white hover:text-white hover:bg-blue-700 border-blue-600"
+                        className="btn-border-sweep rounded-xl border border-[#6aaeff]/40 bg-[#2c6cff] text-xs text-white hover:bg-[#3777ff] hover:text-white"
                       >
                         {uploadingFonts.has(fontName) ? (
                           <>
@@ -184,7 +184,7 @@ const FontManager: React.FC<FontManagerProps> = ({
         {/* Successfully Uploaded Fonts */}
         {UploadedFonts.length > 0 && (
           <div>
-            <h4 className="text-sm font-medium text-green-700 mb-3 flex items-center gap-1">
+            <h4 className="mb-3 flex items-center gap-1 text-sm font-medium text-[#9fe8b7]">
               <CheckCircle className="w-4 h-4" />
               Uploaded Fonts ({UploadedFonts.length})
             </h4>
@@ -192,13 +192,13 @@ const FontManager: React.FC<FontManagerProps> = ({
               {UploadedFonts.map((font, index) => (
                 <div
                   key={index}
-                  className="p-3 bg-green-50 border border-green-200 rounded-lg flex items-center justify-between"
+                  className="flex items-center justify-between rounded-2xl border border-emerald-400/20 bg-emerald-400/[0.10] p-3"
                 >
                   <div>
-                    <span className="text-sm font-medium text-green-800">
+                    <span className="text-sm font-medium text-emerald-100">
                       {font.fontName}
                     </span>
-                    <p className="text-xs text-green-600 mt-1">
+                    <p className="mt-1 text-xs text-emerald-100/70">
                       Available for all slides
                     </p>
                   </div>
@@ -206,7 +206,7 @@ const FontManager: React.FC<FontManagerProps> = ({
                     size="sm"
                     variant="ghost"
                     onClick={() => removeFont(font.fontUrl)}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 p-1"
+                    className="p-1 text-white/[0.65] hover:bg-white/[0.10] hover:text-white"
                   >
                     <X className="w-3 h-3" />
                   </Button>
@@ -221,7 +221,7 @@ const FontManager: React.FC<FontManagerProps> = ({
           size="sm"
           variant="outline"
           onClick={processSlideToHtml}
-          className="text-xs px-8 py-2 font-semibold bg-blue-600 text-white hover:text-white hover:bg-blue-700 border-blue-600"
+          className="btn-border-sweep rounded-xl border border-[#6aaeff]/40 bg-[#2c6cff] px-8 py-2 text-xs font-semibold text-white hover:bg-[#3777ff] hover:text-white"
           >
             Extract Template
         </Button>

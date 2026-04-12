@@ -55,13 +55,13 @@ export const SaveLayoutModal: React.FC<SaveLayoutModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="border-white/[0.12] bg-[#0b1426]/95 text-white shadow-[0_24px_70px_rgba(0,0,0,0.45)] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Save className="w-5 h-5 text-green-600" />
+            <Save className="w-5 h-5 text-[#78b5ff]" />
             Save Template
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-white/[0.65]">
             Enter a name and description for your template. This will help you identify it later.
           </DialogDescription>
         </DialogHeader>
@@ -76,7 +76,7 @@ export const SaveLayoutModal: React.FC<SaveLayoutModalProps> = ({
               onChange={(e) => setLayoutName(e.target.value)}
               placeholder="Enter template name..."
               disabled={isSaving}
-              className="w-full"
+              className="w-full border-white/[0.12] bg-white/[0.05] text-white placeholder:text-white/[0.35]"
             />
           </div>
           <div className="grid gap-2">
@@ -89,7 +89,7 @@ export const SaveLayoutModal: React.FC<SaveLayoutModalProps> = ({
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter a description for your template..."
               disabled={isSaving}
-              className="w-full resize-none"
+              className="w-full resize-none border-white/[0.12] bg-white/[0.05] text-white placeholder:text-white/[0.35]"
               rows={3}
             />
           </div>
@@ -99,13 +99,14 @@ export const SaveLayoutModal: React.FC<SaveLayoutModalProps> = ({
             variant="outline"
             onClick={handleClose}
             disabled={isSaving}
+            className="border-white/[0.12] bg-white/[0.05] text-white hover:bg-white/[0.10] hover:text-white"
           >
             Cancel
           </Button>
           <Button
             onClick={handleSave}
             disabled={isSaving || !layoutName.trim()}
-            className="bg-green-600 hover:bg-green-700"
+            className="btn-border-sweep border border-[#6aaeff]/40 bg-[#2c6cff] text-white hover:bg-[#3777ff]"
           >
             {isSaving ? (
               <>

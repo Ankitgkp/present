@@ -36,14 +36,14 @@ export const SlideContentDisplay: React.FC<SlideContentDisplayProps> = ({
   if (slide.processing) {
     return (
       <div className="space-y-4">
-        <p className="text-base text-blue-600 font-medium">🔄 Converting to HTML...</p>
+        <p className="text-base font-medium text-[#8bc0ff]">🔄 Converting to HTML...</p>
         <div className="space-y-3">
           <Timer duration={160} />
         </div>
          <div className="animate-pulse space-y-3">
-        <div className="h-6 bg-gray-200 rounded w-2/3"></div>
-        <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-        <div className="h-64 bg-gray-200 rounded"></div>
+        <div className="h-6 w-2/3 rounded bg-white/[0.09]"></div>
+        <div className="h-6 w-1/2 rounded bg-white/[0.09]"></div>
+        <div className="h-64 rounded bg-white/[0.07]"></div>
       </div>
       </div>
     );
@@ -54,7 +54,7 @@ export const SlideContentDisplay: React.FC<SlideContentDisplayProps> = ({
       <div className="relative">
         {slide.convertingToReact && (
           <div className="mb-4">
-            <p className="text-sm text-purple-700 font-medium mb-1">⚙️ Converting HTML to React...</p>
+            <p className="mb-1 text-sm font-medium text-[#d3e6ff]">⚙️ Converting HTML to React...</p>
             <Timer duration={90} />
           </div>
         )}
@@ -94,11 +94,11 @@ export const SlideContentDisplay: React.FC<SlideContentDisplayProps> = ({
   if (slide.error) {
     return (
       <div className="space-y-4">
-        <p className="text-base text-red-600 font-medium">✗ Conversion failed</p>
-        <div className="text-sm text-gray-700 p-4 bg-red-50 rounded border border-red-200">
+        <p className="text-base font-medium text-rose-300">✗ Conversion failed</p>
+        <div className="rounded-xl border border-rose-300/20 bg-rose-300/[0.08] p-4 text-sm text-rose-50/90">
           {slide.error.includes("image exceeds 5 MB maximum") ? (
             <div>
-              <p className="font-medium text-red-700 mb-2">Image too large for processing</p>
+              <p className="mb-2 font-medium text-rose-100">Image too large for processing</p>
               <p>This slide's image exceeds the 5MB limit. Try using a smaller resolution PPTX file.</p>
             </div>
           ) : (
@@ -106,7 +106,7 @@ export const SlideContentDisplay: React.FC<SlideContentDisplayProps> = ({
           )}
         </div>
         <div className="flex justify-center">
-          <button className="bg-red-50 flex gap-2 items-center rounded border border-red-200 px-4 py-2 " onClick={() => retrySlide(slide.slide_number)}>
+          <button className="flex items-center gap-2 rounded-xl border border-[#6aaeff]/40 bg-[#2c6cff] px-4 py-2 text-white shadow-[0_14px_34px_rgba(44,108,255,0.24)] transition-colors hover:bg-[#3777ff]" onClick={() => retrySlide(slide.slide_number)}>
             <Repeat2 className="w-4 h-4" />Retry
           </button>
         </div>
@@ -116,12 +116,12 @@ export const SlideContentDisplay: React.FC<SlideContentDisplayProps> = ({
 
   return (
     <div className="space-y-4">
-      <p className="text-base text-gray-500">⏳ Waiting in queue to process...</p>
+      <p className="text-base text-white/[0.62]">⏳ Waiting in queue to process...</p>
       <div className="animate-pulse space-y-3">
-        <div className="h-6 bg-gray-200 rounded w-2/3"></div>
-        <div className="h-6 bg-gray-200 rounded w-1/2"></div>
-        <div className="h-64 bg-gray-200 rounded"></div>
+        <div className="h-6 w-2/3 rounded bg-white/[0.09]"></div>
+        <div className="h-6 w-1/2 rounded bg-white/[0.09]"></div>
+        <div className="h-64 rounded bg-white/[0.07]"></div>
       </div>
     </div>
   );
-}; 
+};

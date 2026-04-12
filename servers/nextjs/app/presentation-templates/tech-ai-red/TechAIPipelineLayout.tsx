@@ -1,8 +1,9 @@
-import BaseLayout, { Schema as BaseSchema } from "../neo-standard/TitleDescriptionTimeline";
+import BaseLayout, { Schema as BaseSchema } from "../dark-space/DarkSpaceArchitectureLayout";
+import { withTechAIRedTheme } from "./withTechAIRedTheme";
 
 export const Schema = BaseSchema;
 export const layoutId = "tech-ai-red-pipeline";
 export const layoutName = "AI Pipeline";
 export const layoutDescription = "Clear pipeline/timeline layout for model lifecycle, deployment steps, and ML workflows.";
 
-export default BaseLayout;
+export default withTechAIRedTheme(BaseLayout);

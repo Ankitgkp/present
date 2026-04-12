@@ -90,10 +90,10 @@ const EachSlide: React.FC<EachSlideProps> = ({
   return (
     <Card
       key={slide.slide_number}
-      className="border-2 font-instrument_sans w-full relative"
+      className="glass-card relative w-full border border-white/[0.12] bg-[#0b1426]/80 font-instrument_sans text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
     >
       <CardHeader className="max-w-[1280px] mx-auto px-0 py-6">
-        <CardTitle className="text-xl">
+        <CardTitle className="text-xl text-white">
           <SlideActions
             slide={slide}
             index={index}

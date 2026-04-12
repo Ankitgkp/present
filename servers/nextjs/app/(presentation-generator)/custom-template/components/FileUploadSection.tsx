@@ -32,19 +32,19 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
   completedSlides,
 }) => {
   return (
-    <Card className="w-full">
+    <Card className="glass-card w-full border-white/[0.12] bg-[#0b1426]/80 text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Upload className="w-5 h-5" />
+          <Upload className="w-5 h-5 text-[#78b5ff]" />
           Upload PDF or PPTX File
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-white/[0.65]">
           Select a PDF or PowerPoint file (.pdf or .pptx) to process. Maximum file size: 100MB
         </CardDescription>
         {slides.length > 0 && (
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-2 text-sm text-white/70">
             {slides.some((s) => s.processing) && (
-              <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+              <Loader2 className="w-6 h-6 animate-spin text-[#78b5ff]" />
             )}
             {completedSlides}/{slides.length} slides completed
           </div>
@@ -52,10 +52,10 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
       </CardHeader>
       <CardContent className="space-y-4">
         {!selectedFile ? (
-          <div className="border-2 relative border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
-            <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <div className="relative rounded-2xl border border-dashed border-white/[0.18] bg-white/[0.03] p-8 text-center transition-colors hover:border-[#69adff]/50 hover:bg-white/[0.05]">
+            <Upload className="mx-auto mb-4 h-12 w-12 text-[#78b5ff]" />
             <Label htmlFor="file-upload" className="cursor-pointer">
-              <span className="text-lg font-medium text-gray-700">
+              <span className="text-lg font-medium text-white">
                 Click to upload a PDF or PPTX file
               </span>
               <input
@@ -66,19 +66,19 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
                 className="opacity-0 w-full h-full cursor-pointer absolute top-0 left-0 z-10"
               />
             </Label>
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="mt-2 text-sm text-white/60">
               Drag and drop your file here or click to browse
             </p>
           </div>
         ) : (
-          <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center justify-between rounded-2xl border border-[#4f7fc0]/35 bg-[#10203d]/78 p-4">
             <div className="flex items-center gap-3">
-              <FileText className="w-8 h-8 text-blue-600" />
+              <FileText className="h-8 w-8 text-[#78b5ff]" />
               <div>
-                <p className="font-medium text-gray-900">
+                <p className="font-medium text-white">
                   {selectedFile.name}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-white/60">
                   {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
                 </p>
               </div>
@@ -90,7 +90,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
               disabled={
                 isProcessingPptx || slides.some((s) => s.processing)
               }
-              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              className="rounded-full text-white/70 hover:bg-white/10 hover:text-white"
             >
               <X className="w-4 h-4" />
             </Button>
@@ -101,7 +101,7 @@ export const FileUploadSection: React.FC<FileUploadSectionProps> = ({
           <Button
             onClick={processFile}
             disabled={isProcessingPptx || slides.some((s) => s.processing)}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+            className="btn-border-sweep btn-glow flex-1 rounded-xl border border-[#6aaeff]/40 bg-[#2c6cff] text-white shadow-[0_16px_38px_rgba(44,108,255,0.28)] hover:bg-[#3777ff]"
           >
             {isProcessingPptx
               ? "Extracting Slides..."

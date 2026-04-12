@@ -61,11 +61,11 @@ const Timer = ({ duration }: TimerProps) => {
 
   return (
     <div className="w-full space-y-2">
-      <div className="flex justify-end items-center text-gray-800 text-sm">
+      <div className="flex items-center justify-end text-sm text-white/[0.72]">
         <span className="font-inter text-end font-semibold text-xs">{Math.round(progress)}%</span>
       </div>
       <div
-        className="w-full rounded-full h-3 overflow-hidden shadow-inner"
+        className="h-3 w-full overflow-hidden rounded-full border border-white/[0.08] bg-white/[0.05] shadow-inner"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
@@ -73,7 +73,7 @@ const Timer = ({ duration }: TimerProps) => {
       >
         <div className="relative h-full rounded-full" style={{
           width: `${progress}%`,
-          backgroundImage: 'linear-gradient(90deg, #9034EA, #5146E5, #9034EA)',
+          backgroundImage: 'linear-gradient(90deg, #5aa8ff, #2c6cff, #5aa8ff)',
           backgroundSize: '200% 100%',
           animation: 'gradient 2s linear infinite'
         }}>
