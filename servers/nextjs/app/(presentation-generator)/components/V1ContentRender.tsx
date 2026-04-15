@@ -14,7 +14,20 @@ import { Loader2 } from "lucide-react";
 
 
 
-export const V1ContentRender = ({ slide, isEditMode, theme }: { slide: any, isEditMode: boolean, theme?: any, enableEditMode?: boolean }) => {
+export const V1ContentRender = ({
+    slide,
+    isEditMode,
+    theme,
+    isArrangeMode = false,
+    arrangeCommand,
+}: {
+    slide: any,
+    isEditMode: boolean,
+    theme?: any,
+    enableEditMode?: boolean,
+    isArrangeMode?: boolean,
+    arrangeCommand?: { type: "reset" | null; nonce: number }
+}) => {
     const dispatch = useDispatch();
     const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -92,6 +105,8 @@ export const V1ContentRender = ({ slide, isEditMode, theme }: { slide: any, isEd
                         slideIndex={slide.index}
                         slideData={slide.content}
                         properties={slide.properties}
+                        isArrangeMode={isArrangeMode}
+                        arrangeCommand={arrangeCommand}
                     >
                         <TiptapTextReplacer
                             key={slide.id}

@@ -467,10 +467,10 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
 
                 <div className="relative flex-1 px-[72px] pt-16 pb-20 flex flex-col z-10">
                     <div className="mb-4">
-                        <h1 className="text-[42.7px] font-bold leading-tight tracking-[-1.6px] mb-2" style={{ color: 'var(--background-text,#000000)' }}>
+                        <h1 data-rearrange-id="six-grid-title" className="text-[42.7px] font-bold leading-tight tracking-[-1.6px] mb-2" style={{ color: 'var(--background-text,#000000)' }}>
                             {title}
                         </h1>
-                        <p className="text-[16px] leading-relaxed max-w-[760px]" style={{ color: 'var(--background-text,#4D5463)' }}>
+                        <p data-rearrange-id="six-grid-description" className="text-[16px] leading-relaxed max-w-[760px]" style={{ color: 'var(--background-text,#4D5463)' }}>
                             {description}
                         </p>
                     </div>
@@ -479,6 +479,7 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
                         {charts.map((chart, index) => (
                             <div
                                 key={index}
+                                data-rearrange-id={`six-grid-chart-${index}`}
                                 className="rounded-xl border flex flex-col overflow-visible"
                                 style={{ borderColor: 'var(--stroke,#E5E7EB)', backgroundColor: 'var(--card-color,#FFFFFF)' }}
                             >
