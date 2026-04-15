@@ -321,6 +321,7 @@ import dreamStudioSettings from "./dream-studio/settings.json";
 import neoModernSettings from "./neo-modern/settings.json";
 import neoSwiftSettings from "./neo-swift/settings.json";
 import professionalPitchSettings from "./professional-pitch/settings.json";
+import startupDeckSettings from "./startup-deck/settings.json";
 import educationalScienceSettings from "./educational-science/settings.json";
 import educationalSocialScienceSettings from "./educational-social-science/settings.json";
 import techAIRedSettings from "./tech-ai-red/settings.json";
@@ -585,6 +586,25 @@ export const professionalPitchTemplates: TemplateWithData[] = [
     createTemplateEntry(PitchClosingLayout, PitchClosingSchema, PitchClosingId, PitchClosingName, PitchClosingDesc, "professional-pitch", "PitchClosingLayout"),
 ];
 
+export const startupDeckTemplates: TemplateWithData[] = [
+    createTemplateEntry(PitchTractionMetricsLayout, PitchTractionMetricsSchema, PitchTractionMetricsId, PitchTractionMetricsName, PitchTractionMetricsDesc, "startup-deck", "PitchTractionMetricsLayout"),
+    createTemplateEntry(PitchFinancialOverviewLayout, PitchFinancialOverviewSchema, PitchFinancialOverviewId, PitchFinancialOverviewName, PitchFinancialOverviewDesc, "startup-deck", "PitchFinancialOverviewLayout"),
+    createTemplateEntry(PitchMarketOpportunityLayout, PitchMarketOpportunitySchema, PitchMarketOpportunityId, PitchMarketOpportunityName, PitchMarketOpportunityDesc, "startup-deck", "PitchMarketOpportunityLayout"),
+    createTemplateEntry(PitchCompetitiveLandscapeLayout, PitchCompetitiveLandscapeSchema, PitchCompetitiveLandscapeId, PitchCompetitiveLandscapeName, PitchCompetitiveLandscapeDesc, "startup-deck", "PitchCompetitiveLandscapeLayout"),
+    createTemplateEntry(TitleCenteredChartLayout, TitleCenteredChartSchema, TitleCenteredChartId, TitleCenteredChartName, TitleCenteredChartDesc, "startup-deck", "TitleCenteredChartLayout"),
+    createTemplateEntry(TitleChartMetricsSidebarLayout, TitleChartMetricsSidebarSchema, TitleChartMetricsSidebarId, TitleChartMetricsSidebarName, TitleChartMetricsSidebarDesc, "startup-deck", "TitleChartMetricsSidebarLayout"),
+    createTemplateEntry(TitleBadgeChartLayout, TitleBadgeChartSchema, TitleBadgeChartId, TitleBadgeChartName, TitleBadgeChartDesc, "startup-deck", "TitleBadgeChartLayout"),
+    createTemplateEntry(TitleMetricsChartLayout, TitleMetricsChartSchema, TitleMetricsChartId, TitleMetricsChartName, TitleMetricsChartDesc, "startup-deck", "TitleMetricsChartLayout"),
+    createTemplateEntry(TitleDualChartsComparisonLayout, TitleDualChartsComparisonSchema, TitleDualChartsComparisonId, TitleDualChartsComparisonName, TitleDualChartsComparisonDesc, "startup-deck", "TitleDualChartsComparisonLayout"),
+    createTemplateEntry(MultiChartGridSlideLayout, MultiChartGridSlideSchema, MultiChartGridSlideId, MultiChartGridSlideName, MultiChartGridSlideDesc, "startup-deck", "MultiChartGridSlideLayout"),
+    createTemplateEntry(TitleDescriptionMultiChartGridLayout, TitleDescriptionMultiChartGridSchema, TitleDescriptionMultiChartGridId, TitleDescriptionMultiChartGridName, TitleDescriptionMultiChartGridDesc, "startup-deck", "TitleDescriptionMultiChartGridLayout"),
+    createTemplateEntry(TitleDescriptionMultiChartGridWithMetricsModernLayout, TitleDescriptionMultiChartGridWithMetricsModernSchema, TitleDescriptionMultiChartGridWithMetricsModernId, TitleDescriptionMultiChartGridWithMetricsModernName, TitleDescriptionMultiChartGridWithMetricsModernDesc, "startup-deck", "TitleDescriptionMultiChartGridWithMetricsModernLayout"),
+    createTemplateEntry(TitleDescriptionMultiChartGridWithBulletsModernLayout, TitleDescriptionMultiChartGridWithBulletsModernSchema, TitleDescriptionMultiChartGridWithBulletsModernId, TitleDescriptionMultiChartGridWithBulletsModernName, TitleDescriptionMultiChartGridWithBulletsModernDesc, "startup-deck", "TitleDescriptionMultiChartGridWithBulletsModernLayout"),
+    createTemplateEntry(TitleDescriptionSixChartsGridLayout, TitleDescriptionSixChartsGridSchema, TitleDescriptionSixChartsGridId, TitleDescriptionSixChartsGridName, TitleDescriptionSixChartsGridDesc, "startup-deck", "TitleDescriptionSixChartsGridLayout"),
+    createTemplateEntry(TitleDescriptionSixChartsFourMetricsLayout, TitleDescriptionSixChartsFourMetricsSchema, TitleDescriptionSixChartsFourMetricsId, TitleDescriptionSixChartsFourMetricsName, TitleDescriptionSixChartsFourMetricsDesc, "startup-deck", "TitleDescriptionSixChartsFourMetricsLayout"),
+    createTemplateEntry(TitleDescriptionFourChartsSixBulletsLayout, TitleDescriptionFourChartsSixBulletsSchema, TitleDescriptionFourChartsSixBulletsId, TitleDescriptionFourChartsSixBulletsName, TitleDescriptionFourChartsSixBulletsDesc, "startup-deck", "TitleDescriptionFourChartsSixBulletsLayout"),
+];
+
 export const educationalScienceTemplates: TemplateWithData[] = [
     createTemplateEntry(EduScienceIntroLayout, EduScienceIntroSchema, EduScienceIntroId, EduScienceIntroName, EduScienceIntroDesc, "educational-science", "EduScienceIntroLayout"),
     createTemplateEntry(EduScienceConceptLayout, EduScienceConceptSchema, EduScienceConceptId, EduScienceConceptName, EduScienceConceptDesc, "educational-science", "EduScienceConceptLayout"),
@@ -670,6 +690,7 @@ export const allLayouts: TemplateWithData[] = [
     ...velvetHazeTemplates,
     ...dreamStudioTemplates,
     ...professionalPitchTemplates,
+    ...startupDeckTemplates,
     ...educationalScienceTemplates,
     ...educationalSocialScienceTemplates,
     ...techAIRedTemplates,
@@ -808,6 +829,13 @@ export const templates: TemplateLayoutsWithSettings[] = [
         description: professionalPitchSettings.description,
         settings: professionalPitchSettings as TemplateGroupSettings,
         layouts: professionalPitchTemplates,
+    },
+    {
+        id: "startup-deck",
+        name: "Startup Deck",
+        description: startupDeckSettings.description,
+        settings: startupDeckSettings as TemplateGroupSettings,
+        layouts: startupDeckTemplates,
     },
     {
         id: "educational-science",

@@ -28,6 +28,41 @@ export const FONT_OPTIONS: any[] = [
 
 export const DEFAULT_THEMES: any[] = [
   {
+    id: "startup-deck",
+    name: "Startup Deck",
+    description: "High-contrast startup pitch theme optimized for metrics and charts.",
+    logo: null,
+    logo_url: null,
+    company_name: null,
+
+    data: {
+      colors: {
+        primary: "#6D28D9",
+        background: "#0B1020",
+        card: "#151C34",
+        stroke: "#2A355A",
+        primary_text: "#F8FAFC",
+        background_text: "#E2E8F0",
+        graph_0: "#22D3EE",
+        graph_1: "#A78BFA",
+        graph_2: "#34D399",
+        graph_3: "#F59E0B",
+        graph_4: "#F97316",
+        graph_5: "#F43F5E",
+        graph_6: "#38BDF8",
+        graph_7: "#2DD4BF",
+        graph_8: "#84CC16",
+        graph_9: "#C084FC"
+      },
+      fonts: {
+        textFont: {
+          name: "Inter",
+          url: "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+        }
+      }
+    }
+  },
+  {
     id: "edge-yellow",
     name: "Edge Yellow",
     description: "Yellow and dark theme for professionalish and edge.",

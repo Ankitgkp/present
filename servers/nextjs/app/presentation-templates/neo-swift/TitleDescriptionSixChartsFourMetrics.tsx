@@ -461,9 +461,9 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
     const hasMetrics = metrics.length > 0;
 
     const getChartHeight = () => {
-        if (chartCount <= 2) return hasMetrics ? 220 : 280;
-        if (chartCount <= 3) return hasMetrics ? 200 : 260;
-        return hasMetrics ? 150 : 180;
+        if (chartCount <= 2) return hasMetrics ? 220 : 290;
+        if (chartCount <= 3) return hasMetrics ? 190 : 250;
+        return hasMetrics ? 145 : 175;
     };
 
     return (
@@ -503,17 +503,17 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
                         )}
                     </div>
 
-                    <div className={`flex-1 grid ${gridLayout.className} gap-4 min-h-0`} style={{ height: hasMetrics ? '380px' : '480px' }}>
+                    <div className={`flex-1 grid ${gridLayout.className} gap-4 min-h-0`} style={{ height: hasMetrics ? '430px' : '520px' }}>
                         {charts.map((chart, index) => (
                             <div
                                 key={index}
-                                className="rounded-xl border flex flex-col overflow-hidden"
+                                className="rounded-xl border flex flex-col overflow-visible"
                                 style={{ borderColor: 'var(--stroke,#E5E7EB)', backgroundColor: 'var(--card-color,#FFFFFF)' }}
                             >
                                 <div className="px-4 pt-3 pb-1">
                                     <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--background-text,#374151)' }}>{chart.title}</h3>
                                 </div>
-                                <div className="flex-1 px-2 pb-2 min-h-0" style={{ height: `${getChartHeight()}px` }}>
+                                <div className="flex-1 px-2 pb-4 min-h-0" style={{ height: `${getChartHeight()}px` }}>
                                     <MiniChartRenderer chart={chart} showLegend={showLegend && chartCount <= 4} showGrid={showGrid} chartKey={`six-metrics-${index}`} />
                                 </div>
                             </div>

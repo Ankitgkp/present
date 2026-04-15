@@ -447,9 +447,9 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
     const gridLayout = getGridLayout(chartCount);
 
     const getChartHeight = () => {
-        if (chartCount <= 2) return 280;
-        if (chartCount <= 3) return 260;
-        return 180;
+        if (chartCount <= 2) return 290;
+        if (chartCount <= 3) return 245;
+        return 165;
     };
 
     return (
@@ -475,17 +475,17 @@ const dynamicSlideLayout: React.FC<{ data: Partial<z.infer<typeof Schema>> }> = 
                         </p>
                     </div>
 
-                    <div className={`flex-1 grid ${gridLayout.className} gap-4 min-h-0`} style={{ height: '480px' }}>
+                    <div className={`flex-1 grid ${gridLayout.className} gap-4 min-h-0`} style={{ height: '520px' }}>
                         {charts.map((chart, index) => (
                             <div
                                 key={index}
-                                className="rounded-xl border flex flex-col overflow-hidden"
+                                className="rounded-xl border flex flex-col overflow-visible"
                                 style={{ borderColor: 'var(--stroke,#E5E7EB)', backgroundColor: 'var(--card-color,#FFFFFF)' }}
                             >
                                 <div className="px-4 pt-3 pb-1">
                                     <h3 className="text-sm font-semibold truncate" style={{ color: 'var(--background-text,#374151)' }}>{chart.title}</h3>
                                 </div>
-                                <div className="flex-1 px-2 pb-2 min-h-0" style={{ height: `${getChartHeight()}px` }}>
+                                <div className="flex-1 px-2 pb-4 min-h-0" style={{ height: `${getChartHeight()}px` }}>
                                     <MiniChartRenderer chart={chart} showLegend={showLegend && chartCount <= 4} showGrid={showGrid} chartKey={`six-${index}`} />
                                 </div>
                             </div>
