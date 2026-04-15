@@ -85,14 +85,24 @@ const PresentationHeader = ({
     return pptx_model;
   };
 
+  const trySaveBeforeExport = async () => {
+    try {
+      trackEvent(MixpanelEvent.Header_UpdatePresentationContent_API_Call);
+      await PresentationGenerationApi.updatePresentationContent(presentationData);
+    } catch (saveError) {
+      console.warn("Pre-export save failed. Continuing with latest persisted state.", saveError);
+      toast.warning("Could not save latest edits before export", {
+        description: "Export will continue with your latest saved version.",
+      });
+    }
+  };
+
   const handleExportPptx = async () => {
     if (isStreaming) return;
 
     try {
       setIsExporting(true);
-      // Save the presentation data before exporting
-      trackEvent(MixpanelEvent.Header_UpdatePresentationContent_API_Call);
-      await PresentationGenerationApi.updatePresentationContent(presentationData);
+      await trySaveBeforeExport();
 
       trackEvent(MixpanelEvent.Header_GetPptxModel_API_Call);
       const pptx_model = await get_presentation_pptx_model(presentation_id);
@@ -123,13 +133,14 @@ const PresentationHeader = ({
 
     try {
       setIsExporting(true);
-      // Save the presentation data before exporting
-      trackEvent(MixpanelEvent.Header_UpdatePresentationContent_API_Call);
-      await PresentationGenerationApi.updatePresentationContent(presentationData);
+      await trySaveBeforeExport();
 
       trackEvent(MixpanelEvent.Header_ExportAsPDF_API_Call);
       const response = await fetch('/api/export-as-pdf', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           id: presentation_id,
           title: presentationData?.title,
@@ -161,12 +172,19 @@ const PresentationHeader = ({
     router.push(`/presentation?id=${presentation_id}&stream=true`);
   };
   const downloadLink = (path: string) => {
+    const resolvedPath =
+      path &&
+      !/^https?:\/\//i.test(path) &&
+      (path.startsWith("/") || path.includes("\\") || path.includes("/"))
+        ? `/api/download-export?path=${encodeURIComponent(path)}`
+        : path;
+
     // if we have popup access give direct download if not redirect to the path
     if (window.opener) {
-      window.open(path, '_blank');
+      window.open(resolvedPath, '_blank');
     } else {
       const link = document.createElement('a');
-      link.href = path;
+      link.href = resolvedPath;
       link.download = path.split('/').pop() || 'download';
       document.body.appendChild(link);
       link.click();
