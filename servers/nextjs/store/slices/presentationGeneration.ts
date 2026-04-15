@@ -438,6 +438,46 @@ const presentationGenerationSlice = createSlice({
         state.presentationData['theme'] = action.payload;
       }
     },
+    updateSlideArrangement: (
+      state,
+      action: PayloadAction<{
+        slideIndex: number;
+        arrangement: Record<string, { x: number; y: number }>;
+      }>
+    ) => {
+      if (
+        state.presentationData &&
+        state.presentationData.slides &&
+        state.presentationData.slides[action.payload.slideIndex]
+      ) {
+        const slide = state.presentationData.slides[action.payload.slideIndex];
+        slide.properties = {
+          ...(slide.properties || {}),
+          __arrangement: {
+            ...((slide.properties || {}).__arrangement || {}),
+            ...(action.payload.arrangement || {}),
+          },
+        };
+      }
+    },
+    resetSlideArrangement: (
+      state,
+      action: PayloadAction<{
+        slideIndex: number;
+      }>
+    ) => {
+      if (
+        state.presentationData &&
+        state.presentationData.slides &&
+        state.presentationData.slides[action.payload.slideIndex]
+      ) {
+        const slide = state.presentationData.slides[action.payload.slideIndex];
+        slide.properties = {
+          ...(slide.properties || {}),
+          __arrangement: {},
+        };
+      }
+    },
   },
 
 });
@@ -465,6 +505,8 @@ export const {
   updateSlideIcon,
   addNewSlide,
   updateTheme,
+  updateSlideArrangement,
+  resetSlideArrangement,
 } = presentationGenerationSlice.actions;
 
 export default presentationGenerationSlice.reducer;

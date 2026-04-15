@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Loader2, PlusIcon, Pencil, Trash, BarChart3, SendHorizontal } from "lucide-react";
+import { Loader2, PlusIcon, Pencil, Trash, BarChart3, SendHorizontal, Move, RotateCcw } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -15,6 +15,7 @@ import {
   deletePresentationSlide,
   updateSlide,
   updateSlideDataAtPath,
+  resetSlideArrangement,
 } from "@/store/slices/presentationGeneration";
 import { usePathname } from "next/navigation";
 import { trackEvent, MixpanelEvent } from "@/utils/mixpanel";
@@ -38,6 +39,11 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
   const [editPrompt, setEditPrompt] = useState("");
   const [chartJson, setChartJson] = useState("");
   const [isChartSaving, setIsChartSaving] = useState(false);
+  const [isArrangeMode, setIsArrangeMode] = useState(false);
+  const [arrangeCommand, setArrangeCommand] = useState<{ type: "reset" | null; nonce: number }>({
+    type: null,
+    nonce: 0,
+  });
   const { presentationData, isStreaming } = useSelector(
     (state: RootState) => state.presentationGeneration
   );
@@ -276,7 +282,13 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
           data-group={slide.layout_group}
           className={` w-full  group font-syne  `}
         >
-          <V1ContentRender slide={slide} isEditMode={true} theme={null} />
+          <V1ContentRender
+            slide={slide}
+            isEditMode={true}
+            theme={null}
+            isArrangeMode={isArrangeMode}
+            arrangeCommand={arrangeCommand}
+          />
           {!showNewSlideSelection && (
             <div className="group-hover:opacity-100 hidden md:block opacity-0 transition-opacity my-4 duration-300">
               <ToolTip content="Add new slide below">
@@ -307,6 +319,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
             <div
               className={`absolute right-3 top-3 z-30 hidden md:flex flex-row items-center gap-2 rounded-[28px] border border-gray-200/80 bg-white/95 px-2.5 py-2 ${isEditPopoverOpen || isSpeakerPopoverOpen
                 || isChartPopoverOpen
+                || isArrangeMode
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
                 }`}
@@ -314,6 +327,37 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
                 boxShadow: "0 2px 13.2px 0 rgba(0, 0, 0, 0.10)"
               }}
             >
+              <button
+                type="button"
+                onClick={() => setIsArrangeMode((prev) => !prev)}
+                className={`flex px-3.5 py-2.5 items-center justify-center rounded-full font-syne ${isArrangeMode ? "bg-[#EDE9FE] text-[#4C1D95]" : "bg-[#F7F6F9]"}`}
+              >
+                <ToolTip content={isArrangeMode ? "Exit arrange mode" : "Arrange components"}>
+                  <Move className="h-4 w-4" />
+                </ToolTip>
+              </button>
+
+              {isArrangeMode && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(addToHistory({
+                        slides: presentationData?.slides,
+                        actionType: "RESET_ARRANGEMENT",
+                      }));
+                      dispatch(resetSlideArrangement({ slideIndex: slide.index }));
+                      setArrangeCommand({ type: "reset", nonce: Date.now() });
+                    }}
+                    className="flex px-3.5 py-2.5 items-center justify-center rounded-full bg-[#F7F6F9] font-syne"
+                  >
+                    <ToolTip content="Reset arrangement">
+                      <RotateCcw className="h-4 w-4" />
+                    </ToolTip>
+                  </button>
+                </>
+              )}
+
               <Popover open={isEditPopoverOpen} onOpenChange={setIsEditPopoverOpen}>
                 <PopoverTrigger asChild>
                   <button
