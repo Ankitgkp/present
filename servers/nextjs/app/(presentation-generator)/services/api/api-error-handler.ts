@@ -5,8 +5,35 @@ interface ApiErrorResponse {
   error?: string;
 }
 
+interface ValidationErrorItem {
+  loc?: Array<string | number>;
+  msg?: string;
+  type?: string;
+}
+
 // API Response Handler Utility
 export class ApiResponseHandler {
+  private static formatDetail(detail: unknown): string | null {
+    if (typeof detail === "string") return detail;
+
+    if (Array.isArray(detail)) {
+      const parsed = detail as ValidationErrorItem[];
+      const messages = parsed
+        .slice(0, 8)
+        .map((item) => {
+          const loc = Array.isArray(item.loc) ? item.loc.join(".") : "request";
+          const msg = item.msg || "Invalid value";
+          return `${loc}: ${msg}`;
+        })
+        .filter(Boolean);
+
+      if (messages.length > 0) {
+        return messages.join("; ");
+      }
+    }
+
+    return null;
+  }
  
   static async handleResponse(response: Response, defaultErrorMessage: string): Promise<any> {
     // Handle successful responses
@@ -32,8 +59,9 @@ export class ApiResponseHandler {
       const errorData: ApiErrorResponse = await response.json();
       
       // Extract error message in order of preference
-      if (errorData.detail) {
-        errorMessage = errorData.detail;
+      const formattedDetail = this.formatDetail(errorData.detail);
+      if (formattedDetail) {
+        errorMessage = formattedDetail;
       } else if (errorData.message) {
         errorMessage = errorData.message;
       } else if (errorData.error) {
@@ -63,8 +91,9 @@ export class ApiResponseHandler {
         const errorData: ApiErrorResponse = await response.json();
         
         // Extract error message in order of preference
-        if (errorData.detail) {
-          errorMessage = errorData.detail;
+        const formattedDetail = this.formatDetail(errorData.detail);
+        if (formattedDetail) {
+          errorMessage = formattedDetail;
         } else if (errorData.message) {
           errorMessage = errorData.message;
         } else if (errorData.error) {

@@ -2,6 +2,36 @@ import { getHeader, getHeaderForFormData } from "./header";
 import { IconSearch, ImageGenerate, ImageSearch, PreviousGeneratedImagesResponse } from "./params";
 import { ApiResponseHandler } from "./api-error-handler";
 
+const ALLOWED_PPTX_OBJECT_FITS = new Set(["contain", "cover", "fill"]);
+
+const sanitizePptxPayload = (payload: any) => {
+  if (!payload || !Array.isArray(payload.slides)) return payload;
+
+  return {
+    ...payload,
+    slides: payload.slides.map((slide: any) => ({
+      ...slide,
+      shapes: Array.isArray(slide?.shapes)
+        ? slide.shapes.map((shape: any) => {
+            if (shape?.shape_type === "picture" && shape?.object_fit?.fit) {
+              const fit = String(shape.object_fit.fit).toLowerCase();
+              if (!ALLOWED_PPTX_OBJECT_FITS.has(fit)) {
+                return {
+                  ...shape,
+                  object_fit: {
+                    ...shape.object_fit,
+                    fit: "contain",
+                  },
+                };
+              }
+            }
+            return shape;
+          })
+        : [],
+    })),
+  };
+};
+
 export class PresentationGenerationApi {
   static async uploadDoc(documents: File[]) {
     const formData = new FormData();
@@ -228,12 +258,13 @@ export class PresentationGenerationApi {
   // EXPORT PRESENTATION
   static async exportAsPPTX(presentationData: any) {
     try {
+      const sanitizedPresentationData = sanitizePptxPayload(presentationData);
       const response = await fetch(
         `/api/v1/ppt/presentation/export/pptx`,
         {
           method: "POST",
           headers: getHeader(),
-          body: JSON.stringify(presentationData),
+          body: JSON.stringify(sanitizedPresentationData),
           cache: "no-cache",
         }
       );

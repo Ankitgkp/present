@@ -52,6 +52,18 @@ function convertLineHeightToRelative(lineHeight?: number, fontSize?: number): nu
   return calculatedLineHeight - 0.3
 }
 
+function normalizeObjectFitForPptx(objectFit?: string): PptxObjectFitEnum {
+  if (!objectFit) return PptxObjectFitEnum.CONTAIN;
+
+  const normalized = objectFit.toLowerCase();
+  if (normalized === PptxObjectFitEnum.CONTAIN) return PptxObjectFitEnum.CONTAIN;
+  if (normalized === PptxObjectFitEnum.COVER) return PptxObjectFitEnum.COVER;
+  if (normalized === PptxObjectFitEnum.FILL) return PptxObjectFitEnum.FILL;
+
+  // CSS values like "none" or "scale-down" are not supported by backend enum
+  return PptxObjectFitEnum.CONTAIN;
+}
+
 export function convertElementAttributesToPptxSlides(
   slidesAttributes: SlideAttributesResult[]
 ): PptxSlideModel[] {
@@ -187,7 +199,7 @@ function convertToAutoShapeBox(element: ElementAttributes): PptxAutoShapeBoxMode
   let borderRadius = undefined;
   for (const eachCornerRadius of element.borderRadius ?? []) {
     if (eachCornerRadius > 0) {
-      borderRadius = Math.max(borderRadius ?? 0, eachCornerRadius);
+      borderRadius = Math.max(borderRadius ?? 0, Math.round(eachCornerRadius));
     }
   }
 
@@ -214,7 +226,7 @@ function convertToPictureBox(element: ElementAttributes): PptxPictureBoxModel {
   };
 
   const objectFit: PptxObjectFitModel = {
-    fit: element.objectFit ? (element.objectFit as PptxObjectFitEnum) : PptxObjectFitEnum.CONTAIN
+    fit: normalizeObjectFitForPptx(element.objectFit)
   };
 
   const picture: PptxPictureModel = {
