@@ -192,6 +192,60 @@ const presentationGenerationSlice = createSlice({
       }
     },
 
+    // Update slide content with any value type at a specific nested data path
+    updateSlideDataAtPath: (
+      state,
+      action: PayloadAction<{
+        slideIndex: number;
+        dataPath: string;
+        value: any;
+      }>
+    ) => {
+      if (
+        state.presentationData &&
+        state.presentationData.slides &&
+        state.presentationData.slides[action.payload.slideIndex]
+      ) {
+        const slide = state.presentationData.slides[action.payload.slideIndex];
+        const { dataPath, value } = action.payload;
+
+        const setNestedValue = (obj: any, path: string, nextValue: any) => {
+          const keys = path.split(/[.\[\]]+/).filter(Boolean);
+          let current = obj;
+
+          for (let i = 0; i < keys.length - 1; i++) {
+            const key = keys[i];
+            const nextKey = keys[i + 1];
+            const nextIsIndex = !isNaN(Number(nextKey));
+
+            if (isNaN(Number(key))) {
+              if (current[key] === undefined || current[key] === null) {
+                current[key] = nextIsIndex ? [] : {};
+              }
+              current = current[key];
+            } else {
+              const index = Number(key);
+              if (current[index] === undefined || current[index] === null) {
+                current[index] = nextIsIndex ? [] : {};
+              }
+              current = current[index];
+            }
+          }
+
+          const finalKey = keys[keys.length - 1];
+          if (isNaN(Number(finalKey))) {
+            current[finalKey] = nextValue;
+          } else {
+            current[Number(finalKey)] = nextValue;
+          }
+        };
+
+        if (dataPath && slide.content) {
+          setNestedValue(slide.content, dataPath, value);
+        }
+      }
+    },
+
     addNewSlide: (state, action: PayloadAction<{ slideData: any; index: number }>) => {
       if (state.presentationData?.slides) {
         // Insert the new slide at the specified index + 1 (after current slide)
@@ -405,6 +459,7 @@ export const {
   updateSlide,
   deletePresentationSlide,
   updateSlideContent,
+  updateSlideDataAtPath,
   updateSlideImage,
   updateImageProperties,
   updateSlideIcon,

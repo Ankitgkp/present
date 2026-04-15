@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Loader2, PlusIcon, Trash2, Pencil, Trash } from "lucide-react";
+import { Loader2, PlusIcon, Pencil, Trash, BarChart3, SendHorizontal } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
-import { SendHorizontal } from "lucide-react";
 import { toast } from "sonner";
 import { PresentationGenerationApi } from "../../services/api/presentation-generation";
 import ToolTip from "@/components/ToolTip";
@@ -15,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deletePresentationSlide,
   updateSlide,
+  updateSlideDataAtPath,
 } from "@/store/slices/presentationGeneration";
 import { usePathname } from "next/navigation";
 import { trackEvent, MixpanelEvent } from "@/utils/mixpanel";
@@ -33,8 +33,11 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [showNewSlideSelection, setShowNewSlideSelection] = useState(false);
   const [isEditPopoverOpen, setIsEditPopoverOpen] = useState(false);
+  const [isChartPopoverOpen, setIsChartPopoverOpen] = useState(false);
   const [isSpeakerPopoverOpen, setIsSpeakerPopoverOpen] = useState(false);
   const [editPrompt, setEditPrompt] = useState("");
+  const [chartJson, setChartJson] = useState("");
+  const [isChartSaving, setIsChartSaving] = useState(false);
   const { presentationData, isStreaming } = useSelector(
     (state: RootState) => state.presentationGeneration
   );
@@ -42,6 +45,134 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
   // Use the centralized group layouts hook
 
   const pathname = usePathname();
+
+  const CHART_HINT_KEYS = [
+    "chart",
+    "charts",
+    "graph",
+    "graphData",
+    "rows",
+    "columns",
+    "series",
+    "xAxis",
+    "yAxis",
+    "showLegend",
+    "showGrid",
+  ];
+
+  const isChartLikeObject = (value: any, keyName = "") => {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+
+    const keys = Object.keys(value);
+    const hasChartStructure =
+      keys.includes("rows") ||
+      keys.includes("columns") ||
+      keys.includes("data") ||
+      keys.includes("series") ||
+      keys.includes("chartType") ||
+      keys.includes("type");
+
+    const byKeyName = CHART_HINT_KEYS.some((hint) =>
+      keyName.toLowerCase().includes(hint.toLowerCase())
+    );
+
+    return hasChartStructure || byKeyName;
+  };
+
+  const collectChartFields = (node: any, path = "", keyName = ""): Array<{ path: string; value: any }> => {
+    if (!node || typeof node !== "object") return [];
+
+    const fields: Array<{ path: string; value: any }> = [];
+
+    if (isChartLikeObject(node, keyName) && path) {
+      fields.push({ path, value: node });
+      // Do not recurse into nested chart sub-objects to avoid conflicting
+      // path entries like `charts[0]` and `charts[0].data[0]` overwriting each other.
+      return fields;
+    }
+
+    if (Array.isArray(node)) {
+      node.forEach((item, index) => {
+        const itemPath = `${path}[${index}]`;
+        fields.push(...collectChartFields(item, itemPath, keyName));
+      });
+      return fields;
+    }
+
+    Object.entries(node).forEach(([childKey, childValue]) => {
+      const childPath = path ? `${path}.${childKey}` : childKey;
+      fields.push(...collectChartFields(childValue, childPath, childKey));
+    });
+
+    return fields;
+  };
+
+  const handleOpenChartEditor = () => {
+    const chartFields = collectChartFields(slide?.content || {});
+
+    if (!chartFields.length) {
+      toast.error("No chart fields found on this slide");
+      return;
+    }
+
+    const pathBasedPayload = chartFields.reduce((acc, field) => {
+      acc[field.path] = field.value;
+      return acc;
+    }, {} as Record<string, any>);
+
+    setChartJson(JSON.stringify(pathBasedPayload, null, 2));
+    setIsChartPopoverOpen(true);
+  };
+
+  const handleSaveChartData = async () => {
+    if (!chartJson.trim()) {
+      toast.error("Chart JSON cannot be empty");
+      return;
+    }
+
+    try {
+      setIsChartSaving(true);
+      const parsed = JSON.parse(chartJson);
+
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        toast.error("Chart JSON must be an object with data paths as keys");
+        return;
+      }
+
+      const entries = Object.entries(parsed).filter(
+        ([path]) => typeof path === "string" && path.trim().length > 0
+      );
+
+      if (!entries.length) {
+        toast.error("No chart fields to update");
+        return;
+      }
+
+      dispatch(addToHistory({
+        slides: presentationData?.slides,
+        actionType: "EDIT_CHART_DATA"
+      }));
+
+      entries.forEach(([dataPath, value]) => {
+        dispatch(
+          updateSlideDataAtPath({
+            slideIndex: slide.index,
+            dataPath,
+            value,
+          })
+        );
+      });
+
+      toast.success("Chart data updated");
+      setIsChartPopoverOpen(false);
+    } catch (error: any) {
+      toast.error("Invalid JSON", {
+        description: error?.message || "Please provide valid JSON.",
+      });
+    } finally {
+      setIsChartSaving(false);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!editPrompt.trim()) {
@@ -175,6 +306,7 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
           {!isStreaming && (
             <div
               className={`absolute right-3 top-3 z-30 hidden md:flex flex-row items-center gap-2 rounded-[28px] border border-gray-200/80 bg-white/95 px-2.5 py-2 ${isEditPopoverOpen || isSpeakerPopoverOpen
+                || isChartPopoverOpen
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
                 }`}
@@ -231,6 +363,57 @@ const SlideContent = ({ slide, index, presentationId }: SlideContentProps) => {
                       <SendHorizontal className="h-4 w-4" />
                     </button>
                   </form>
+                </PopoverContent>
+              </Popover>
+
+              <Popover open={isChartPopoverOpen} onOpenChange={setIsChartPopoverOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={handleOpenChartEditor}
+                    className="flex px-3.5 py-2.5 items-center justify-center rounded-full bg-[#F7F6F9] font-syne"
+                  >
+                    <ToolTip content="Edit chart data JSON">
+                      <BarChart3 className="h-4 w-4" />
+                    </ToolTip>
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  side="bottom"
+                  align="center"
+                  sideOffset={12}
+                  className="z-30 w-[460px] rounded-2xl border border-gray-200 bg-white p-0 shadow-2xl font-syne"
+                >
+                  <div className="border-b border-gray-100 px-4 py-3">
+                    <p className="text-sm font-semibold text-gray-900">Edit chart data</p>
+                    <p className="mt-1 text-xs text-gray-500">
+                      Update chart paths (e.g. {"{chart}"}, {"{graphData}"}, {"{charts[0]}"}) with your own rows, columns, type, and series.
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-3 p-4">
+                    <Textarea
+                      value={chartJson}
+                      onChange={(e) => setChartJson(e.target.value)}
+                      placeholder={`{
+  "chart": {
+    "type": "bar",
+    "data": []
+  }
+}`}
+                      className="min-h-[260px] max-h-[380px] w-full resize-y rounded-xl border border-gray-200 p-3 text-sm font-mono focus-visible:ring-1 focus-visible:ring-[#5141e5]"
+                      disabled={isChartSaving}
+                      wrap="soft"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSaveChartData}
+                      disabled={isChartSaving}
+                      className={`ml-auto flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#9034EA] to-[#5146E5] px-4 py-2 text-sm font-medium text-white transition-opacity ${isChartSaving ? "cursor-not-allowed opacity-70" : "hover:opacity-90"}`}
+                    >
+                      {isChartSaving ? "Saving..." : "Save chart data"}
+                      <SendHorizontal className="h-4 w-4" />
+                    </button>
+                  </div>
                 </PopoverContent>
               </Popover>
 
