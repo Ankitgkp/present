@@ -26,6 +26,30 @@ interface EditableElement {
     element: HTMLImageElement | SVGElement;
 }
 
+interface AlignmentGuide {
+    id: string;
+    x1: number;
+    y1: number;
+    x2: number;
+    y2: number;
+    label?: string;
+    labelX?: number;
+    labelY?: number;
+    color?: string;
+}
+
+interface ElementFrame {
+    id: string;
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+    centerX: number;
+    centerY: number;
+    width: number;
+    height: number;
+}
+
 const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
     children,
     slideIndex,
@@ -39,9 +63,11 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
     const containerRef = useRef<HTMLDivElement>(null);
     const [editableElements, setEditableElements] = useState<EditableElement[]>([]);
     const [activeEditor, setActiveEditor] = useState<EditableElement | null>(null);
+    const [alignmentGuides, setAlignmentGuides] = useState<AlignmentGuide[]>([]);
     const arrangementRef = useRef<Record<string, { x: number; y: number }>>({});
     const dragCleanupRef = useRef<(() => void)[]>([]);
     const SNAP_SIZE = 12;
+    const ALIGN_THRESHOLD = 8;
 
     const snapToGrid = (value: number) => Math.round(value / SNAP_SIZE) * SNAP_SIZE;
     const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
@@ -135,6 +161,32 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
         });
     };
 
+    const getElementFrameInStage = (element: HTMLElement, stageRect: DOMRect): ElementFrame | null => {
+        const id = element.dataset.rearrangeId;
+        if (!id) return null;
+        const rect = element.getBoundingClientRect();
+        const origin = arrangementRef.current[id] || { x: 0, y: 0 };
+
+        const left = rect.left - stageRect.left - origin.x;
+        const top = rect.top - stageRect.top - origin.y;
+        const width = rect.width;
+        const height = rect.height;
+        const right = left + width;
+        const bottom = top + height;
+
+        return {
+            id,
+            left,
+            top,
+            right,
+            bottom,
+            centerX: left + width / 2,
+            centerY: top + height / 2,
+            width,
+            height,
+        };
+    };
+
     const applyArrangementToElement = (element: HTMLElement, x = 0, y = 0) => {
         element.style.transform = `translate(${x}px, ${y}px)`;
         element.style.willChange = 'transform';
@@ -165,6 +217,7 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
     const removeArrangeListeners = () => {
         dragCleanupRef.current.forEach((cleanup) => cleanup());
         dragCleanupRef.current = [];
+        setAlignmentGuides([]);
         if (!containerRef.current) return;
 
         const rearrangeElements = containerRef.current.querySelectorAll<HTMLElement>('[data-rearrange-id]');
@@ -217,6 +270,11 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
                 const minY = -baseTop;
                 const maxY = stageRectNow.height - elementRect.height - baseTop;
 
+                const otherFrames: ElementFrame[] = Array.from(rearrangeElements)
+                    .filter((candidate) => candidate !== el)
+                    .map((candidate) => getElementFrameInStage(candidate, stageRectNow))
+                    .filter((frame): frame is ElementFrame => Boolean(frame));
+
                 el.style.cursor = 'grabbing';
                 el.style.zIndex = '60';
 
@@ -224,10 +282,200 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
                     const dx = moveEvent.clientX - startX;
                     const dy = moveEvent.clientY - startY;
 
-                    const nextX = snapToGrid(clamp(origin.x + dx, minX, maxX));
-                    const nextY = snapToGrid(clamp(origin.y + dy, minY, maxY));
+                    let nextX = snapToGrid(clamp(origin.x + dx, minX, maxX));
+                    let nextY = snapToGrid(clamp(origin.y + dy, minY, maxY));
+
+                    const buildMovingFrame = (x: number, y: number): ElementFrame => {
+                        const left = baseLeft + x;
+                        const top = baseTop + y;
+                        const right = left + elementRect.width;
+                        const bottom = top + elementRect.height;
+                        return {
+                            id: rearrangeId,
+                            left,
+                            top,
+                            right,
+                            bottom,
+                            centerX: left + elementRect.width / 2,
+                            centerY: top + elementRect.height / 2,
+                            width: elementRect.width,
+                            height: elementRect.height,
+                        };
+                    };
+
+                    const guides: AlignmentGuide[] = [];
+                    let moving = buildMovingFrame(nextX, nextY);
+
+                    type SnapCandidate = { delta: number; target: number; label: string; color?: string };
+                    let bestSnapX: SnapCandidate | undefined;
+                    let bestSnapY: SnapCandidate | undefined;
+
+                    const trySnapX = (target: number, source: number, label: string, color?: string) => {
+                        const delta = target - source;
+                        if (Math.abs(delta) > ALIGN_THRESHOLD) return;
+                        if (!bestSnapX || Math.abs(delta) < Math.abs(bestSnapX.delta)) {
+                            bestSnapX = { delta, target, label, color };
+                        }
+                    };
+
+                    const trySnapY = (target: number, source: number, label: string, color?: string) => {
+                        const delta = target - source;
+                        if (Math.abs(delta) > ALIGN_THRESHOLD) return;
+                        if (!bestSnapY || Math.abs(delta) < Math.abs(bestSnapY.delta)) {
+                            bestSnapY = { delta, target, label, color };
+                        }
+                    };
+
+                    // Stage edge/center guides
+                    trySnapX(0, moving.left, 'edge');
+                    trySnapX(stageRectNow.width, moving.right, 'edge');
+                    trySnapX(stageRectNow.width / 2, moving.centerX, 'center', '#22C55E');
+
+                    trySnapY(0, moving.top, 'edge');
+                    trySnapY(stageRectNow.height, moving.bottom, 'edge');
+                    trySnapY(stageRectNow.height / 2, moving.centerY, 'center', '#22C55E');
+
+                    // Other-element edge/center guides
+                    otherFrames.forEach((other) => {
+                        trySnapX(other.left, moving.left, 'edge');
+                        trySnapX(other.right, moving.right, 'edge');
+                        trySnapX(other.centerX, moving.centerX, 'center', '#22C55E');
+                        trySnapX(other.right, moving.left, 'edge');
+                        trySnapX(other.left, moving.right, 'edge');
+
+                        trySnapY(other.top, moving.top, 'edge');
+                        trySnapY(other.bottom, moving.bottom, 'edge');
+                        trySnapY(other.centerY, moving.centerY, 'center', '#22C55E');
+                        trySnapY(other.bottom, moving.top, 'edge');
+                        trySnapY(other.top, moving.bottom, 'edge');
+                    });
+
+                    if (bestSnapX !== undefined) {
+                        const snapX: SnapCandidate = bestSnapX;
+                        nextX = snapToGrid(clamp(nextX + snapX.delta, minX, maxX));
+                        guides.push({
+                            id: `snap-x-${snapX.target}`,
+                            x1: snapX.target,
+                            y1: 0,
+                            x2: snapX.target,
+                            y2: stageRectNow.height,
+                            label: snapX.label,
+                            labelX: snapX.target + 6,
+                            labelY: 14,
+                            color: snapX.color || '#8B5CF6',
+                        });
+                    }
+
+                    if (bestSnapY !== undefined) {
+                        const snapY: SnapCandidate = bestSnapY;
+                        nextY = snapToGrid(clamp(nextY + snapY.delta, minY, maxY));
+                        guides.push({
+                            id: `snap-y-${snapY.target}`,
+                            x1: 0,
+                            y1: snapY.target,
+                            x2: stageRectNow.width,
+                            y2: snapY.target,
+                            label: snapY.label,
+                            labelX: 6,
+                            labelY: Math.max(14, snapY.target - 6),
+                            color: snapY.color || '#8B5CF6',
+                        });
+                    }
+
+                    moving = buildMovingFrame(nextX, nextY);
+
+                    // Equal spacing (horizontal)
+                    const leftNeighbor = [...otherFrames]
+                        .filter((f) => f.right <= moving.left)
+                        .sort((a, b) => b.right - a.right)[0];
+                    const rightNeighbor = [...otherFrames]
+                        .filter((f) => f.left >= moving.right)
+                        .sort((a, b) => a.left - b.left)[0];
+
+                    if (leftNeighbor && rightNeighbor) {
+                        const leftGap = moving.left - leftNeighbor.right;
+                        const rightGap = rightNeighbor.left - moving.right;
+                        const diff = leftGap - rightGap;
+
+                        if (leftGap >= 0 && rightGap >= 0 && Math.abs(diff) <= ALIGN_THRESHOLD * 2) {
+                            const adjust = -diff / 2;
+                            nextX = snapToGrid(clamp(nextX + adjust, minX, maxX));
+                            moving = buildMovingFrame(nextX, nextY);
+
+                            const y = clamp(moving.top - 8, 10, stageRectNow.height - 10);
+                            const gapValue = Math.round((Math.abs(moving.left - leftNeighbor.right) + Math.abs(rightNeighbor.left - moving.right)) / 2);
+
+                            guides.push(
+                                {
+                                    id: `equal-h-left-${leftNeighbor.id}`,
+                                    x1: leftNeighbor.right,
+                                    y1: y,
+                                    x2: moving.left,
+                                    y2: y,
+                                    label: `${gapValue}px`,
+                                    labelX: (leftNeighbor.right + moving.left) / 2,
+                                    labelY: y - 4,
+                                    color: '#10B981',
+                                },
+                                {
+                                    id: `equal-h-right-${rightNeighbor.id}`,
+                                    x1: moving.right,
+                                    y1: y,
+                                    x2: rightNeighbor.left,
+                                    y2: y,
+                                    color: '#10B981',
+                                }
+                            );
+                        }
+                    }
+
+                    // Equal spacing (vertical)
+                    const topNeighbor = [...otherFrames]
+                        .filter((f) => f.bottom <= moving.top)
+                        .sort((a, b) => b.bottom - a.bottom)[0];
+                    const bottomNeighbor = [...otherFrames]
+                        .filter((f) => f.top >= moving.bottom)
+                        .sort((a, b) => a.top - b.top)[0];
+
+                    if (topNeighbor && bottomNeighbor) {
+                        const topGap = moving.top - topNeighbor.bottom;
+                        const bottomGap = bottomNeighbor.top - moving.bottom;
+                        const diff = topGap - bottomGap;
+
+                        if (topGap >= 0 && bottomGap >= 0 && Math.abs(diff) <= ALIGN_THRESHOLD * 2) {
+                            const adjust = -diff / 2;
+                            nextY = snapToGrid(clamp(nextY + adjust, minY, maxY));
+                            moving = buildMovingFrame(nextX, nextY);
+
+                            const x = clamp(moving.left - 8, 10, stageRectNow.width - 10);
+                            const gapValue = Math.round((Math.abs(moving.top - topNeighbor.bottom) + Math.abs(bottomNeighbor.top - moving.bottom)) / 2);
+
+                            guides.push(
+                                {
+                                    id: `equal-v-top-${topNeighbor.id}`,
+                                    x1: x,
+                                    y1: topNeighbor.bottom,
+                                    x2: x,
+                                    y2: moving.top,
+                                    label: `${gapValue}px`,
+                                    labelX: x + 6,
+                                    labelY: (topNeighbor.bottom + moving.top) / 2,
+                                    color: '#10B981',
+                                },
+                                {
+                                    id: `equal-v-bottom-${bottomNeighbor.id}`,
+                                    x1: x,
+                                    y1: moving.bottom,
+                                    x2: x,
+                                    y2: bottomNeighbor.top,
+                                    color: '#10B981',
+                                }
+                            );
+                        }
+                    }
 
                     applyArrangementToElement(el, nextX, nextY);
+                    setAlignmentGuides(guides);
                     arrangementRef.current = {
                         ...arrangementRef.current,
                         [rearrangeId]: { x: nextX, y: nextY },
@@ -237,6 +485,7 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
                 const onMouseUp = () => {
                     el.style.cursor = 'grab';
                     el.style.zIndex = el.dataset.baseZIndex || '';
+                    setAlignmentGuides([]);
                     window.removeEventListener('mousemove', onMouseMove);
                     window.removeEventListener('mouseup', onMouseUp);
                     persistArrangement({ ...arrangementRef.current });
@@ -679,8 +928,48 @@ const EditableLayoutWrapper: React.FC<EditableLayoutWrapperProps> = ({
     };
 
     return (
-        <div ref={containerRef} className="editable-layout-wrapper w-full ">
+        <div ref={containerRef} className="editable-layout-wrapper w-full relative">
             {children}
+
+            {isArrangeMode && alignmentGuides.length > 0 && (
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-[65]" aria-hidden="true">
+                    {alignmentGuides.map((guide) => (
+                        <g key={guide.id}>
+                            <line
+                                x1={guide.x1}
+                                y1={guide.y1}
+                                x2={guide.x2}
+                                y2={guide.y2}
+                                stroke={guide.color || '#8B5CF6'}
+                                strokeWidth={1.5}
+                                strokeDasharray="4 4"
+                            />
+                            {guide.label && guide.labelX !== undefined && guide.labelY !== undefined && (
+                                <>
+                                    <rect
+                                        x={guide.labelX - 4}
+                                        y={guide.labelY - 12}
+                                        width={Math.max(28, guide.label.length * 7 + 8)}
+                                        height={16}
+                                        rx={4}
+                                        fill="rgba(15, 23, 42, 0.9)"
+                                    />
+                                    <text
+                                        x={guide.labelX}
+                                        y={guide.labelY}
+                                        fill="#F8FAFC"
+                                        fontSize="10"
+                                        fontWeight="600"
+                                        fontFamily="Inter, sans-serif"
+                                    >
+                                        {guide.label}
+                                    </text>
+                                </>
+                            )}
+                        </g>
+                    ))}
+                </svg>
+            )}
 
             {/* Render ImageEditor when an image is being edited */}
             {activeEditor && activeEditor.type === 'image' && (
